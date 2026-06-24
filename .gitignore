@@ -1,0 +1,69 @@
+# Environment secrets
+.env
+.env.local
+.env.*.local
+Backend/.env
+Frontend/.env
+
+# Keep safe templates
+!.env.example
+!Backend/.env.example
+!Frontend/.env.example
+
+# Dependencies
+node_modules/
+Backend/node_modules/
+Frontend/node_modules/
+
+# Uploaded user files
+Backend/uploads/
+Frontend/uploads/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime / cache / build outputs
+.cache/
+.tmp/
+temp/
+tmp/
+coverage/
+dist/
+build/
+.next/
+.vite/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Database/local dumps
+*.sqlite
+*.sqlite3
+*.db
+*.sql.bak
+*.backup.sql
+*.sql.gz
+*.dump
+*.mysql
+dumps/
+backup/
+backups/
+
+# Secrets/certificates
+*.pem
+*.key
+*.p12
+*.crt
+*.cert
+
+# Optional backup files
+*.bak
+*.old
+*.backup

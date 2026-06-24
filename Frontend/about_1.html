@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us &mdash; ExploreX</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&amp;family=DM+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<script src="lang.js"></script>
+<style>
+/* ---- ROOT ---- */
+:root{
+  --p:#1A3CD8;--pd:#122BA8;--pl:#EEF1FD;
+  --acc:#FF6B35;--al:#FFF0EB;
+  --g:#059669;--gl:#ECFDF5;
+  --y:#F59E0B;--yl:#FEF3C7;
+  --pur:#7C3AED;--purl:#F5F3FF;
+  --bg:#F5F7FF;--card:#fff;
+  --t:#0F172A;--tm:#475569;--ts:#94A3B8;
+  --bd:#E2E8F0;--nav:66px;
+  --ra:20px;--rs:12px;
+}
+body.dark-mode{
+  --bg:#0F172A;--card:#1E293B;
+  --t:#F1F5F9;--tm:#CBD5E1;--ts:#64748B;--bd:#334155;
+  --pl:#1E3A5F;--al:#431407;--gl:#064E3B;--yl:#422006;--purl:#2E1065;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden;}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;}
+.hidden{display:none!important;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px;}
+
+/* ---- NAV ---- */
+.nav{position:sticky;top:0;z-index:300;min-height:var(--nav);height:auto;background:var(--card);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 24px;gap:10px;transition:background .3s,border-color .3s;}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--p);cursor:pointer;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;letter-spacing:-.02em;}
+.nav-logo span{color:var(--acc);}
+.nav-links{display:flex;gap:4px;margin-left:16px;min-width:0;}
+.nav-link{display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:50px;font-size:13px;font-weight:500;color:var(--tm);cursor:pointer;border:none;background:transparent;transition:all .18s;white-space:nowrap;}
+.nav-link .nl-icon{font-size:16px;line-height:1;flex-shrink:0;}
+.nav-link:hover{background:var(--bg);color:var(--t);}
+.nav-link.active{background:var(--pl);color:var(--p);font-weight:600;}
+.nav-spacer{flex:1;}
+.dm-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;flex-shrink:0;}
+.dm-btn:hover{border-color:var(--p);}
+.nav-profile{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--acc));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;cursor:pointer;border:2px solid #fff;box-shadow:0 2px 8px rgba(26,60,216,.3);flex-shrink:0;padding:0;}
+.profile-menu-wrap{position:relative;}
+#nav-login-btn{
+  margin-left:6px;padding:9px 18px;border:0;border-radius:999px;
+  background:linear-gradient(135deg,#045244,#0F766E);color:#fff;
+  font:700 13px 'DM Sans',sans-serif;line-height:1;white-space:nowrap;cursor:pointer;
+  box-shadow:0 10px 22px rgba(4,82,68,.18);
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+#nav-login-btn:hover{transform:translateY(-1px);background:linear-gradient(135deg,#0F766E,#14B8A6);box-shadow:0 14px 26px rgba(4,82,68,.24);}
+.profile-dropdown{
+  position:absolute;top:calc(100% + 10px);right:0;
+  background:var(--card);border:1px solid var(--bd);border-radius:14px;
+  box-shadow:0 12px 32px rgba(0,0,0,.15);min-width:240px;z-index:450;overflow:hidden;
+}
+.profile-dropdown::before{
+  content:'';position:absolute;top:-6px;right:12px;width:12px;height:12px;
+  background:var(--card);border-left:1px solid var(--bd);border-top:1px solid var(--bd);
+  transform:rotate(45deg);
+}
+.nav{
+  background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(240,244,255,.90));
+  -webkit-backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  box-shadow:0 12px 32px rgba(91,155,255,.08);
+  animation:aboutNavReveal .44s cubic-bezier(.34,.1,.68,1) both;
+}
+.nav-link{position:relative;overflow:hidden;}
+.nav-link::after{
+  content:'';position:absolute;left:12px;right:12px;bottom:5px;height:2px;border-radius:999px;
+  background:linear-gradient(90deg,#FF1493,#00CED1);
+  transform:scaleX(0);transition:transform .24s ease;
+}
+.nav-link:hover{transform:translateY(-2px);}
+.nav-link:hover::after,.nav-link.active::after{transform:scaleX(1);}
+body.dark-mode .nav{
+  background:linear-gradient(135deg,rgba(15,23,42,.94),rgba(30,41,59,.74));
+  box-shadow:0 14px 34px rgba(0,0,0,.28);
+}
+body.dark-mode .nav-link:hover{background:#334155;}
+@keyframes aboutNavReveal{from{opacity:0;transform:translateY(-10px) scale(.985);}to{opacity:1;transform:translateY(0) scale(1);}}
+.pd-header{padding:14px 16px;border-bottom:1px solid var(--bd);background:var(--bg);}
+.pd-name{font-size:14px;font-weight:700;color:var(--t);}
+.pd-email{font-size:12px;color:var(--ts);margin-top:2px;}
+.pd-item{width:100%;border:none;background:transparent;text-align:left;padding:10px 16px;font-size:14px;color:var(--tm);cursor:pointer;}
+.pd-item:hover{background:var(--bg);color:var(--t);}
+.pd-divider{height:1px;background:var(--bd);}
+.pd-item.danger{color:#EF4444;}
+
+/* ---- HERO ---- */
+.hero{
+  position:relative;min-height:92vh;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;text-align:center;padding:60px 24px;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:linear-gradient(135deg,#5B9BFF 0%,#3B7BFF 45%,#8B5CF6 75%,#EC4899 100%);
+}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;}
+.hero-orb-1{width:500px;height:500px;background:#8B5CF6;top:-100px;right:-100px;}
+.hero-orb-2{width:400px;height:400px;background:#EC4899;bottom:-80px;left:-80px;}
+.hero-orb-3{width:300px;height:300px;background:#5B9BFF;top:40%;left:30%;}
+.hero-content{position:relative;z-index:1;max-width:760px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.12);color:#fff;
+  font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:7px 18px;border-radius:50px;margin-bottom:24px;
+  border:1px solid rgba(255,255,255,.25);-webkit-backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  animation:fadeUp .6s ease both;
+}
+.hero h1{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(36px,6vw,72px);font-weight:800;color:#fff;
+  line-height:1.05;margin-bottom:20px;
+  animation:fadeUp .6s .1s ease both;
+}
+.hero h1 .yellow{color:#FFE033;}
+.hero h1 .gradient-text{
+  background:linear-gradient(90deg,#FFE033,#EC4899);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:18px;color:rgba(255,255,255,.82);
+  max-width:560px;margin:0 auto 40px;line-height:1.7;font-weight:300;
+  animation:fadeUp .6s .2s ease both;
+}
+.hero-cta{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp .6s .3s ease both;
+}
+.hero-proof{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  margin:22px auto 0;
+  animation:fadeUp .6s .38s ease both;
+}
+.hero-proof-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 13px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.11);
+  color:rgba(255,255,255,.88);
+  font-size:12px;font-weight:800;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#fff;color:var(--p);border:none;
+  padding:14px 28px;border-radius:50px;font-size:15px;font-weight:700;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);transition:transform .2s,box-shadow .2s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.3);}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.12);color:#fff;
+  border:1.5px solid rgba(255,255,255,.35);
+  padding:14px 28px;border-radius:50px;font-size:15px;font-weight:600;
+  font-family:'DM Sans',sans-serif;cursor:pointer;-webkit-backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  transition:background .2s;
+}
+.btn-outline:hover{background:rgba(255,255,255,.22);}
+.hero-scroll{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  color:rgba(255,255,255,.5);font-size:12px;animation:bounce 2s infinite;
+}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
+
+/* ---- SECTION WRAPPER ---- */
+.section{max-width:1100px;margin:0 auto;padding:0 24px;}
+.section-wrap{padding:80px 0;}
+.section-wrap.alt{background:var(--card);}
+.section-wrap.dark-bg{background:linear-gradient(135deg,#0F172A,#1E293B);}
+.sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:10px;}
+.sec-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:var(--t);line-height:1.15;margin-bottom:16px;}
+.sec-sub{font-size:16px;color:var(--tm);line-height:1.7;max-width:600px;}
+
+/* ---- PRODUCT SNAPSHOT ---- */
+.about-snapshot{
+  margin-top:-34px;
+  position:relative;
+  z-index:3;
+}
+.snapshot-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+.snapshot-card{
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(226,232,240,.9);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 18px 46px rgba(15,23,42,.12);
+  position:relative;
+  overflow:hidden;
+}
+.snapshot-card::before{
+  content:'';
+  position:absolute;inset:0 0 auto;height:4px;
+  background:linear-gradient(90deg,#045244,#14B8A6,#F97316);
+}
+.snapshot-icon{font-size:24px;margin-bottom:10px;}
+.snapshot-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:#0F172A;margin-bottom:5px;}
+.snapshot-text{font-size:13px;color:#64748B;line-height:1.55;}
+body.dark-mode .snapshot-card{background:linear-gradient(145deg,#111827,#132443);border-color:#334155;box-shadow:0 18px 46px rgba(0,0,0,.28);}
+body.dark-mode .snapshot-title{color:#F8FAFC;}
+body.dark-mode .snapshot-text{color:#CBD5E1;}
+
+/* ---- HOW IT WORKS ---- */
+.flow-wrap{padding-top:64px;}
+.flow-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px;}
+.flow-head .sec-sub{max-width:520px;}
+.flow-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;}
+.flow-card{
+  background:var(--card);
+  border:1px solid rgba(226,232,240,.9);
+  border-radius:20px;
+  padding:22px;
+  position:relative;
+  overflow:hidden;
+  min-height:210px;
+  box-shadow:0 14px 36px rgba(15,23,42,.07);
+  transition:transform .24s,box-shadow .24s,border-color .24s;
+}
+.flow-card:hover{transform:translateY(-4px);box-shadow:0 18px 46px rgba(15,23,42,.12);border-color:rgba(4,82,68,.18);}
+.flow-card::after{
+  content:'';
+  position:absolute;right:-32px;bottom:-42px;width:120px;height:120px;border-radius:50%;
+  background:rgba(20,184,166,.10);
+}
+.flow-card:nth-child(2)::after{background:rgba(26,60,216,.10);}
+.flow-card:nth-child(3)::after{background:rgba(255,107,53,.12);}
+.flow-card:nth-child(4)::after{background:rgba(124,58,237,.11);}
+.flow-num{
+  width:34px;height:34px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#045244,#14B8A6);
+  color:#fff;font-family:'Outfit',sans-serif;font-weight:900;margin-bottom:16px;
+}
+.flow-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;color:var(--t);margin-bottom:8px;position:relative;z-index:1;}
+.flow-text{font-size:14px;color:var(--tm);line-height:1.65;position:relative;z-index:1;}
+.flow-action{display:inline-flex;margin-top:14px;border:0;background:transparent;color:#045244;font-size:13px;font-weight:900;padding:0;position:relative;z-index:1;}
+.flow-action:hover{text-decoration:underline;}
+body.dark-mode .flow-card{background:linear-gradient(145deg,#111827,#132443);border-color:#334155;box-shadow:0 18px 42px rgba(0,0,0,.23);}
+body.dark-mode .flow-action{color:#5EEAD4;}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.anim{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease;}
+.anim.visible{opacity:1;transform:translateY(0);}
+
+/* ---- FOUNDER SECTION ---- */
+.founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.founder-img-wrap{position:relative;}
+.founder-avatar{
+  width:100%;aspect-ratio:1;border-radius:24px;overflow:hidden;
+  background:linear-gradient(135deg,var(--p),var(--pur),var(--acc));
+  display:flex;align-items:center;justify-content:center;
+  font-size:120px;position:relative;
+}
+.founder-avatar::after{
+  content:'';position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600&q=70&fit=crop') center/cover;
+  opacity:.15;
+}
+.founder-badge{
+  position:absolute;bottom:-16px;right:-16px;
+  background:var(--card);border:2px solid var(--bd);border-radius:16px;
+  padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.1);
+  display:flex;align-items:center;gap:10px;
+}
+body.dark-mode .founder-badge{background:#1E293B;border-color:#334155;}
+.fb-ico{font-size:28px;}
+.fb-num{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--p);}
+.fb-label{font-size:11px;color:var(--ts);}
+.founder-text{}
+.founder-quote{
+  font-size:18px;font-style:italic;color:var(--tm);
+  border-left:4px solid var(--acc);padding-left:20px;
+  margin-bottom:24px;line-height:1.7;
+}
+.founder-para{font-size:15px;color:var(--tm);line-height:1.8;margin-bottom:16px;}
+.founder-name{display:flex;align-items:center;gap:12px;margin-top:28px;}
+.fn-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--p),var(--acc));
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:800;color:#fff;font-family:'Outfit',sans-serif;
+}
+.fn-name{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;color:var(--t);}
+.fn-title{font-size:13px;color:var(--ts);}
+
+/* ---- FEATURES ---- */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:48px;}
+.feature-card{
+  background:var(--card);border:1px solid rgba(226,232,240,.88);border-radius:var(--ra);
+  padding:28px;cursor:default;position:relative;overflow:hidden;
+  min-height:100%;
+  box-shadow:0 14px 36px rgba(15,23,42,.06);
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.feature-card::after{
+  content:'';position:absolute;left:20px;right:20px;top:0;height:4px;border-radius:0 0 999px 999px;
+  background:linear-gradient(90deg,var(--p),var(--acc),var(--g));
+  opacity:.9;
+}
+.feature-card::before{
+  content:'';position:absolute;inset:0;opacity:.72;transition:opacity .25s;
+}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 18px 48px rgba(15,23,42,.12);border-color:rgba(26,60,216,.16);}
+.feature-card:hover::before{opacity:1;}
+.fc-blue{background:linear-gradient(145deg,#FFFFFF,#EEF4FF);}
+.fc-orange{background:linear-gradient(145deg,#FFFFFF,#FFF3EA);}
+.fc-green{background:linear-gradient(145deg,#FFFFFF,#EFFFF8);}
+.fc-purple{background:linear-gradient(145deg,#FFFFFF,#F7F1FF);}
+.fc-blue::before{background:radial-gradient(260px 160px at 100% 0,rgba(26,60,216,.13),transparent 70%);}
+.fc-orange::before{background:radial-gradient(260px 160px at 100% 0,rgba(255,107,53,.15),transparent 70%);}
+.fc-green::before{background:radial-gradient(260px 160px at 100% 0,rgba(5,150,105,.14),transparent 70%);}
+.fc-purple::before{background:radial-gradient(260px 160px at 100% 0,rgba(124,58,237,.14),transparent 70%);}
+.fc-ico{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  margin-bottom:16px;position:relative;z-index:1;
+}
+.ico-blue{background:#EEF1FD;}
+.ico-orange{background:#FFF0EB;}
+.ico-green{background:#ECFDF5;}
+.ico-purple{background:#F5F3FF;}
+.fc-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;color:var(--t);margin-bottom:8px;position:relative;z-index:1;}
+.fc-text{font-size:14px;color:var(--tm);line-height:1.65;position:relative;z-index:1;}
+.fc-link{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--p);margin-top:12px;position:relative;z-index:1;cursor:pointer;background:none;border:none;}
+.fc-link:hover{text-decoration:underline;}
+body.dark-mode .feature-card{border-color:#334155;box-shadow:0 18px 44px rgba(0,0,0,.22);}
+body.dark-mode .fc-blue{background:linear-gradient(145deg,#111827,#132443);}
+body.dark-mode .fc-orange{background:linear-gradient(145deg,#111827,#2D2108);}
+body.dark-mode .fc-green{background:linear-gradient(145deg,#111827,#062B1D);}
+body.dark-mode .fc-purple{background:linear-gradient(145deg,#111827,#241338);}
+
+/* ---- TRUST / SUPPORT ---- */
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:46px;}
+.trust-card{
+  background:linear-gradient(145deg,var(--card),rgba(240,249,255,.82));
+  border:1px solid var(--bd);border-radius:var(--ra);padding:24px;
+  position:relative;overflow:hidden;box-shadow:0 14px 36px rgba(15,23,42,.07);
+  transition:transform .24s,box-shadow .24s,border-color .24s;
+}
+.trust-card:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(15,23,42,.11);border-color:rgba(26,60,216,.16);}
+.trust-card::before{
+  content:'';position:absolute;inset:auto -40px -60px auto;width:140px;height:140px;
+  border-radius:50%;background:rgba(26,60,216,.08);
+}
+.trust-card:nth-child(2){background:linear-gradient(145deg,var(--card),rgba(255,247,237,.88));}
+.trust-card:nth-child(2)::before{background:rgba(255,107,53,.12);}
+.trust-card:nth-child(3){background:linear-gradient(145deg,var(--card),rgba(236,253,245,.90));}
+.trust-card:nth-child(3)::before{background:rgba(5,150,105,.12);}
+.trust-icon{width:48px;height:48px;border-radius:16px;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:14px;}
+.trust-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:var(--t);margin-bottom:8px;}
+.trust-text{font-size:14px;color:var(--tm);line-height:1.65;position:relative;}
+.trust-action{margin-top:14px;border:0;background:transparent;color:var(--p);font-weight:800;font-size:13px;padding:0;position:relative;}
+.trust-action:hover{text-decoration:underline;}
+body.dark-mode .trust-card{background:linear-gradient(145deg,#111827,#132443);border-color:#334155;}
+body.dark-mode .trust-card:nth-child(2){background:linear-gradient(145deg,#111827,#2D2108);}
+body.dark-mode .trust-card:nth-child(3){background:linear-gradient(145deg,#111827,#062B1D);}
+
+/* ---- MISSION / VISION ---- */
+.mv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:48px;}
+.mv-card{border-radius:var(--ra);padding:36px;position:relative;overflow:hidden;}
+.mv-mission{background:linear-gradient(135deg,var(--p),#3B82F6);color:#fff;}
+.mv-vision{background:linear-gradient(135deg,var(--pur),#EC4899);color:#fff;}
+.mv-ico{font-size:40px;margin-bottom:16px;}
+.mv-title{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;margin-bottom:12px;}
+.mv-text{font-size:15px;line-height:1.75;opacity:.9;}
+.mv-card::after{
+  content:'';position:absolute;width:200px;height:200px;border-radius:50%;
+  background:rgba(255,255,255,.07);bottom:-60px;right:-40px;
+}
+
+/* ---- STATS ROW ---- */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;background:transparent;border:0;border-radius:var(--ra);overflow:visible;margin-top:48px;}
+.stat-box{padding:28px 20px;text-align:center;border:1px solid rgba(226,232,240,.9);border-radius:18px;background:linear-gradient(145deg,#FFFFFF,#EEF4FF);box-shadow:0 12px 30px rgba(15,23,42,.06);transition:background .2s,transform .2s,box-shadow .2s;}
+.stat-box:nth-child(2){background:linear-gradient(145deg,#FFFFFF,#FFF3EA);}
+.stat-box:nth-child(3){background:linear-gradient(145deg,#FFFFFF,#EFFFF8);}
+.stat-box:nth-child(4){background:linear-gradient(145deg,#FFFFFF,#F7F1FF);}
+.stat-box:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(15,23,42,.11);}
+.sb-num{font-family:'Outfit',sans-serif;font-size:36px;font-weight:800;color:var(--p);margin-bottom:4px;}
+.sb-label{font-size:13px;color:var(--ts);font-weight:500;}
+body.dark-mode .stat-box{background:linear-gradient(145deg,#111827,#132443);border-color:#334155;box-shadow:0 18px 42px rgba(0,0,0,.22);}
+body.dark-mode .stat-box:nth-child(2){background:linear-gradient(145deg,#111827,#2D2108);}
+body.dark-mode .stat-box:nth-child(3){background:linear-gradient(145deg,#111827,#062B1D);}
+body.dark-mode .stat-box:nth-child(4){background:linear-gradient(145deg,#111827,#241338);}
+
+/* ---- ROADMAP ---- */
+.roadmap-list{display:flex;flex-direction:column;gap:0;margin-top:40px;position:relative;}
+.roadmap-list::before{content:'';position:absolute;left:27px;top:0;bottom:0;width:2px;background:var(--bd);}
+.rm-item{display:flex;align-items:flex-start;gap:20px;padding:20px 0;position:relative;}
+.rm-dot{
+  width:54px;height:54px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  position:relative;z-index:1;border:3px solid var(--bg);
+  box-shadow:0 0 0 2px var(--bd);
+}
+.rm-dot.coming{background:var(--card);}
+.rm-dot.done{background:linear-gradient(135deg,var(--g),#14B8A6);}
+.rm-dot.next{background:linear-gradient(135deg,var(--p),var(--pur));}
+.rm-dot.future{background:var(--bg);}
+.rm-content{}
+.rm-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:50px;margin-bottom:6px;display:inline-block;}
+.tag-done{background:var(--gl);color:var(--g);}
+.tag-next{background:var(--pl);color:var(--p);}
+.tag-future{background:var(--yl);color:#92400E;}
+body.dark-mode .tag-done{background:#064E3B;color:#6EE7B7;}
+body.dark-mode .tag-next{background:#1E3A5F;color:#93C5FD;}
+body.dark-mode .tag-future{background:#422006;color:#FCD34D;}
+.rm-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--t);margin-bottom:4px;}
+.rm-text{font-size:13px;color:var(--ts);line-height:1.55;}
+
+/* ---- CTA SECTION ---- */
+.cta-wrap{
+  background:linear-gradient(135deg,#0F172A 0%,#1A3CD8 50%,#7C3AED 100%);
+  padding:100px 24px;text-align:center;position:relative;overflow:hidden;
+}
+.cta-wrap::before{content:'X';position:absolute;font-family:'Outfit',sans-serif;font-size:240px;font-weight:900;opacity:.045;right:-40px;bottom:-60px;}
+.cta-wrap::after{content:'EX';position:absolute;font-family:'Outfit',sans-serif;font-size:130px;font-weight:900;opacity:.04;left:-20px;top:-40px;}
+.cta-inner{position:relative;z-index:1;max-width:680px;margin:0 auto;}
+.cta-title{font-family:'Outfit',sans-serif;font-size:clamp(30px,5vw,54px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:16px;}
+.cta-title .yellow{color:#FCD34D;}
+.cta-sub{font-size:18px;color:rgba(255,255,255,.78);margin-bottom:36px;line-height:1.65;font-weight:300;}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#fff;color:var(--p);border:none;
+  padding:16px 36px;border-radius:50px;font-size:16px;font-weight:800;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+  box-shadow:0 8px 32px rgba(0,0,0,.25);
+  transition:transform .2s,box-shadow .2s;
+  text-decoration:none;
+}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.35);}
+.cta-btn.secondary{margin-left:10px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);}
+.cta-note{margin-top:20px;font-size:13px;color:rgba(255,255,255,.5);}
+
+/* ---- TEAM QUOTE ---- */
+.quote-section{padding:60px 24px;text-align:center;background:var(--card);}
+.big-quote{
+  font-family:'Outfit',sans-serif;font-size:clamp(22px,3.5vw,36px);
+  font-weight:700;color:var(--t);line-height:1.35;
+  max-width:800px;margin:0 auto 20px;
+}
+.big-quote .accent{color:var(--acc);}
+.quote-attr{font-size:14px;color:var(--ts);}
+
+/* ---- FOOTER ---- */
+body.dark-mode .footer-logo span{color:var(--acc);}
+
+/* ---- TOAST / FAB ---- */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#0F172A;color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:500;z-index:900;transition:transform .3s,opacity .3s;opacity:0;box-shadow:0 8px 32px rgba(0,0,0,.25);width:max-content;max-width:min(92vw,560px);white-space:normal;text-align:center;overflow-wrap:anywhere;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.dm-fab{position:fixed;bottom:28px;right:28px;z-index:500;width:48px;height:48px;border-radius:50%;background:var(--card);border:2px solid var(--bd);box-shadow:0 4px 20px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:transform .2s;}
+.dm-fab:hover{transform:scale(1.1);}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:860px){
+  .nav{padding:0 14px;gap:8px;}
+  .nav-links{margin-left:8px;gap:2px;}
+  .nav-link{padding:8px 10px;}
+  .snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .flow-head{align-items:flex-start;flex-direction:column;}
+  .flow-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .founder-grid{grid-template-columns:1fr;gap:36px;}
+  .features-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;}
+  .trust-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;}
+  .mv-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+  .stats-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  .stat-box{min-width:0;border:1px solid var(--bd);}
+}
+@media(max-width:640px){
+  .nav{
+    min-height:66px;flex-wrap:wrap;align-content:center;
+    padding:8px 12px 7px;gap:8px;
+  }
+  .nav-logo{order:1;font-size:22px;min-width:max-content;}
+  .nav-spacer{order:2;flex:1 1 auto;min-width:8px;}
+  .dm-btn{order:3;width:36px;height:36px;}
+  .profile-menu-wrap{order:4;margin-left:0;}
+  .nav-profile{width:36px;height:36px;}
+  .nav-links{
+    order:10;width:100%;margin-left:0;display:flex;gap:7px;
+    overflow-x:auto;padding:3px 0 1px;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-link{
+    flex:0 0 auto;min-width:44px;justify-content:center;
+    padding:8px 11px;font-size:12px;background:var(--bg);
+  }
+  .nav-links .nav-link span:not(.nl-icon){display:none;}
+  .hero h1{font-size:clamp(32px,9vw,48px);}
+  .hero-sub{font-size:16px;}
+  .hero{min-height:calc(100vh - 66px);padding:48px 18px 70px;}
+  .hero-cta{flex-direction:column;align-items:stretch;}
+  .hero-proof{justify-content:flex-start;}
+  .hero-proof-pill{flex:1 1 calc(50% - 10px);justify-content:center;}
+  .about-snapshot{margin-top:-24px;}
+  .snapshot-grid{grid-template-columns:1fr;gap:12px;}
+  .flow-wrap{padding-top:46px;}
+  .flow-grid{grid-template-columns:1fr;gap:12px;}
+  .flow-card{min-height:auto;padding:20px;}
+  .btn-primary,.btn-outline,.cta-btn{justify-content:center;width:100%;}
+  .cta-btn.secondary{margin-left:0;margin-top:10px;}
+  .section-wrap{padding:56px 0;}
+  .section{padding:0 18px;}
+  .features-grid,.trust-grid,.mv-grid{grid-template-columns:1fr;gap:14px;}
+  .feature-card,.trust-card{padding:22px;}
+  .stats-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .stat-box{padding:20px 12px;}
+  .sb-num{font-size:30px;}
+  .roadmap-list::before{left:25px;}
+  .profile-dropdown{right:-4px;min-width:220px;}
+}
+@media(max-width:380px){
+  .nav{padding-left:10px;padding-right:10px;}
+  .nav-logo{font-size:18px;}
+  .dm-btn,.nav-profile{width:34px;height:34px;}
+}
+
+/* --- EXPLOREX FOOTER --- */
+.btt-btn{position:fixed;bottom:88px;right:28px;z-index:400;width:44px;height:44px;border-radius:50%;background:var(--p,var(--primary,#1A3CD8));color:#fff;border:none;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;box-shadow:0 4px 16px rgba(26,60,216,.35);opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;}
+.btt-btn.show{opacity:1;pointer-events:all;}
+.btt-btn:hover{transform:translateY(-3px);}
+.xfooter::before{content:'X';position:absolute;right:-40px;top:-40px;font-family:'Outfit',sans-serif;font-size:320px;font-weight:900;color:rgba(255,255,255,.025);line-height:1;pointer-events:none;user-select:none;}
+.xfooter-wave{width:100%;height:48px;background:var(--bg,#F5F7FF);clip-path:ellipse(55% 100% at 50% 0%);display:block;}
+body.dark-mode .xfooter-wave{background:var(--bg,#0F172A);}
+.xfooter-inner{max-width:1160px;margin:0 auto;padding:40px 32px 36px;}
+.xfooter-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08);}
+.xf-logo{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:12px;display:inline-flex;align-items:center;gap:2px;}
+.xf-logo .xl-x{color:#FF6B35;}.xf-logo .xl-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#1A3CD8,#FF6B35);margin-left:3px;margin-bottom:14px;flex-shrink:0;}
+.xf-desc{font-size:14px;line-height:1.75;color:rgba(255,255,255,.52);max-width:270px;margin-bottom:22px;}
+.xf-contact-row{display:flex;flex-direction:column;gap:8px;}
+.xf-contact-item{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.48);transition:color .2s;}
+.xf-contact-item:hover{color:rgba(255,255,255,.88);}
+.xf-contact-item a{color:inherit;text-decoration:none;}
+.xf-contact-item a:hover{color:#FF6B35;}
+.xf-col-title{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.xf-col-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
+.xf-links{display:flex;flex-direction:column;gap:9px;}
+.xf-link{font-size:13px;color:rgba(255,255,255,.52);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px;background:none;border:none;text-align:left;font-family:'DM Sans',sans-serif;padding:0;text-decoration:none;}
+.xf-link:hover{color:#fff;padding-left:5px;}
+.xf-link .lk-ico{font-size:13px;opacity:.55;transition:opacity .2s;}
+.xf-link:hover .lk-ico{opacity:1;}
+.xf-link-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:50px;background:rgba(26,60,216,.4);color:#93C5FD;text-transform:uppercase;letter-spacing:.06em;}
+.xf-social-section{padding:22px 0;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.xf-social-text{font-size:13px;color:rgba(255,255,255,.5);}
+.xf-social-text strong{color:rgba(255,255,255,.8);}
+.xf-socials{display:flex;gap:8px;}
+.xf-social-btn{width:40px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .22s;text-decoration:none;position:relative;overflow:hidden;}
+.xf-social-btn::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .22s;}
+.xf-social-btn:hover{border-color:transparent;transform:translateY(-2px);}
+.xf-social-btn:hover::before{opacity:1;}
+.xf-social-btn.instagram::before{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);}
+.xf-social-btn.twitter::before{background:#1a1a2e;}
+.xf-social-btn.linkedin::before{background:#0077B5;}
+.xf-social-btn svg{width:17px;height:17px;fill:#fff;position:relative;z-index:1;transition:transform .2s;}
+.xf-social-btn:hover svg{transform:scale(1.15);}
+.xf-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:20px;flex-wrap:wrap;gap:12px;}
+.xf-copy{font-size:12px;color:rgba(255,255,255,.32);}
+.xf-copy strong{color:rgba(255,255,255,.55);}
+.xf-copy a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;}
+.xf-copy a:hover{color:#FF6B35;}
+.xf-legal{display:flex;gap:16px;}
+.xf-legal-link{font-size:12px;color:rgba(255,255,255,.32);cursor:pointer;transition:color .2s;background:none;border:none;font-family:'DM Sans',sans-serif;padding:0;}
+.xf-legal-link:hover{color:rgba(255,255,255,.75);}
+.xf-status{display:flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,.35);}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0;box-shadow:0 0 5px #22C55E;animation:statusPulse 2s infinite;}
+@keyframes statusPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.xf-made{font-size:12px;color:rgba(255,255,255,.25);display:flex;align-items:center;gap:4px;}
+.heart{color:#EF4444;animation:hb 1.4s ease infinite;}
+@keyframes hb{0%,100%{transform:scale(1);}14%{transform:scale(1.2);}28%{transform:scale(1);}42%{transform:scale(1.15);}70%{transform:scale(1);}}
+@media(max-width:900px){.xfooter-grid{grid-template-columns:1fr 1fr;gap:32px;}.xf-brand{grid-column:1/-1;}}
+@media(max-width:540px){.xfooter-inner{padding:36px 20px 28px;}.xfooter-grid{grid-template-columns:1fr;gap:24px;}.xf-brand{grid-column:auto;}.xf-bottom{flex-direction:column;align-items:flex-start;}.xf-social-section{flex-direction:column;align-items:flex-start;}}
+
+
+/* FOOTER THEME OVERRIDES (LIGHT / DARK) */
+footer.xfooter{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#FFFFFF 0%,#F7FAFF 55%,#ECF3FF 100%);
+  border-top:1px solid #DCE7FF;
+}
+
+.xfooter .xfooter-grid{border-bottom:1px solid rgba(15,23,42,.10);}
+.xfooter .xf-logo{color:#0F172A;}
+.xfooter .xf-desc{color:#64748B;}
+.xfooter .xf-contact-item{color:#64748B;}
+.xfooter .xf-contact-item:hover{color:#1E293B;}
+.xfooter .xf-col-title{color:#1E293B;}
+.xfooter .xf-col-title::after{background:rgba(15,23,42,.10);}
+.xfooter .xf-link{color:#475569;}
+.xfooter .xf-link:hover{color:#0F172A;}
+.xfooter .xf-social-section{border-bottom:1px solid rgba(15,23,42,.10);}
+.xfooter .xf-social-text{color:#64748B;}
+.xfooter .xf-social-text strong{color:#1E293B;}
+.xfooter .xf-social-btn{border:1px solid transparent;background:#1E293B;box-shadow:0 10px 24px rgba(15,23,42,.12);}.xfooter .xf-social-btn.instagram{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);}.xfooter .xf-social-btn.twitter{background:linear-gradient(135deg,#111827,#0F172A);}.xfooter .xf-social-btn.linkedin{background:linear-gradient(135deg,#0284C7,#0077B5);}.xfooter .xf-social-btn svg{fill:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,.24));}
+.xfooter .xf-copy{color:#64748B;}
+.xfooter .xf-copy strong{color:#334155;}
+.xfooter .xf-copy a{color:#475569;}
+.xfooter .xf-legal-link{color:#64748B;}
+.xfooter .xf-legal-link:hover{color:#334155;}
+.xfooter .xf-status{color:#64748B;}
+.xfooter .xf-made{color:#64748B;}
+
+body.dark-mode footer.xfooter{
+  background:linear-gradient(135deg,#0B1220 0%,#12243F 55%,#1E293B 100%);
+  border-top:1px solid rgba(255,255,255,.12);
+}
+
+body.dark-mode .xfooter .xfooter-grid{border-bottom:1px solid rgba(255,255,255,.08);}
+body.dark-mode .xfooter .xf-logo{color:#FFFFFF;}
+body.dark-mode .xfooter .xf-desc{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-contact-item{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-contact-item:hover{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-col-title{color:#FFFFFF;}
+body.dark-mode .xfooter .xf-col-title::after{background:rgba(255,255,255,.08);}
+body.dark-mode .xfooter .xf-link{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-link:hover{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-social-section{border-bottom:1px solid rgba(255,255,255,.08);}
+body.dark-mode .xfooter .xf-social-text{color:rgba(255,255,255,.70);}
+body.dark-mode .xfooter .xf-social-text strong{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-social-btn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);}
+body.dark-mode .xfooter .xf-copy{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-copy strong{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-copy a{color:rgba(255,255,255,.80);}
+body.dark-mode .xfooter .xf-legal-link{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-legal-link:hover{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-status{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-made{color:rgba(255,255,255,.25);}
+
+/* ExploreX stable header override: keeps nav position consistent across pages. */
+@media (min-width:641px){
+  .nav{height:66px!important;min-height:66px!important;animation:none!important;transform:none!important;}
+}
+.nav-logo,.nav-link,.nav-profile,.dm-btn{animation:none!important;}
+.nav-link,.nav-link:hover{transform:none!important;}
+.nav-link.active{font-weight:650!important;}
+
+
+/* ExploreX unified home-style social buttons */
+.xfooter .xf-socials{
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+}
+.xfooter .xf-social-btn{
+  width:40px;height:40px;border-radius:10px;
+  border:1px solid rgba(15,23,42,.14)!important;
+  background:rgba(255,255,255,.80)!important;
+  box-shadow:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;text-decoration:none;position:relative;overflow:hidden;isolation:isolate;
+  transition:all .3s cubic-bezier(.34,.1,.68,1)!important;
+}
+.xfooter .xf-social-btn.instagram,
+.xfooter .xf-social-btn.twitter,
+.xfooter .xf-social-btn.linkedin{
+  background:rgba(255,255,255,.80)!important;
+}
+.xfooter .xf-social-btn::before{
+  content:'';position:absolute;inset:0;opacity:0;z-index:0;
+  transition:opacity .3s cubic-bezier(.34,.1,.68,1);
+}
+.xfooter .xf-social-btn.instagram::before{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);}
+.xfooter .xf-social-btn.twitter::before{background:#1a1a2e;}
+.xfooter .xf-social-btn.linkedin::before{background:#0077B5;}
+.xfooter .xf-social-btn:hover{
+  border-color:transparent!important;
+  transform:translateY(-4px) scale(1.1)!important;
+  box-shadow:0 12px 28px rgba(15,23,42,.16);
+}
+.xfooter .xf-social-btn:hover::before{opacity:1;}
+.xfooter .xf-social-btn svg{
+  width:17px;height:17px;fill:#0F172A!important;position:relative;z-index:1;
+  transition:transform .3s cubic-bezier(.34,.1,.68,1),fill .2s!important;
+  filter:none!important;
+}
+.xfooter .xf-social-btn:hover svg{
+  transform:scale(1.2) rotate(8deg)!important;
+  fill:#fff!important;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.24))!important;
+}
+body.dark-mode .xfooter .xf-social-btn,
+body.dark-mode .xfooter .xf-social-btn.instagram,
+body.dark-mode .xfooter .xf-social-btn.twitter,
+body.dark-mode .xfooter .xf-social-btn.linkedin{
+  border:1px solid rgba(255,255,255,.1)!important;
+  background:rgba(255,255,255,.06)!important;
+  box-shadow:none;
+}
+body.dark-mode .xfooter .xf-social-btn svg{
+  fill:#fff!important;
+  filter:none!important;
+}
+body.dark-mode .xfooter .xf-social-btn:hover svg{
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.28))!important;
+}
+
+
+/* ExploreX home-style header alignment */
+.nav{
+  position:sticky;top:0;z-index:300;
+  height:var(--nav-h,64px);
+  background:rgba(255,255,255,.92)!important;
+  border-bottom:1px solid rgba(4,82,68,.10)!important;
+  box-shadow:0 10px 30px rgba(15,23,42,.08)!important;
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  display:flex;align-items:center;
+  padding:0 26px!important;gap:12px!important;
+  animation:none!important;
+}
+.nav-logo{
+  font-family:'Outfit',sans-serif!important;
+  font-size:21px!important;font-weight:800!important;
+  color:#045244!important;letter-spacing:-.02em;text-decoration:none!important;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:transform .22s ease,color .22s ease!important;
+}
+.nav-logo span{color:#F97316!important;transition:color .22s ease!important;}
+.nav-logo:hover{transform:translateY(-1px);color:#0F766E!important;}
+.nav-logo:hover span{color:#EA580C!important;}
+.nav-links{display:flex;gap:4px;margin-left:18px!important;min-width:0;align-items:center;}
+.nav-link{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:6px;
+  padding:9px 12px!important;border-radius:999px!important;
+  font-size:13.5px!important;font-weight:650!important;color:#334155!important;
+  cursor:pointer;border:1px solid transparent!important;background:transparent!important;text-decoration:none!important;
+  transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease!important;
+  animation:none!important;
+}
+.nav-link::after{
+  content:'';position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:999px;
+  background:#F97316;transform:scaleX(0);transform-origin:center;transition:transform .22s ease;
+}
+.nav-link:hover{background:rgba(4,82,68,.07)!important;border-color:rgba(4,82,68,.10)!important;color:#045244!important;transform:translateY(-1px)!important;}
+.nav-link:hover::after,.nav-link.active::after{transform:scaleX(1);}
+.nav-link.active{background:#ECFDF5!important;color:#045244!important;border-color:rgba(4,82,68,.12)!important;box-shadow:none!important;font-weight:650!important;}
+.nav-link .nl-icon{display:inline-block;font-size:15px;transition:transform .22s cubic-bezier(.34,.1,.68,1)!important;}
+.nav-link:hover .nl-icon{transform:translateY(-1px) scale(1.08);}
+.nav-spacer{flex:1 1 auto;min-width:12px;}
+#lang-selector-slot{display:none!important;}
+.profile-menu-wrap{position:relative!important;margin-left:0!important;flex:0 0 auto;z-index:320;}
+.nav-profile{
+  width:38px!important;height:38px!important;border-radius:50%!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  background:linear-gradient(135deg,#045244,#0F766E)!important;color:#fff!important;
+  font-weight:800!important;border:2px solid rgba(255,255,255,.85)!important;
+  box-shadow:0 8px 22px rgba(4,82,68,.22)!important;cursor:pointer;animation:none!important;
+}
+.profile-dropdown{right:0!important;left:auto!important;}
+body.dark-mode .nav{
+  background:rgba(15,23,42,.94)!important;
+  border-bottom-color:rgba(94,234,212,.16)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.30)!important;
+}
+body.dark-mode .nav-logo{color:#CCFBF1!important;}
+body.dark-mode .nav-link{color:#CBD5E1!important;}
+body.dark-mode .nav-link:hover{background:rgba(94,234,212,.08)!important;border-color:rgba(94,234,212,.14)!important;color:#CCFBF1!important;}
+body.dark-mode .nav-link.active{background:rgba(94,234,212,.13)!important;color:#CCFBF1!important;border-color:rgba(94,234,212,.18)!important;}
+body.dark-mode .nav-profile{background:linear-gradient(135deg,#0F766E,#14B8A6)!important;border-color:rgba(255,255,255,.18)!important;box-shadow:none!important;}
+@media(max-width:900px){
+  .nav-links .nav-link span:not(.nl-icon){display:inline!important;}
+  .nav-links{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-link{white-space:nowrap;}
+}
+@media(max-width:640px){
+  :root{--nav-h:112px;}
+  .nav{
+    height:auto!important;min-height:var(--nav-h)!important;flex-wrap:wrap;align-content:center;
+    padding:9px 12px 10px!important;row-gap:7px!important;
+  }
+  .nav::after{
+    content:'';display:none!important;order:9;margin-left:auto;padding:4px 9px;border-radius:999px;
+    font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    color:#0F766E;background:rgba(4,82,68,.08);border:1px solid rgba(4,82,68,.10);
+  }
+  .nav-logo{order:1;font-size:20px!important;min-width:max-content;}
+  .nav-spacer{display:none!important;}
+  .profile-menu-wrap{order:2;margin-left:auto!important;}
+  .nav-profile{width:36px!important;height:36px!important;}
+  .nav-links{
+    order:10;width:100%;margin-left:0!important;display:flex;gap:7px;
+    padding:4px 22px 4px 1px;scroll-snap-type:x mandatory;
+    -webkit-mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 26px),transparent 100%);
+    mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 26px),transparent 100%);
+  }
+  .nav-link{
+    flex:0 0 auto;min-height:38px;min-width:auto;justify-content:center;
+    padding:8px 11px!important;gap:5px;border-radius:14px!important;font-size:11.5px!important;font-weight:800!important;
+    background:linear-gradient(135deg,rgba(236,253,245,.96),rgba(240,253,250,.86))!important;
+    border:1px solid rgba(4,82,68,.12)!important;color:#045244!important;
+    box-shadow:0 8px 18px rgba(15,23,42,.06);scroll-snap-align:start;
+  }
+  .nav-link::after{display:none;}
+  .nav-link.active{color:#fff!important;background:linear-gradient(135deg,#045244,#0F766E)!important;border-color:transparent!important;box-shadow:0 10px 22px rgba(4,82,68,.22)!important;}
+  body.dark-mode .nav::after{color:#CCFBF1;background:rgba(94,234,212,.08);border-color:rgba(94,234,212,.14);}
+  body.dark-mode .nav-link{background:linear-gradient(135deg,rgba(20,83,45,.28),rgba(15,23,42,.76))!important;border-color:rgba(94,234,212,.14)!important;color:#CCFBF1!important;box-shadow:none;}
+  body.dark-mode .nav-link.active{background:linear-gradient(135deg,#0F766E,#14B8A6)!important;color:#fff!important;}
+}
+
+
+/* ExploreX mobile profile top-right fix */
+@media(max-width:700px){
+  .nav::after{content:''!important;display:none!important;}
+  .nav{
+    justify-content:flex-start!important;
+    align-items:center!important;
+  }
+  .profile-menu-wrap{
+    order:2!important;
+    margin-left:auto!important;
+    margin-right:0!important;
+    align-self:center!important;
+  }
+  .profile-menu-wrap.hidden{display:none!important;}
+  .profile-menu-wrap:not(.hidden){display:block!important;}
+  #nav-login-btn.hidden{display:none!important;}
+  #nav-login-btn:not(.hidden){
+    order:2!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    margin-left:auto!important;
+    margin-right:0!important;
+    min-width:68px!important;
+    height:36px!important;
+    min-height:36px!important;
+    padding:0 14px!important;
+    font-size:12px!important;
+    line-height:1!important;
+    align-self:center!important;
+  }
+  .nav-profile{
+    margin-left:auto!important;
+    margin-right:0!important;
+  }
+  .profile-dropdown{
+    right:0!important;
+    left:auto!important;
+  }
+  .nav-links{
+    order:10!important;
+    flex:0 0 100%!important;
+    width:100%!important;
+    margin-left:0!important;
+  }
+}
+
+/* Compact About experience for phones. */
+@media(max-width:640px){
+  .hero{
+    min-height:auto!important;
+    padding:42px 18px 48px!important;
+  }
+  .hero-content{max-width:540px;margin:0 auto;text-align:left;}
+  .hero-badge{margin-bottom:14px;}
+  .hero h1{font-size:clamp(30px,9vw,42px)!important;line-height:1.08;}
+  .hero-sub{font-size:14.5px!important;line-height:1.7;margin-top:16px;}
+  .hero-cta{gap:10px;margin-top:24px;}
+  .hero-orb{opacity:.38;filter:blur(2px);}
+  .section-wrap{padding:44px 0!important;}
+  .section{padding:0 16px!important;}
+  .feature-card,.trust-card,.mv-card{padding:18px!important;border-radius:18px!important;}
+  .founder-grid{gap:24px!important;}
+  .stats-row{margin-top:28px!important;}
+  .dm-fab{right:16px!important;bottom:16px!important;width:44px!important;height:44px!important;}
+  .btt-btn{right:16px!important;bottom:72px!important;width:42px!important;height:42px!important;}
+}
+
+/* ExploreX page buffering and skeleton layer */
+.ex-page-buffer{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(4,82,68,.18), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(245,158,11,.16), transparent 26%),
+    linear-gradient(135deg,#f8fbf8 0%,#eef8f2 52%,#fff7ed 100%);
+  transition:opacity .38s ease, visibility .38s ease;
+}
+.ex-page-buffer.is-hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.ex-buffer-card{
+  width:min(360px,92vw);
+  border:1px solid rgba(4,82,68,.16);
+  border-radius:26px;
+  padding:22px;
+  background:rgba(255,255,255,.82);
+  box-shadow:0 24px 70px rgba(15,23,42,.18);
+  backdrop-filter:blur(18px);
+}
+.ex-buffer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#045244;
+  font-weight:900;
+  letter-spacing:.02em;
+  font-size:22px;
+}
+.ex-buffer-brand span{
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border-radius:14px;
+  color:#fff;
+  background:linear-gradient(135deg,#045244,#0f9f7a);
+  box-shadow:0 12px 26px rgba(4,82,68,.28);
+}
+.ex-buffer-text{margin:12px 0 16px;color:#475569;font-weight:700;font-size:14px;}
+.ex-buffer-bars{display:grid;gap:10px;}
+.ex-buffer-bar{
+  height:12px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e2e8f0;
+  position:relative;
+}
+.ex-buffer-bar:nth-child(2){width:82%;}
+.ex-buffer-bar:nth-child(3){width:58%;}
+.ex-buffer-bar::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);
+  animation:exBufferSweep 1.1s ease-in-out infinite;
+}
+.ex-buffer-pulse{
+  width:46px;
+  height:46px;
+  margin-left:auto;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,#045244,#f59e0b,#10b981,#045244);
+  -webkit-mask:radial-gradient(circle,transparent 54%,#000 56%);
+  mask:radial-gradient(circle,transparent 54%,#000 56%);
+  animation:exBufferSpin .85s linear infinite;
+}
+@keyframes exBufferSweep{to{transform:translateX(100%);}}
+@keyframes exBufferSpin{to{transform:rotate(360deg);}}
+body.dark-mode .ex-page-buffer,
+body.dark .ex-page-buffer,
+.dark-mode .ex-page-buffer{
+  background:
+    radial-gradient(circle at 18% 14%, rgba(16,185,129,.2), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(245,158,11,.14), transparent 26%),
+    linear-gradient(135deg,#071512 0%,#0f172a 58%,#1f2937 100%);
+}
+body.dark-mode .ex-buffer-card,
+body.dark .ex-buffer-card,
+.dark-mode .ex-buffer-card{
+  background:rgba(15,23,42,.82);
+  border-color:rgba(148,163,184,.22);
+  box-shadow:0 24px 70px rgba(0,0,0,.34);
+}
+body.dark-mode .ex-buffer-brand,
+body.dark .ex-buffer-brand,
+.dark-mode .ex-buffer-brand{color:#d1fae5;}
+body.dark-mode .ex-buffer-text,
+body.dark .ex-buffer-text,
+.dark-mode .ex-buffer-text{color:#cbd5e1;}
+body.dark-mode .ex-buffer-bar,
+body.dark .ex-buffer-bar,
+.dark-mode .ex-buffer-bar{background:#243244;}
+@media (prefers-reduced-motion:reduce){
+  .ex-buffer-bar::after,.ex-buffer-pulse{animation:none;}
+  .ex-page-buffer{transition:none;}
+}
+
+
+/* ExploreX About final mobile usability polish */
+html,body{max-width:100%;overflow-x:hidden;}
+@media(max-width:640px){
+  body{font-size:15px;line-height:1.55;}
+  .nav{
+    min-height:112px!important;
+    padding:9px 12px 10px!important;
+    row-gap:8px!important;
+  }
+  .nav-logo{font-size:20px!important;line-height:1!important;}
+  .profile-menu-wrap{order:2!important;margin-left:auto!important;}
+  #nav-login-btn:not(.hidden){order:2!important;margin-left:auto!important;}
+  .nav-links{
+    order:10!important;
+    flex:0 0 100%!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    padding:4px 26px 6px 1px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scrollbar-width:none;
+  }
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-link{
+    flex:0 0 auto!important;
+    min-height:38px!important;
+    padding:8px 11px!important;
+    font-size:11.5px!important;
+    letter-spacing:.01em;
+  }
+  .profile-dropdown{
+    right:0!important;
+    left:auto!important;
+    width:min(260px,calc(100vw - 24px))!important;
+    min-width:0!important;
+  }
+  .hero{
+    min-height:auto!important;
+    padding:38px 16px 44px!important;
+    text-align:left!important;
+  }
+  .hero-content{width:100%;max-width:560px!important;text-align:left!important;}
+  .hero-badge{
+    max-width:100%;
+    white-space:normal;
+    font-size:10.5px!important;
+    line-height:1.35;
+    padding:7px 12px!important;
+    margin-bottom:14px!important;
+  }
+  .hero h1{font-size:clamp(30px,10vw,42px)!important;line-height:1.08!important;margin-bottom:14px!important;}
+  .hero h1 br{display:none;}
+  .hero-sub{font-size:14.5px!important;line-height:1.7!important;margin:0 0 22px!important;}
+  .hero-cta{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;margin-top:0!important;}
+  .btn-primary,.btn-outline,.cta-btn{width:100%!important;justify-content:center!important;min-height:46px!important;}
+  .hero-proof{justify-content:flex-start!important;margin-top:16px!important;gap:8px!important;}
+  .hero-proof-pill{flex:1 1 calc(50% - 8px)!important;justify-content:center!important;font-size:11px!important;padding:8px 10px!important;}
+  .hero-scroll{display:none!important;}
+  .about-snapshot{margin-top:0!important;padding-top:16px!important;}
+  .section{padding:0 16px!important;}
+  .section-wrap{padding:44px 0!important;}
+  .sec-title{font-size:clamp(26px,8vw,34px)!important;line-height:1.18!important;margin-bottom:12px!important;}
+  .sec-sub{font-size:14.5px!important;line-height:1.7!important;}
+  .snapshot-grid,.flow-grid,.features-grid,.trust-grid,.mv-grid{grid-template-columns:1fr!important;gap:12px!important;}
+  .snapshot-card,.flow-card,.feature-card,.trust-card,.mv-card{border-radius:18px!important;padding:18px!important;}
+  .flow-head{display:block!important;margin-bottom:20px!important;}
+  .flow-step{width:38px!important;height:38px!important;font-size:14px!important;}
+  .founder-grid{grid-template-columns:1fr!important;gap:24px!important;}
+  .founder-img-wrap{max-width:280px!important;margin:0 auto!important;}
+  .founder-avatar{font-size:72px!important;border-radius:24px!important;min-height:250px!important;}
+  .founder-badge{left:14px!important;right:14px!important;bottom:14px!important;border-radius:16px!important;}
+  .founder-quote{font-size:15px!important;line-height:1.65!important;padding:16px!important;border-radius:16px!important;}
+  .founder-para{font-size:14.5px!important;line-height:1.75!important;}
+  .founder-name{align-items:flex-start!important;}
+  .stats-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;margin-top:24px!important;}
+  .stat-box{padding:16px 10px!important;border-radius:16px!important;}
+  .sb-num{font-size:28px!important;}
+  .sb-label{font-size:11px!important;line-height:1.35!important;}
+  .roadmap-list{margin-top:28px!important;}
+  .roadmap-list::before{left:20px!important;}
+  .rm-item{gap:12px!important;}
+  .rm-dot{width:42px!important;height:42px!important;font-size:17px!important;flex:0 0 42px!important;}
+  .rm-content{padding:16px!important;border-radius:16px!important;}
+  .cta-wrap{padding:54px 16px!important;}
+  .cta-wrap::before,.cta-wrap::after{display:none!important;}
+  .cta-title{font-size:clamp(28px,9vw,38px)!important;}
+  .cta-sub{font-size:14.5px!important;margin-bottom:22px!important;}
+  .cta-btn.secondary{margin-left:0!important;margin-top:10px!important;}
+  .quote-section{padding:42px 16px!important;}
+  .big-quote{font-size:clamp(21px,7vw,28px)!important;}
+  .xfooter-inner{padding:34px 20px 28px!important;}
+  .xfooter-grid{grid-template-columns:1fr!important;gap:24px!important;}
+  .xf-desc{max-width:none!important;}
+  .xf-link{min-height:32px;align-items:center;}
+  .xf-social-section{align-items:flex-start!important;}
+  .dm-fab{right:16px!important;bottom:16px!important;width:44px!important;height:44px!important;z-index:640!important;}
+  .btt-btn{right:16px!important;bottom:72px!important;width:42px!important;height:42px!important;z-index:635!important;}
+  .toast{bottom:18px!important;font-size:13px!important;padding:11px 16px!important;}
+}
+@media(max-width:380px){
+  .nav-logo{font-size:18px!important;}
+  .nav-link{font-size:11px!important;padding:8px 9px!important;}
+  .hero-proof-pill{flex-basis:100%!important;}
+  .stats-row{grid-template-columns:1fr!important;}
+  .founder-img-wrap{max-width:250px!important;}
+}
+
+</style>
+<script src="config.js"></script>
+<link rel="stylesheet" href="explorex-shared-ui.css?v=20260623-2">
+</head>
+<body class="explorex-about-page">
+
+<div class="ex-page-buffer" id="ex-page-buffer" role="status" aria-live="polite" aria-label="Loading ExploreX page">
+  <div class="ex-buffer-card">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="ex-buffer-brand"><span>EX</span> ExploreX</div>
+      <div class="ex-buffer-pulse" aria-hidden="true"></div>
+    </div>
+    <div class="ex-buffer-text">Preparing a smoother travel experience...</div>
+    <div class="ex-buffer-bars" aria-hidden="true">
+      <div class="ex-buffer-bar"></div>
+      <div class="ex-buffer-bar"></div>
+      <div class="ex-buffer-bar"></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo" onclick="go('index.html?view=home')" aria-label="ExploreX home">Explore<span>X</span></div>
+  <div class="nav-links">
+    <button type="button" class="nav-link" onclick="go('index.html?view=home')"><span class="nl-icon">&#x1F5FA;&#xFE0F;</span><span data-key="nav_explore">Explore</span></button>
+    <button type="button" class="nav-link" onclick="go('route-planner.html')"><span class="nl-icon">&#x1F9ED;</span><span data-key="nav_route">Route</span></button>
+    <button type="button" class="nav-link" onclick="go('kumbh-guide.html')"><span class="nl-icon">&#x1FA94;</span><span data-key="nav_kumbh">Kumbh Guide</span></button>
+    <button type="button" class="nav-link" onclick="go('city-services.html')"><span class="nl-icon">&#x1F3D9;&#xFE0F;</span><span>City Services</span></button>
+    <button type="button" class="nav-link active"><span class="nl-icon">&#x2139;&#xFE0F;</span><span>About Us</span></button>
+  </div>
+  <div class="nav-spacer"></div>
+  <div id="lang-selector-slot"></div>
+  <div class="profile-menu-wrap hidden" id="profile-menu-wrap">
+    <button type="button" class="nav-profile" id="nav-profile" onclick="toggleProfileMenu()" aria-label="Open profile menu">U</button>
+    <div class="profile-dropdown hidden" id="profile-dropdown">
+      <div class="pd-header">
+        <div class="pd-name" id="pd-name">Traveller</div>
+        <div class="pd-email" id="pd-email">@explorer</div>
+      </div>
+      <button type="button" class="pd-item" onclick="goToProfile()">&#x1F464; My Profile</button>
+      <button type="button" class="pd-item" onclick="goToSavedPlaces()">&#x2764;&#xFE0F; Saved Places</button>
+      <div class="pd-divider"></div>
+      <button type="button" class="pd-item danger" onclick="handleLogout()">&#x1F6AA; Log Out</button>
+    </div>
+  </div>
+  <button type="button" id="nav-login-btn" onclick="go('login_1.html')">Log In</button>
+</nav>
+
+<!-- ---- HERO ---- -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">&#x1F4D6; Built in Nashik for real travellers</div>
+    <h1>
+      ExploreX turns travel<br>
+      <span class="gradient-text">into a smarter story.</span>
+    </h1>
+    <p class="hero-sub">
+      We built ExploreX because planning a trip should feel simple, local, and useful.
+      Discover places, plan routes, save memories, and build day-wise trips without paid AI.
+    </p>
+    <div class="hero-cta">
+      <button type="button" class="btn-primary" onclick="go('index.html?view=home')">
+        &#x1F5FA;&#xFE0F; Start Exploring
+      </button>
+      <button type="button" class="btn-outline" onclick="go('index.html#plan-my-trip')">
+        &#x1F9ED; Plan My Trip
+      </button>
+      <button type="button" class="btn-outline" onclick="document.getElementById('founder').scrollIntoView({behavior:'smooth'})">
+        Read Our Story &#x2192;
+      </button>
+    </div>
+    <div class="hero-proof" aria-label="ExploreX live features">
+      <span class="hero-proof-pill">&#x1F9ED; Trip planner</span>
+      <span class="hero-proof-pill">&#x1F5FA;&#xFE0F; Smart routes</span>
+      <span class="hero-proof-pill">&#x1FA94; Kumbh guide</span>
+      <span class="hero-proof-pill">&#x1F4F8; Memories</span>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll down</span>
+    <span>&#x2193;</span>
+  </div>
+</section>
+
+<!-- ---- PRODUCT SNAPSHOT ---- -->
+<div class="section about-snapshot anim" id="product-snapshot" aria-label="ExploreX product snapshot">
+  <div class="snapshot-grid">
+    <div class="snapshot-card">
+      <div class="snapshot-icon">&#x1F9ED;</div>
+      <div class="snapshot-title">Plan My Trip</div>
+      <p class="snapshot-text">Step-by-step city, days, mood, date, traveller type, and route handoff.</p>
+    </div>
+    <div class="snapshot-card">
+      <div class="snapshot-icon">&#x1F5FA;&#xFE0F;</div>
+      <div class="snapshot-title">Route Planner</div>
+      <p class="snapshot-text">Distance, time, transport compare, stops, places along route, and saved routes.</p>
+    </div>
+    <div class="snapshot-card">
+      <div class="snapshot-icon">&#x1FA94;</div>
+      <div class="snapshot-title">Kumbh Guide</div>
+      <p class="snapshot-text">Crowd guidance, dates, ghat routes, facilities, and verified emergency contacts.</p>
+    </div>
+    <div class="snapshot-card">
+      <div class="snapshot-icon">&#x1F4F8;</div>
+      <div class="snapshot-title">Profile Memories</div>
+      <p class="snapshot-text">Save places, visited places, goals, routes, and personal travel moments.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ---- HOW EXPLOREX WORKS ---- -->
+<div class="section-wrap flow-wrap" id="how-it-works">
+  <div class="section anim">
+    <div class="flow-head">
+      <div>
+        <div class="sec-eyebrow">How it works</div>
+        <div class="sec-title" style="margin-bottom:0;">From idea to itinerary<br>in a few taps</div>
+      </div>
+      <p class="sec-sub">
+        ExploreX keeps the journey simple: choose what you want, get a practical plan,
+        open the route, then save the places that matter.
+      </p>
+    </div>
+    <div class="flow-grid">
+      <div class="flow-card">
+        <div class="flow-num">1</div>
+        <div class="flow-title">Choose Your Trip</div>
+        <p class="flow-text">Pick city, days, mood, date, traveller type, and starting point in the Smart Trip Planner.</p>
+        <button type="button" class="flow-action" onclick="go('index.html#plan-my-trip')">Plan a trip &#x2192;</button>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">2</div>
+        <div class="flow-title">Open The Route</div>
+        <p class="flow-text">Send your day plan or full trip into Route Planner with stops, distance, time, and transport options.</p>
+        <button type="button" class="flow-action" onclick="go('route-planner.html')">Try route planner &#x2192;</button>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">3</div>
+        <div class="flow-title">Save Your Places</div>
+        <p class="flow-text">Save favourites, add visited places manually, upload memories, and keep your profile synced.</p>
+        <button type="button" class="flow-action" onclick="goProfile()">Open profile &#x2192;</button>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">4</div>
+        <div class="flow-title">Get Support</div>
+        <p class="flow-text">Report bugs, ask travel questions, or contact support directly from the footer and support chat.</p>
+        <button type="button" class="flow-action" onclick="openSupport('Travel%20Help')">Ask support &#x2192;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- FOUNDER STORY ---- -->
+<div class="section-wrap" id="founder">
+  <div class="section anim">
+    <div class="sec-eyebrow">The Founder</div>
+    <div class="founder-grid">
+      <div class="founder-img-wrap">
+        <div class="founder-avatar">&#x1F464;</div>
+        <div class="founder-badge">
+          <div class="fb-ico">&#x1F4CD;</div>
+          <div>
+            <div class="fb-num">200+</div>
+            <div class="fb-label">Places mapped</div>
+          </div>
+        </div>
+      </div>
+      <div class="founder-text">
+        <div class="sec-eyebrow">How it all started</div>
+        <div class="sec-title" style="font-size:clamp(24px,3vw,38px);">
+          From a Student's Notebook<br>to Your Travel Companion
+        </div>
+        <blockquote class="founder-quote">
+          "I was tired of Google Maps showing me the same 5 tourist spots.
+          I wanted to find the real Nashik &mdash; the hidden waterfalls,
+          the quiet ghats at 5 AM, the chai tapri nobody writes about."
+        </blockquote>
+        <p class="founder-para">
+          My name is <strong>Swapnil Rathod</strong>, and I'm a Bachelor's student from Nashik.
+          This project started as a college assignment &mdash; but quickly became something I genuinely cared about.
+        </p>
+        <p class="founder-para">
+          I noticed that most travel apps are built for tourists, not for curious people.
+          They tell you <em>where</em> to go, but never <em>why</em> it matters.
+          They show you photos, but never the feeling of standing there.
+        </p>
+        <p class="founder-para">
+          So I built <strong>ExploreX</strong> &mdash; a platform that treats travel as an experience,
+          not just a checklist. With smart routes, rule-based trip planning, Kumbh guidance,
+          saved places, and a community of real travellers sharing real memories.
+        </p>
+        <div class="founder-name">
+          <div class="fn-avatar">S</div>
+          <div>
+            <div class="fn-name">Swapnil Rathod</div>
+            <div class="fn-title">Founder &middot; Bachelor's Student &middot; Nashik, Maharashtra</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- STATS ---- -->
+<div class="section-wrap alt">
+  <div class="section anim">
+    <div style="text-align:center;margin-bottom:8px;">
+      <div class="sec-eyebrow">By the numbers</div>
+      <div class="sec-title" style="text-align:center;">Built with love, growing fast</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="sb-num">200+</div><div class="sb-label">Places Listed</div></div>
+      <div class="stat-box"><div class="sb-num">6+</div><div class="sb-label">Smart Tools</div></div>
+      <div class="stat-box"><div class="sb-num">3</div><div class="sb-label">Languages Supported</div></div>
+      <div class="stat-box"><div class="sb-num">Free</div><div class="sb-label">Trip Planning Logic</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- WHAT WE OFFER ---- -->
+<div class="section-wrap" id="features">
+  <div class="section anim">
+    <div class="sec-eyebrow">What we offer</div>
+    <div class="sec-title">Everything you need<br>to travel smarter</div>
+    <p class="sec-sub">
+      We're not just a map app. ExploreX is a full travel companion &mdash; helping you
+      plan, discover, and remember every journey.
+    </p>
+    <div class="features-grid">
+      <div class="feature-card fc-blue">
+        <div class="fc-ico ico-blue">&#x1F9ED;</div>
+        <div class="fc-title">Route Planner</div>
+        <p class="fc-text">
+          Enter any two locations and get smart route suggestions with distance,
+          travel time, estimated cost, and places to explore along the way.
+          Supports Car, Bike, Bus, Train and Flight &mdash; with a live comparison table.
+        </p>
+        <button type="button" class="fc-link" onclick="go('route-planner.html')">Plan a route &#x2192;</button>
+      </div>
+      <div class="feature-card fc-orange">
+        <div class="fc-ico ico-orange">&#x1F6D5;</div>
+        <div class="fc-title">Kumbh Guide</div>
+        <p class="fc-text">
+          A dedicated smart guide for Nashik Kumbh Mela &mdash; with crowd guidance,
+          smart ghat routes, important dates, nearby facilities, verified emergency contacts,
+          and simple suggestions based on time patterns and admin updates.
+        </p>
+        <button type="button" class="fc-link" onclick="go('kumbh-guide.html')">Explore Kumbh &#x2192;</button>
+      </div>
+      <div class="feature-card fc-purple">
+        <div class="fc-ico ico-purple">&#x1F9ED;</div>
+        <div class="fc-title">Smart Trip Planner</div>
+        <p class="fc-text">
+          Choose a city, number of days, travel mood, date, traveller type, and starting point.
+          ExploreX creates a day-wise plan with food suggestions, comfort tips, and route handoff.
+        </p>
+        <button type="button" class="fc-link" onclick="go('index.html#plan-my-trip')">Plan my trip &#x2192;</button>
+      </div>
+      <div class="feature-card fc-green">
+        <div class="fc-ico ico-green">&#x1F4F7;</div>
+        <div class="fc-title">Travel Memories</div>
+        <p class="fc-text">
+          Upload your photos and videos from journeys &mdash; keep them private or
+          share them with the community. See traveller memories from specific
+          locations and get inspired for your next trip.
+        </p>
+        <button type="button" class="fc-link" onclick="goProfile()">View memories &#x2192;</button>
+      </div>
+      <div class="feature-card fc-blue">
+        <div class="fc-ico ico-blue">&#x1F310;</div>
+        <div class="fc-title">Multi-Language</div>
+        <p class="fc-text">
+          Available in English, Hindi, and Marathi &mdash; so every traveller in Maharashtra
+          and beyond feels at home. Language preference is saved across all pages
+          and auto-detected from your browser.
+        </p>
+        <button type="button" class="fc-link" onclick="showToast('Language selector is available in the navbar')">Switch language &#x2192;</button>
+      </div>
+    </div>
+
+    <div class="trust-grid anim">
+      <div class="trust-card">
+        <div class="trust-icon">&#x1F4AC;</div>
+        <div class="trust-title">Real Support, Not Dead Ends</div>
+        <p class="trust-text">
+          Users can raise travel questions, route issues, bug reports, or help requests through ExploreX Live Chat.
+        </p>
+        <button type="button" class="trust-action" onclick="openSupport('Travel%20Help')">Open Live Chat &#x2192;</button>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">&#x1F6E0;&#xFE0F;</div>
+        <div class="trust-title">Admin-Controlled Content</div>
+        <p class="trust-text">
+          Places, services, Kumbh guide items, memories, and homepage sections are handled from the admin panel.
+        </p>
+        <button type="button" class="trust-action" onclick="go('kumbh-guide.html')">See Kumbh guide &#x2192;</button>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">&#x1F4CD;</div>
+        <div class="trust-title">Built Around Real Locations</div>
+        <p class="trust-text">
+          ExploreX focuses on coordinates, local areas, practical routes, and city-level services for smoother travel.
+        </p>
+        <button type="button" class="trust-action" onclick="go('route-planner.html')">Try route planner &#x2192;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- MISSION &amp; VISION ---- -->
+<div class="section-wrap alt" id="mission">
+  <div class="section anim">
+    <div class="sec-eyebrow" style="text-align:center;">Purpose &amp; Direction</div>
+    <div class="sec-title" style="text-align:center;margin-bottom:8px;">Our Mission &amp; Vision</div>
+    <div class="mv-grid">
+      <div class="mv-card mv-mission">
+        <div class="mv-ico">&#x1F3AF;</div>
+        <div class="mv-title">Our Mission</div>
+        <p class="mv-text">
+          To make travel smarter, easier, and more meaningful for everyone &mdash;
+          especially for people who want to go beyond the obvious tourist spots.
+          We want to turn every trip into a real story, not just content.
+          <br><br>
+          Less screen time. More real experiences.
+          Less FOMO. More genuine discovery.
+        </p>
+      </div>
+      <div class="mv-card mv-vision">
+        <div class="mv-ico">&#x1F52D;</div>
+        <div class="mv-title">Our Vision</div>
+        <p class="mv-text">
+          A future where every traveller has an intelligent companion &mdash;
+          one that suggests a practical route, groups nearby places,
+          shows you what other real people loved, and helps you plan at a comfortable pace.
+          <br><br>
+          A community-driven travel platform built on real experiences,
+          not paid promotions.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- ROADMAP ---- -->
+<div class="section-wrap" id="roadmap">
+  <div class="section anim">
+    <div class="sec-eyebrow">What's coming</div>
+    <div class="sec-title">Building the future<br>of smart travel</div>
+    <p class="sec-sub">
+      We're just getting started. Here's what we're building next &mdash;
+      step by step, feature by feature.
+    </p>
+    <div class="roadmap-list">
+      <div class="rm-item">
+        <div class="rm-dot done">&#x2713;</div>
+        <div class="rm-content">
+          <span class="rm-tag tag-done">Launched</span>
+          <div class="rm-title">Core Travel Discovery</div>
+          <div class="rm-text">Places database, location-based search, category filters, ratings, distances &mdash; all live.</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot done">&#x2713;</div>
+        <div class="rm-content">
+          <span class="rm-tag tag-done">Launched</span>
+          <div class="rm-title">Route Planner with Transport Compare</div>
+          <div class="rm-text">Map-based routing with stops, transport comparison, distance, travel time, cost estimate, and saved route history.</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot done">&#x2713;</div>
+        <div class="rm-content">
+          <span class="rm-tag tag-done">Launched</span>
+          <div class="rm-title">Kumbh Mela Smart Guide</div>
+          <div class="rm-text">Crowd guidance, important dates, emergency contacts, ghat routes, facilities, and offline-ready fallback logic.</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot done">&#x2713;</div>
+        <div class="rm-content">
+          <span class="rm-tag tag-done">Launched</span>
+          <div class="rm-title">Smart Trip Planner Chatbot</div>
+          <div class="rm-text">Free rule-based chatbot that builds day-wise plans using city, days, mood, date, traveller type, and distance logic.</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot next">&#x1F9E0;</div>
+        <div class="rm-content">
+          <span class="rm-tag tag-next">Next Upgrade</span>
+          <div class="rm-title">Admin-Verified Travel Intelligence</div>
+          <div class="rm-text">Better verified data for crowd, weather, services, and safety notices while keeping estimates clearly labelled.</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot future">&#x1F465;</div>
+        <div class="rm-content">
+          <span class="rm-tag tag-future">Coming Soon</span>
+          <div class="rm-title">Community Travel Feed</div>
+          <div class="rm-text">Follow other travellers, like their memories, comment on routes, build travel groups.</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot future">&#x1F4F1;</div>
+        <div class="rm-content">
+          <span class="rm-tag tag-future">Coming Soon</span>
+          <div class="rm-title">Mobile App (Android &amp; iOS)</div>
+          <div class="rm-text">Full app with offline maps, push notifications for Kumbh dates, and GPS-based real-time routing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- BIG QUOTE ---- -->
+<div class="quote-section">
+  <div class="big-quote anim">
+    "Stop scrolling through travel reels.<br>
+    <span class="accent">Start making your own story.</span>"
+  </div>
+  <div class="quote-attr">&mdash; ExploreX &middot; Built in Nashik, for travellers everywhere</div>
+</div>
+
+<!-- ---- CTA ---- -->
+<div class="cta-wrap">
+  <div class="cta-inner anim">
+    <div class="cta-title">
+      The best trip you'll ever take<br>
+      is the one you <span class="yellow">actually plan.</span>
+    </div>
+    <p class="cta-sub">
+      Choose a city, mood, date, traveller type, and starting point.
+      ExploreX will build a simple day-wise plan for you.
+    </p>
+    <a class="cta-btn" href="index.html#plan-my-trip">
+      &#x1F9ED; Plan My Trip
+    </a>
+    <a class="cta-btn secondary" href="support-chat.html?subject=ExploreX%20Help&amp;source=about_1.html">
+      &#x1F4AC; Need Help?
+    </a>
+    <div class="cta-note">Free &middot; No account needed to start</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+
+<!-- BACK TO TOP -->
+<button type="button" class="btt-btn" id="btt-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">&#x2191;</button>
+
+<!-- EXPLOREX FOOTER -->
+<footer class="xfooter">
+  <div class="xfooter-wave"></div>
+  <div class="xfooter-inner">
+
+    <!-- MAIN GRID -->
+    <div class="xfooter-grid">
+
+      <!-- BRAND -->
+      <div class="xf-brand">
+        <div class="xf-logo">
+          Explore<span class="xl-x">X</span><span class="xl-dot"></span>
+        </div>
+        <p class="xf-desc">
+          Explore smarter, travel better. Discover places, plan routes, and enjoy every journey &#x2014; one hidden gem at a time.
+        </p>
+        <div class="xf-contact-row">
+          <div class="xf-contact-item">
+            <span class="lk-ico">&#x1F4E7;</span>
+            <a href="mailto:support@explorex.com">support@explorex.com</a>
+          </div>
+          <div class="xf-contact-item">
+            <span class="lk-ico">&#x1F1EE;&#x1F1F3;</span>
+            <span>Nashik, Maharashtra, India</span>
+          </div>
+          <div class="xf-contact-item">
+            <span class="lk-ico">&#x1F4AC;</span>
+            <a href="support-chat.html?subject=General%20Support">Live Chat Support</a>
+          </div>
+        </div>
+      </div>
+      <!-- QUICK LINKS -->
+      <div>
+        <div class="xf-col-title">Quick Links</div>
+        <div class="xf-links">
+          <a class="xf-link" href="index.html?view=home"><span class="lk-ico">&#x1F3E0;</span> Home</a>
+          <a class="xf-link" href="index.html?view=home"><span class="lk-ico">&#x1F5FA;&#xFE0F;</span> Explore</a>
+          <a class="xf-link" href="route-planner.html"><span class="lk-ico">&#x1F9ED;</span> Route Planner</a>
+          <a class="xf-link" href="index.html#book-hotel"><span class="lk-ico">&#x1F3E8;</span> Book Hotel <span class="xf-link-badge">LIVE</span></a>
+          <a class="xf-link" href="city-services.html"><span class="lk-ico">&#x1F3D9;&#xFE0F;</span> City Services</a>
+          <a class="xf-link" href="kumbh-guide.html"><span class="lk-ico">&#x1FA94;</span> Kumbh Guide</a>
+          <a class="xf-link" href="about_1.html"><span class="lk-ico">&#x2139;&#xFE0F;</span> About Us</a>
+          <a class="xf-link" href="profile_2.html"><span class="lk-ico">&#x1F464;</span> My Profile</a>
+        </div>
+      </div>
+
+      <!-- FEATURES -->
+      <div>
+        <div class="xf-col-title">Features</div>
+        <div class="xf-links">
+          <a class="xf-link" href="route-planner.html"><span class="lk-ico">&#x1F9ED;</span> Route Planner</a>
+          <a class="xf-link" href="city-services.html"><span class="lk-ico">&#x1F3D9;&#xFE0F;</span> City Services <span class="xf-link-badge">NEW</span></a>
+          <a class="xf-link" href="profile_2.html#memories"><span class="lk-ico">&#x1F4F8;</span> Travel Memories</a>
+          <a class="xf-link" href="index.html#book-hotel"><span class="lk-ico">&#x1F3E8;</span> Book Hotel <span class="xf-link-badge">LIVE</span></a>
+          <a class="xf-link" href="index.html#plan-my-trip"><span class="lk-ico">&#x1F9ED;</span> Plan My Trip <span class="xf-link-badge">LIVE</span></a>
+        </div>
+      </div>
+
+      <!-- SUPPORT -->
+      <div>
+        <div class="xf-col-title">Support</div>
+        <div class="xf-links">
+          <button type="button" class="xf-link" onclick="window.location.href='support-chat.html?subject=General%20Support&amp;source='+encodeURIComponent(location.pathname)">
+            <span class="lk-ico">&#x1F4E7;</span> Contact Us
+          </button>
+          <button type="button" class="xf-link" onclick="window.location.href='support-chat.html?subject=Bug%20Report&amp;source='+encodeURIComponent(location.pathname)">
+            <span class="lk-ico">&#x1F41B;</span> Report Issue
+          </button>
+          <button type="button" class="xf-link" onclick="showToast('&#x2764;&#xFE0F; Thank you for your support!')">
+            <span class="lk-ico">&#x2764;&#xFE0F;</span> Support Travellers
+          </button>
+          <div style="height:4px;"></div>
+          <div class="xf-col-title" style="margin-bottom:10px;">Legal</div>
+          <button type="button" class="xf-link" onclick="window.location.href='privacy-policy.html'">
+            <span class="lk-ico">&#x1F512;</span> Privacy Policy
+          </button>
+          <button type="button" class="xf-link" onclick="window.location.href='terms.html'">
+            <span class="lk-ico">&#x1F4CB;</span> Terms &amp; Conditions
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="xf-social-section">
+      <div class="xf-social-text">
+        <strong>Follow us</strong> for travel updates and inspiration &#x1F30D;
+      </div>
+      <div class="xf-socials">
+        <!-- Instagram -->
+        <a class="xf-social-btn instagram" aria-label="Instagram" href="https://instagram.com" target="_blank" rel="noopener" title="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <!-- Twitter / X -->
+        <a class="xf-social-btn twitter" aria-label="Twitter / X" href="https://twitter.com" target="_blank" rel="noopener" title="Twitter / X">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <!-- LinkedIn -->
+        <a class="xf-social-btn linkedin" aria-label="LinkedIn" href="https://linkedin.com" target="_blank" rel="noopener" title="LinkedIn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="xf-bottom">
+      <div class="xf-copy">
+        &#xA9; 2026 <strong>ExploreX</strong> | Built by <a href="https://github.com" target="_blank" rel="noopener">Swapnil Rathod</a>
+      </div>
+      <div class="xf-status">
+        <div class="status-dot"></div>
+        All systems operational
+      </div>
+      <div class="xf-legal">
+        <button type="button" class="xf-legal-link" onclick="window.location.href='privacy-policy.html'">Privacy Policy</button>
+        <button type="button" class="xf-legal-link" onclick="window.location.href='terms.html'">Terms</button>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+/* -- BACK TO TOP -- */
+window.addEventListener('scroll',()=>{
+  const btn=document.getElementById('btt-btn');
+  if(btn) btn.classList.toggle('show', window.scrollY > 400);
+},{passive:true});
+
+/* -- FOOTER PAGE NAVIGATION -- */
+function goPage(url){ window.location.href=url; }
+function goPageProfile(){
+  const loggedIn=localStorage.getItem('explore_logged_in')==='true';
+  window.location.href=loggedIn?'profile_2.html':'login_1.html';
+}
+</script>
+
+
+<button type="button" class="dm-fab" id="dm-fab" onclick="toggleDarkMode()" aria-label="Toggle dark mode" title="Toggle dark mode">&#x1F319;</button>
+
+<script>
+/* -- DARK MODE -- */
+function applyDarkMode(on){
+  document.body.classList.toggle('dark-mode',on);
+  ['dm-btn','dm-fab'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=on?'\u{2600}\u{FE0F}':'\u{1F319}';});
+}
+function toggleDarkMode(){
+  const on=!document.body.classList.contains('dark-mode');
+  localStorage.setItem('explore_dark_mode',on?'1':'0');
+  applyDarkMode(on);
+}
+(function(){applyDarkMode(localStorage.getItem('explore_dark_mode')==='1');})();
+
+/* -- NAV -- */
+function go(p){window.location.href=p;}
+function openSupport(subject='ExploreX%20Help'){
+  const cleanSubject=String(subject||'ExploreX Help').trim();
+  const encodedSubject=cleanSubject.includes('%')?cleanSubject:encodeURIComponent(cleanSubject);
+  window.location.href=`support-chat.html?subject=${encodedSubject}&source=${encodeURIComponent(location.pathname.split('/').pop()||'about_1.html')}`;
+}
+function isLoggedIn(){return localStorage.getItem('explore_logged_in')==='true';}
+function getSession(){try{return JSON.parse(localStorage.getItem('explore_session')||'{}');}catch(e){return{};}}
+function getProfileLocal(){try{return JSON.parse(localStorage.getItem('profile')||'{}');}catch(e){return{};}}
+function getDisplayUser(){
+  const sess=getSession();
+  const p=getProfileLocal();
+  const name=(p.name||sess.name||'Traveller').trim();
+  return {name,email:sess.email||p.username||'',initial:(name.charAt(0)||'U').toUpperCase()};
+}
+function goProfile(){go(isLoggedIn()?'profile_2.html':'login_1.html');}
+function goToProfile(){closeDropdown();goProfile();}
+function goToSavedPlaces(){
+  closeDropdown();
+  if(!isLoggedIn()){go('login_1.html');return;}
+  go('profile_2.html#saved-places');
+}
+function toggleProfileMenu(){
+  if(!isLoggedIn()){go('login_1.html');return;}
+  document.getElementById('profile-dropdown').classList.toggle('hidden');
+}
+function closeDropdown(){
+  const dd=document.getElementById('profile-dropdown');
+  if(dd) dd.classList.add('hidden');
+}
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('profile-menu-wrap');
+  if(wrap && !wrap.contains(e.target)) closeDropdown();
+});
+function handleLogout(){
+  localStorage.removeItem('explore_logged_in');
+  localStorage.removeItem('explore_session');
+  localStorage.removeItem('explore_token');
+  localStorage.removeItem('explore_role');
+  [
+    'explore_uid','explore_user_id','profile','settings','visited_ids','visited_places',
+    'saved_ids','saved_places_map','activity','goals','interests','explore_memories',
+    'profile_seeded','explore_seeded','explore_profile_owner_uid','explore_profile_owner_signature','explore_activity_owner_uid',
+    'explorex_profile_route_handoff'
+  ].forEach((key)=>localStorage.removeItem(key));
+  closeDropdown();
+  showToast('\u{1F6AA} Logged out successfully');
+  setTimeout(()=>go('login_1.html'),900);
+}
+function initProfileMenuUser(){
+  const u=getDisplayUser();
+  const nav=document.getElementById('nav-profile');
+  const pdn=document.getElementById('pd-name');
+  const pde=document.getElementById('pd-email');
+  const profileWrap=document.getElementById('profile-menu-wrap');
+  const loginBtn=document.getElementById('nav-login-btn');
+  const loggedIn=isLoggedIn();
+  if(profileWrap) profileWrap.classList.toggle('hidden',!loggedIn);
+  if(loginBtn) loginBtn.classList.toggle('hidden',loggedIn);
+  if(nav) nav.textContent=u.initial;
+  if(pdn) pdn.textContent=u.name;
+  if(pde) pde.textContent=u.email;
+}
+
+/* -- TOAST -- */
+function showToast(msg,dur=2500){
+  const t=document.getElementById('toast');
+  if(!t) return;
+  const text=String(msg||'')
+    .replace(/&#x([0-9a-f]+);/gi,(_,hex)=>{try{return String.fromCodePoint(parseInt(hex,16));}catch(e){return '';}})
+    .replace(/&#(\d+);/g,(_,num)=>{try{return String.fromCodePoint(parseInt(num,10));}catch(e){return '';}})
+    .replace(/&nbsp;/g,' ')
+    .replace(/&amp;/g,'&')
+    .replace(/&lt;/g,'<')
+    .replace(/&gt;/g,'>')
+    .replace(/&quot;/g,'"')
+    .replace(/&#39;|&#x27;/g,"'");
+  t.textContent=text;
+  t.classList.add('show');
+  clearTimeout(t._hideTimer);
+  t._hideTimer=setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+/* -- SCROLL ANIMATIONS -- */
+function checkAnims(){
+  document.querySelectorAll('.anim:not(.visible)').forEach(el=>{
+    const rect=el.getBoundingClientRect();
+    if(rect.top<window.innerHeight-80) el.classList.add('visible');
+  });
+}
+window.addEventListener('scroll',checkAnims,{passive:true});
+
+/* -- INIT -- */
+window.onload=()=>{
+  injectLangSelector('lang-selector-slot');
+  initProfileMenuUser();
+  checkAnims(); // run once on load
+};
+</script>
+
+<script>
+/* ExploreX page buffer controller */
+(function(){
+  function hideExploreXBuffer(){
+    var buffer=document.getElementById('ex-page-buffer');
+    if(!buffer) return;
+    buffer.classList.add('is-hidden');
+    window.setTimeout(function(){
+      if(buffer && buffer.parentNode) buffer.parentNode.removeChild(buffer);
+    },480);
+  }
+  if(document.readyState==='complete'){
+    window.setTimeout(hideExploreXBuffer,220);
+  }else{
+    window.addEventListener('load',function(){window.setTimeout(hideExploreXBuffer,220);},{once:true});
+  }
+  window.setTimeout(hideExploreXBuffer,2200);
+})();
+</script>
+
+
+<script>
+/* ExploreX shared theme synchronization */
+(function(){
+  function syncExploreXTheme(){
+    var dark=localStorage.getItem('explore_dark_mode')==='1';
+    if(typeof window.applyDarkMode==='function'){
+      window.applyDarkMode(dark);
+    }else if(typeof window.applyTheme==='function'){
+      window.applyTheme(dark?'dark':'light');
+    }else{
+      document.body.classList.toggle('dark-mode',dark);
+    }
+  }
+  window.addEventListener('pageshow',syncExploreXTheme);
+  window.addEventListener('storage',function(event){
+    if(event.key==='explore_dark_mode') syncExploreXTheme();
+  });
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) syncExploreXTheme();
+  });
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

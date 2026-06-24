@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExploreX Support Chat</title>
+<script>
+(function(){
+  const loggedIn = localStorage.getItem('explore_logged_in') === 'true';
+  const token = String(localStorage.getItem('explore_token') || '').trim();
+  let validToken = false;
+  try{
+    const parts = token.split('.');
+    if(parts.length >= 2){
+      const raw = parts[1].replace(/-/g,'+').replace(/_/g,'/');
+      const padded = raw + '='.repeat((4 - (raw.length % 4)) % 4);
+      const payload = JSON.parse(atob(padded));
+      const now = Math.floor(Date.now()/1000);
+      validToken = Number(payload?.exp || 0) > now;
+    }
+  }catch(e){
+    validToken = false;
+  }
+  if(!loggedIn || !token || !validToken){
+    [
+      'explore_logged_in',
+      'explore_token',
+      'explore_role',
+      'explore_session',
+      'explore_uid',
+      'explore_user_id',
+      'explore_profile_owner_uid',
+      'explore_profile_owner_signature',
+      'explore_activity_owner_uid',
+      'explorex_profile_route_handoff'
+    ].forEach((key)=>localStorage.removeItem(key));
+    window.location.href='login_1.html?reason=' + encodeURIComponent('Please login to open support chat');
+  }
+})();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#1A3CD8; --pd:#122BA8; --acc:#FF6B35;
+  --bg:#F4F7FF; --card:#fff; --t:#0F172A; --tm:#475569; --ts:#94A3B8; --bd:#E2E8F0;
+  --g:#059669; --r:#EF4444; --yl:#FEF3C7; --gl:#ECFDF5;
+  --shadow:0 10px 30px rgba(15,23,42,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;position:relative;overflow-x:hidden}
+body.dark-mode{
+  --bg:#0B1224; --card:#0F172A; --t:#E2E8F0; --tm:#94A3B8; --ts:#64748B; --bd:#1E293B;
+  --shadow:0 10px 30px rgba(2,6,23,.45);
+}
+button,input,textarea,select{font-family:'DM Sans',sans-serif}
+.page-bg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.blob{
+  position:absolute;border-radius:50%;filter:blur(2px);opacity:.24;
+  animation:floatBlob 12s ease-in-out infinite alternate;
+}
+.blob.b1{width:280px;height:280px;left:-70px;top:80px;background:radial-gradient(circle,#60A5FA,#1D4ED8)}
+.blob.b2{width:220px;height:220px;right:8%;top:140px;background:radial-gradient(circle,#F472B6,#DB2777);animation-delay:1s}
+.blob.b3{width:320px;height:320px;right:-90px;bottom:40px;background:radial-gradient(circle,#FBBF24,#F97316);animation-delay:2s}
+@keyframes floatBlob{
+  from{transform:translateY(0) translateX(0) scale(1)}
+  to{transform:translateY(-20px) translateX(16px) scale(1.08)}
+}
+.header{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;gap:10px;justify-content:space-between;
+  padding:14px 18px;background:#fff;border-bottom:1px solid var(--bd);
+}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:16px auto;padding:0 14px 20px}
+.header-actions{display:flex;gap:8px;align-items:center}
+.brand{display:flex;align-items:center;gap:10px}
+.brand h1{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--p)}
+.muted{color:var(--ts);font-size:12px}
+.btn{border:none;border-radius:10px;padding:9px 13px;font-weight:600;font-size:13px;cursor:pointer;transition:.18s}
+.btn:disabled{opacity:.65;cursor:not-allowed}
+.btn-primary{background:var(--p);color:#fff}
+.btn-primary:hover{background:var(--pd)}
+.btn-ghost{background:#fff;border:1px solid var(--bd);color:var(--tm)}
+.btn-ghost:hover{border-color:var(--p);color:var(--p)}
+.btn-danger{background:#FEF2F2;border:1px solid #FECACA;color:#991B1B}
+.btn-danger:hover{background:#FEE2E2}
+.btn-danger-soft{background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C}
+.btn-danger-soft:hover{background:#FEE2E2}
+.chat-hero{
+  position:relative;z-index:1;overflow:hidden;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin-bottom:14px;padding:16px 18px;border-radius:16px;
+  border:1px solid #D6E4FF;
+  background:linear-gradient(120deg,#EEF4FF 0%,#FDF2F8 55%,#FFF7ED 100%);
+}
+.hero-text h2{font-family:'Outfit',sans-serif;font-size:20px;color:#1E3A8A;margin-bottom:4px}
+.hero-text p{font-size:13px;color:#334155;max-width:620px}
+.bot-shell{
+  width:106px;height:106px;border-radius:30px;position:relative;flex-shrink:0;
+  background:linear-gradient(145deg,#1D4ED8,#7C3AED);
+  box-shadow:0 16px 32px rgba(29,78,216,.26);
+  transform:perspective(600px) rotateY(-14deg) rotateX(8deg);
+  animation:botBounce 3s ease-in-out infinite;
+}
+.bot-face{position:absolute;inset:14px;border-radius:20px;background:#E0E7FF}
+.bot-eye{
+  position:absolute;top:32px;width:14px;height:14px;border-radius:50%;
+  background:#0F172A;animation:blink 4s infinite;
+}
+.bot-eye.left{left:26px}
+.bot-eye.right{right:26px}
+.bot-mouth{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  width:34px;height:8px;border-radius:8px;background:#1D4ED8;
+}
+@keyframes botBounce{
+  0%,100%{transform:perspective(600px) rotateY(-14deg) rotateX(8deg) translateY(0)}
+  50%{transform:perspective(600px) rotateY(-14deg) rotateX(8deg) translateY(-8px)}
+}
+@keyframes blink{
+  0%,44%,48%,100%{transform:scaleY(1)}
+  46%{transform:scaleY(.15)}
+}
+.layout{display:grid;grid-template-columns:360px 1fr;gap:14px;align-items:stretch}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.left-col{display:flex;flex-direction:column;gap:12px;min-height:calc(100vh - 130px)}
+.section{padding:14px}
+.section-title{font-size:14px;font-weight:700;margin-bottom:10px}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.form-label{font-size:12px;color:var(--tm);font-weight:600}
+.input,.textarea,.select{
+  width:100%;padding:10px 11px;border:1.5px solid var(--bd);border-radius:10px;background:#fff;color:var(--t);font-size:13px
+}
+.textarea{min-height:82px;resize:vertical}
+.input:focus,.textarea:focus,.select:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(26,60,216,.1)}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ticket-list{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow:auto;padding-right:2px}
+.ticket-item{
+  border:1px solid var(--bd);border-radius:12px;padding:10px;cursor:pointer;
+  background:#fff;transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:hidden
+}
+.ticket-item::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:0;
+  background:linear-gradient(180deg,#60A5FA,#2563EB);transition:width .18s;
+}
+.ticket-item:hover{border-color:#bfd0ff;transform:translateY(-1px);box-shadow:0 8px 18px rgba(30,64,175,.12)}
+.ticket-item.active{border-color:var(--p);background:#EEF2FF}
+.ticket-item.active::before{width:4px}
+.ticket-subject{font-size:13px;font-weight:700;line-height:1.35}
+.ticket-meta{margin-top:4px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.badge-pending{background:var(--yl);color:#92400E}
+.badge-resolved{background:var(--gl);color:#065F46}
+.badge-unread{background:#EFF6FF;color:var(--p)}
+.ticket-preview{margin-top:6px;font-size:12px;color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-col{display:flex;flex-direction:column;min-height:calc(100vh - 130px)}
+.chat-head{padding:14px;border-bottom:1px solid var(--bd);display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.chat-title{font-size:15px;font-weight:700}
+.chat-sub{font-size:12px;color:var(--ts);margin-top:3px}
+.chat-status{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.msg-wrap{padding:12px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 305px);overflow:auto;background:linear-gradient(180deg,#FAFBFF,#F3F6FF)}
+body.dark-mode .header{background:#0F172A}
+body.dark-mode .msg-wrap{background:linear-gradient(180deg,#0B1224,#0A1020)}
+body.dark-mode .btn-ghost{background:#0F172A}
+body.dark-mode .btn-danger{background:#3B0D12;border-color:#7F1D1D;color:#FECACA}
+body.dark-mode .btn-danger-soft{background:#3B0D12;border-color:#7F1D1D;color:#FECACA}
+body.dark-mode .input, body.dark-mode .textarea, body.dark-mode .select{background:#111827}
+body.dark-mode .ticket-item{background:#0F1A2D}
+body.dark-mode .ticket-item.active{background:#132443}
+body.dark-mode .quick-chip{background:#0F172A}
+body.dark-mode .chat-hero{
+  background:linear-gradient(120deg,#102342 0%,#2A1646 55%,#3F230A 100%);
+  border-color:#243B64;
+}
+body.dark-mode .hero-text h2{color:#BFDBFE}
+body.dark-mode .hero-text p{color:#CBD5E1}
+body.dark-mode .msg{background:#111B31}
+body.dark-mode .msg-row.mine .msg{background:#1E3A8A44;border-color:#1D4ED8}
+.msg-row{display:flex}
+.msg-row.mine{justify-content:flex-end}
+.msg{
+  max-width:min(78%,560px);
+  border-radius:14px;padding:10px 12px;border:1px solid var(--bd);
+  background:#fff;box-shadow:0 6px 14px rgba(15,23,42,.06);animation:msgIn .2s ease both
+}
+.msg-row.mine .msg{background:#EAF0FF;border-color:#C7D2FE}
+.msg-meta{margin-top:6px;display:flex;justify-content:space-between;gap:12px;font-size:10.5px;color:#64748B}
+.msg-text{white-space:pre-wrap;word-break:break-word;font-size:13px;line-height:1.45}
+.composer{padding:12px;border-top:1px solid var(--bd);display:flex;gap:8px;align-items:flex-end}
+.composer-main{flex:1;display:flex;flex-direction:column;gap:7px;min-width:0}
+.composer textarea{flex:1;min-height:42px;max-height:140px;resize:vertical}
+.composer-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.quick-replies{display:flex;gap:8px;flex-wrap:wrap}
+.quick-chip{
+  border:1px solid var(--bd);
+  background:#fff;
+  color:var(--tm);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.18s;
+}
+.quick-chip:hover{border-color:var(--p);color:var(--p);background:#F8FAFF}
+
+/* Color refresh: make support feel helpful, not plain */
+body{
+  background:
+    radial-gradient(circle at 12% 14%,rgba(96,165,250,.18),transparent 28%),
+    radial-gradient(circle at 86% 18%,rgba(255,107,53,.16),transparent 26%),
+    radial-gradient(circle at 70% 92%,rgba(16,185,129,.13),transparent 30%),
+    linear-gradient(180deg,#F7FAFF 0%,#EEF4FF 100%);
+}
+.header{
+  background:rgba(255,255,255,.84);
+  -webkit-backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  box-shadow:0 10px 30px rgba(15,23,42,.07);
+}
+.brand h1{
+  background:linear-gradient(135deg,#1A3CD8,#7C3AED 52%,#FF6B35);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.card{
+  border-color:rgba(203,213,225,.86);
+  background:rgba(255,255,255,.88);
+  box-shadow:0 18px 48px rgba(15,23,42,.10);
+}
+.chat-hero{
+  border-color:rgba(96,165,250,.35);
+  background:
+    radial-gradient(circle at 80% 16%,rgba(255,255,255,.72),transparent 22%),
+    linear-gradient(125deg,#EAF2FF 0%,#F6EDFF 46%,#FFF2E7 100%);
+  box-shadow:0 18px 46px rgba(59,130,246,.16);
+}
+.chat-hero::after{
+  content:'';
+  position:absolute;
+  width:180px;
+  height:180px;
+  right:70px;
+  bottom:-110px;
+  border-radius:50%;
+  background:linear-gradient(135deg,rgba(26,60,216,.16),rgba(255,107,53,.18));
+  pointer-events:none;
+}
+.hero-text h2{
+  color:#172554;
+}
+.bot-shell{
+  background:linear-gradient(145deg,#1A3CD8 0%,#7C3AED 52%,#FF6B35 100%);
+  box-shadow:0 18px 40px rgba(124,58,237,.28), inset 0 1px 0 rgba(255,255,255,.24);
+}
+.bot-face{
+  background:linear-gradient(180deg,#F8FAFC,#DBEAFE);
+  box-shadow:inset 0 -10px 24px rgba(26,60,216,.10);
+}
+.section-title{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  color:#1D4ED8;
+  background:linear-gradient(135deg,rgba(219,234,254,.9),rgba(255,247,237,.9));
+  border:1px solid rgba(96,165,250,.24);
+}
+.left-col .card.section{
+  background:
+    radial-gradient(180px 100px at 0% 0%,rgba(59,130,246,.11),transparent 70%),
+    radial-gradient(160px 90px at 100% 0%,rgba(255,107,53,.11),transparent 72%),
+    rgba(255,255,255,.9);
+}
+.input,.textarea,.select{
+  background:rgba(255,255,255,.92);
+  border-color:rgba(203,213,225,.95);
+}
+.btn-primary{
+  background:linear-gradient(135deg,#1A3CD8,#7C3AED);
+  box-shadow:0 10px 22px rgba(26,60,216,.20);
+}
+.btn-primary:hover{
+  background:linear-gradient(135deg,#1532B8,#6D28D9);
+}
+.ticket-item{
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.96),rgba(248,250,252,.96)),
+    radial-gradient(120px 70px at 100% 0%,rgba(255,107,53,.10),transparent 72%);
+}
+.ticket-item::before{
+  background:linear-gradient(180deg,#1A3CD8,#FF6B35);
+}
+.ticket-item.active{
+  background:linear-gradient(135deg,#EEF4FF,#FFF7ED);
+}
+.badge-pending{background:#FEF3C7;color:#92400E;border:1px solid rgba(245,158,11,.20)}
+.badge-resolved{background:#DCFCE7;color:#047857;border:1px solid rgba(16,185,129,.22)}
+.badge-unread{background:#DBEAFE;color:#1D4ED8;border:1px solid rgba(37,99,235,.18)}
+.msg-wrap{
+  background:
+    radial-gradient(circle at 18px 18px,rgba(26,60,216,.07) 1px,transparent 1.5px),
+    linear-gradient(180deg,#FBFDFF,#F1F6FF);
+  background-size:22px 22px,100% 100%;
+}
+.msg{
+  border-color:rgba(203,213,225,.85);
+  background:rgba(255,255,255,.94);
+}
+.msg-row.mine .msg{
+  color:#fff;
+  border-color:transparent;
+  background:linear-gradient(135deg,#1A3CD8,#2563EB 55%,#7C3AED);
+  box-shadow:0 12px 24px rgba(26,60,216,.22);
+}
+.msg-row.mine .msg-meta{
+  color:rgba(255,255,255,.74);
+}
+.composer{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.92),rgba(248,250,252,.96));
+  border-top-color:rgba(203,213,225,.9);
+}
+.quick-chip{
+  background:linear-gradient(135deg,#FFFFFF,#F8FAFF);
+}
+.quick-chip:hover{
+  background:linear-gradient(135deg,#EEF4FF,#FFF7ED);
+  transform:translateY(-1px);
+}
+
+body.dark-mode{
+  background:
+    radial-gradient(circle at 14% 12%,rgba(37,99,235,.18),transparent 30%),
+    radial-gradient(circle at 88% 18%,rgba(249,115,22,.13),transparent 28%),
+    radial-gradient(circle at 70% 90%,rgba(16,185,129,.10),transparent 30%),
+    linear-gradient(180deg,#071026,#0B1224);
+}
+body.dark-mode .header,
+body.dark-mode .card{
+  background:rgba(15,23,42,.86);
+  border-color:rgba(51,65,85,.88);
+}
+body.dark-mode .left-col .card.section{
+  background:
+    radial-gradient(180px 100px at 0% 0%,rgba(37,99,235,.15),transparent 70%),
+    radial-gradient(160px 90px at 100% 0%,rgba(249,115,22,.12),transparent 72%),
+    rgba(15,23,42,.88);
+}
+body.dark-mode .chat-hero{
+  background:
+    radial-gradient(circle at 80% 16%,rgba(255,255,255,.08),transparent 22%),
+    linear-gradient(125deg,#0D2348 0%,#24164B 48%,#3B200D 100%);
+}
+body.dark-mode .section-title{
+  color:#BFDBFE;
+  background:linear-gradient(135deg,rgba(29,78,216,.20),rgba(249,115,22,.12));
+  border-color:rgba(96,165,250,.22);
+}
+body.dark-mode .ticket-item{
+  background:
+    linear-gradient(135deg,rgba(15,26,45,.96),rgba(15,23,42,.96)),
+    radial-gradient(120px 70px at 100% 0%,rgba(249,115,22,.10),transparent 72%);
+}
+body.dark-mode .ticket-item.active{
+  background:linear-gradient(135deg,#132443,#1E1B4B);
+}
+body.dark-mode .msg-wrap{
+  background:
+    radial-gradient(circle at 18px 18px,rgba(147,197,253,.07) 1px,transparent 1.5px),
+    linear-gradient(180deg,#0B1224,#081020);
+  background-size:22px 22px,100% 100%;
+}
+body.dark-mode .composer{
+  background:linear-gradient(180deg,rgba(15,23,42,.94),rgba(8,16,32,.96));
+}
+
+/* Stronger colored containers */
+.left-col > .card.section:first-child{
+  border-color:rgba(37,99,235,.26);
+  background:
+    linear-gradient(150deg,rgba(239,246,255,.96) 0%,rgba(255,247,237,.92) 100%),
+    radial-gradient(180px 120px at 0% 0%,rgba(37,99,235,.18),transparent 72%);
+}
+.left-col > .card.section:nth-child(2){
+  border-color:rgba(16,185,129,.24);
+  background:
+    linear-gradient(150deg,rgba(236,253,245,.95) 0%,rgba(239,246,255,.92) 100%),
+    radial-gradient(170px 110px at 100% 0%,rgba(16,185,129,.17),transparent 72%);
+}
+.left-col > .card.section:first-child::before,
+.left-col > .card.section:nth-child(2)::before,
+.chat-col::before{
+  content:'';
+  position:absolute;
+  inset:0 0 auto 0;
+  height:4px;
+  background:linear-gradient(90deg,#1A3CD8,#7C3AED,#FF6B35);
+}
+.left-col > .card.section,
+.chat-col{
+  position:relative;
+  overflow:hidden;
+}
+.chat-col{
+  border-color:rgba(124,58,237,.28);
+  background:
+    linear-gradient(150deg,rgba(245,243,255,.94) 0%,rgba(239,246,255,.94) 50%,rgba(255,247,237,.90) 100%),
+    radial-gradient(220px 130px at 100% 0%,rgba(124,58,237,.16),transparent 72%);
+}
+.chat-head{
+  background:
+    radial-gradient(180px 70px at 100% 0%,rgba(255,107,53,.14),transparent 72%),
+    linear-gradient(135deg,rgba(255,255,255,.74),rgba(239,246,255,.86));
+}
+.ticket-list{
+  padding:10px;
+  margin:0 12px 12px;
+  border-radius:16px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.18)),
+    radial-gradient(circle at 12px 12px,rgba(26,60,216,.08) 1px,transparent 1.5px);
+  background-size:100% 100%,20px 20px;
+}
+.ticket-item:nth-child(3n+1){
+  border-color:rgba(37,99,235,.24);
+  background:linear-gradient(135deg,rgba(239,246,255,.98),rgba(255,255,255,.88));
+}
+.ticket-item:nth-child(3n+2){
+  border-color:rgba(249,115,22,.24);
+  background:linear-gradient(135deg,rgba(255,247,237,.98),rgba(255,255,255,.88));
+}
+.ticket-item:nth-child(3n+3){
+  border-color:rgba(16,185,129,.22);
+  background:linear-gradient(135deg,rgba(236,253,245,.98),rgba(255,255,255,.88));
+}
+.composer{
+  background:
+    radial-gradient(180px 80px at 0% 100%,rgba(16,185,129,.10),transparent 70%),
+    linear-gradient(135deg,rgba(255,247,237,.92),rgba(239,246,255,.92));
+}
+body.dark-mode .left-col > .card.section:first-child{
+  background:
+    linear-gradient(150deg,rgba(12,35,72,.92),rgba(57,31,16,.80)),
+    radial-gradient(180px 120px at 0% 0%,rgba(37,99,235,.20),transparent 72%);
+}
+body.dark-mode .left-col > .card.section:nth-child(2){
+  background:
+    linear-gradient(150deg,rgba(6,45,35,.88),rgba(12,35,72,.82)),
+    radial-gradient(170px 110px at 100% 0%,rgba(16,185,129,.16),transparent 72%);
+}
+body.dark-mode .chat-col{
+  background:
+    linear-gradient(150deg,rgba(33,24,76,.88),rgba(12,35,72,.84),rgba(57,31,16,.70)),
+    radial-gradient(220px 130px at 100% 0%,rgba(124,58,237,.16),transparent 72%);
+}
+body.dark-mode .chat-head{
+  background:
+    radial-gradient(180px 70px at 100% 0%,rgba(249,115,22,.12),transparent 72%),
+    linear-gradient(135deg,rgba(15,23,42,.76),rgba(12,35,72,.64));
+}
+body.dark-mode .ticket-list{
+  background:
+    linear-gradient(180deg,rgba(15,23,42,.42),rgba(15,23,42,.20)),
+    radial-gradient(circle at 12px 12px,rgba(147,197,253,.08) 1px,transparent 1.5px);
+  background-size:100% 100%,20px 20px;
+}
+body.dark-mode .ticket-item:nth-child(3n+1){
+  background:linear-gradient(135deg,rgba(12,35,72,.92),rgba(15,23,42,.84));
+}
+body.dark-mode .ticket-item:nth-child(3n+2){
+  background:linear-gradient(135deg,rgba(57,31,16,.88),rgba(15,23,42,.84));
+}
+body.dark-mode .ticket-item:nth-child(3n+3){
+  background:linear-gradient(135deg,rgba(6,45,35,.88),rgba(15,23,42,.84));
+}
+.empty{padding:36px 14px;text-align:center;color:var(--ts);font-size:13px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(80px);background:#111827;color:#fff;padding:10px 16px;border-radius:999px;font-size:12px;opacity:0;transition:.25s;z-index:1200;width:max-content;max-width:min(92vw,560px);white-space:normal;text-align:center;overflow-wrap:anywhere}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes msgIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .left-col,.chat-col{min-height:auto}
+  .ticket-list{max-height:260px}
+  .msg-wrap{max-height:420px}
+  .chat-hero{padding:14px}
+  .hero-text h2{font-size:18px}
+  .bot-shell{width:90px;height:90px}
+  .bot-eye{top:27px}
+}
+@media(max-width:600px){
+  .wrap{padding:10px}
+  .header{padding:10px 12px;gap:8px}
+  .header-actions{gap:6px}
+  .header-actions .btn{padding:8px 10px;font-size:11px}
+  .chat-hero{grid-template-columns:1fr;padding:14px;text-align:center}
+  .hero-text p{max-width:34rem;margin-left:auto;margin-right:auto}
+  .bot-wrap{display:none}
+  .section{padding:12px}
+  .toolbar{align-items:stretch}
+  #ticket-filter{width:100%!important}
+  .ticket-list{margin:0 10px 10px;max-height:230px}
+  .chat-head{padding:12px;flex-direction:column;align-items:flex-start}
+  .msg-wrap{max-height:52vh;padding:10px}
+  .msg{max-width:88%}
+  .composer{padding:10px;flex-direction:column;align-items:stretch}
+  .composer .btn{width:100%;min-height:42px}
+  .quick-replies{flex-wrap:nowrap;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}
+  .quick-replies::-webkit-scrollbar{display:none}
+  .quick-chip{flex:0 0 auto}
+  .composer-meta{font-size:10px}
+}
+
+/* ExploreX page buffering and skeleton layer */
+.ex-page-buffer{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(4,82,68,.18), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(245,158,11,.16), transparent 26%),
+    linear-gradient(135deg,#f8fbf8 0%,#eef8f2 52%,#fff7ed 100%);
+  transition:opacity .38s ease, visibility .38s ease;
+}
+.ex-page-buffer.is-hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.ex-buffer-card{
+  width:min(360px,92vw);
+  border:1px solid rgba(4,82,68,.16);
+  border-radius:26px;
+  padding:22px;
+  background:rgba(255,255,255,.82);
+  box-shadow:0 24px 70px rgba(15,23,42,.18);
+  backdrop-filter:blur(18px);
+}
+.ex-buffer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#045244;
+  font-weight:900;
+  letter-spacing:.02em;
+  font-size:22px;
+}
+.ex-buffer-brand span{
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border-radius:14px;
+  color:#fff;
+  background:linear-gradient(135deg,#045244,#0f9f7a);
+  box-shadow:0 12px 26px rgba(4,82,68,.28);
+}
+.ex-buffer-text{margin:12px 0 16px;color:#475569;font-weight:700;font-size:14px;}
+.ex-buffer-bars{display:grid;gap:10px;}
+.ex-buffer-bar{
+  height:12px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e2e8f0;
+  position:relative;
+}
+.ex-buffer-bar:nth-child(2){width:82%;}
+.ex-buffer-bar:nth-child(3){width:58%;}
+.ex-buffer-bar::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);
+  animation:exBufferSweep 1.1s ease-in-out infinite;
+}
+.ex-buffer-pulse{
+  width:46px;
+  height:46px;
+  margin-left:auto;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,#045244,#f59e0b,#10b981,#045244);
+  -webkit-mask:radial-gradient(circle,transparent 54%,#000 56%);
+  mask:radial-gradient(circle,transparent 54%,#000 56%);
+  animation:exBufferSpin .85s linear infinite;
+}
+@keyframes exBufferSweep{to{transform:translateX(100%);}}
+@keyframes exBufferSpin{to{transform:rotate(360deg);}}
+body.dark-mode .ex-page-buffer,
+body.dark .ex-page-buffer,
+.dark-mode .ex-page-buffer{
+  background:
+    radial-gradient(circle at 18% 14%, rgba(16,185,129,.2), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(245,158,11,.14), transparent 26%),
+    linear-gradient(135deg,#071512 0%,#0f172a 58%,#1f2937 100%);
+}
+body.dark-mode .ex-buffer-card,
+body.dark .ex-buffer-card,
+.dark-mode .ex-buffer-card{
+  background:rgba(15,23,42,.82);
+  border-color:rgba(148,163,184,.22);
+  box-shadow:0 24px 70px rgba(0,0,0,.34);
+}
+body.dark-mode .ex-buffer-brand,
+body.dark .ex-buffer-brand,
+.dark-mode .ex-buffer-brand{color:#d1fae5;}
+body.dark-mode .ex-buffer-text,
+body.dark .ex-buffer-text,
+.dark-mode .ex-buffer-text{color:#cbd5e1;}
+body.dark-mode .ex-buffer-bar,
+body.dark .ex-buffer-bar,
+.dark-mode .ex-buffer-bar{background:#243244;}
+@media (prefers-reduced-motion:reduce){
+  .ex-buffer-bar::after,.ex-buffer-pulse{animation:none;}
+  .ex-page-buffer{transition:none;}
+}
+
+
+/* ExploreX inline data skeletons */
+.ex-inline-skeleton{display:grid;gap:10px;width:100%;}
+.ex-skeleton-card{
+  border:1px solid var(--bd,rgba(148,163,184,.28));
+  border-radius:18px;
+  padding:14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(240,253,250,.72));
+  box-shadow:0 10px 24px rgba(15,23,42,.08);
+}
+.ex-skeleton-row{display:flex;align-items:center;gap:10px;}
+.ex-skeleton-avatar,.ex-skeleton-line,.ex-skeleton-pill,.ex-skeleton-media{
+  position:relative;
+  overflow:hidden;
+  background:#e2e8f0;
+  border-radius:999px;
+}
+.ex-skeleton-avatar{width:42px;height:42px;flex:0 0 42px;border-radius:14px;}
+.ex-skeleton-media{height:126px;border-radius:16px;}
+.ex-skeleton-line{height:12px;width:100%;}
+.ex-skeleton-line.title{height:16px;width:72%;}
+.ex-skeleton-line.short{width:48%;}
+.ex-skeleton-pill{height:28px;width:96px;}
+.ex-skeleton-avatar::after,.ex-skeleton-line::after,.ex-skeleton-pill::after,.ex-skeleton-media::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.78),transparent);
+  animation:exInlineSkeletonSweep 1.15s ease-in-out infinite;
+}
+@keyframes exInlineSkeletonSweep{to{transform:translateX(100%);}}
+body.dark-mode .ex-skeleton-card,
+body.dark .ex-skeleton-card,
+.dark-mode .ex-skeleton-card{background:linear-gradient(135deg,rgba(15,23,42,.9),rgba(17,35,48,.82));border-color:#334155;box-shadow:0 12px 26px rgba(0,0,0,.22);}
+body.dark-mode .ex-skeleton-avatar,
+body.dark-mode .ex-skeleton-line,
+body.dark-mode .ex-skeleton-pill,
+body.dark-mode .ex-skeleton-media,
+body.dark .ex-skeleton-avatar,
+body.dark .ex-skeleton-line,
+body.dark .ex-skeleton-pill,
+body.dark .ex-skeleton-media,
+.dark-mode .ex-skeleton-avatar,
+.dark-mode .ex-skeleton-line,
+.dark-mode .ex-skeleton-pill,
+.dark-mode .ex-skeleton-media{background:#243244;}
+body.dark-mode .ex-skeleton-avatar::after,
+body.dark-mode .ex-skeleton-line::after,
+body.dark-mode .ex-skeleton-pill::after,
+body.dark-mode .ex-skeleton-media::after,
+body.dark .ex-skeleton-avatar::after,
+body.dark .ex-skeleton-line::after,
+body.dark .ex-skeleton-pill::after,
+body.dark .ex-skeleton-media::after,
+.dark-mode .ex-skeleton-avatar::after,
+.dark-mode .ex-skeleton-line::after,
+.dark-mode .ex-skeleton-pill::after,
+.dark-mode .ex-skeleton-media::after{background:linear-gradient(90deg,transparent,rgba(148,163,184,.18),transparent);}
+@media (prefers-reduced-motion:reduce){.ex-skeleton-avatar::after,.ex-skeleton-line::after,.ex-skeleton-pill::after,.ex-skeleton-media::after{animation:none;}}
+
+</style>
+<script src="config.js"></script>
+<link rel="stylesheet" href="explorex-shared-ui.css?v=20260623-2">
+</head>
+<body>
+
+<div class="ex-page-buffer" id="ex-page-buffer" role="status" aria-live="polite" aria-label="Loading ExploreX page">
+  <div class="ex-buffer-card">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="ex-buffer-brand"><span>EX</span> ExploreX</div>
+      <div class="ex-buffer-pulse" aria-hidden="true"></div>
+    </div>
+    <div class="ex-buffer-text">Preparing a smoother travel experience...</div>
+    <div class="ex-buffer-bars" aria-hidden="true">
+      <div class="ex-buffer-bar"></div>
+      <div class="ex-buffer-bar"></div>
+      <div class="ex-buffer-bar"></div>
+    </div>
+  </div>
+</div>
+
+  <div class="page-bg" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+  <div class="header support-shell-header">
+    <div class="brand">
+      <button type="button" class="btn btn-ghost" onclick="goSupportBack()">Back</button>
+      <div>
+        <h1>ExploreX Support</h1>
+        <div class="muted">Chat with admin for help, route issues, and bug reports</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-ghost" id="btn-theme" onclick="toggleTheme()">Dark Mode</button>
+      <button type="button" class="btn btn-primary" id="btn-refresh" onclick="refreshAll()">Refresh</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="chat-hero card">
+      <div class="hero-text">
+        <h2>Live Chat Support</h2>
+        <p>Talk to ExploreX admin for route help, travel queries, and quick issue resolution. Your chat remains private and account-specific.</p>
+      </div>
+      <div class="bot-shell" role="img" aria-label="ExploreX support assistant">
+        <div class="bot-face">
+          <span class="bot-eye left"></span>
+          <span class="bot-eye right"></span>
+          <span class="bot-mouth"></span>
+        </div>
+      </div>
+    </section>
+    <div class="layout">
+      <div class="left-col">
+        <div class="card section">
+          <div class="section-title">Create New Ticket</div>
+          <div class="form-group">
+            <label class="form-label" for="new-subject">Subject</label>
+            <input class="input" id="new-subject" type="text" maxlength="160" placeholder="Example: Route map not loading">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-message">Message</label>
+            <textarea class="textarea" id="new-message" maxlength="2000" placeholder="Describe your issue clearly so admin can help quickly"></textarea>
+            <div class="muted" id="new-message-count">0 / 2000</div>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-create" onclick="createTicket()">Create Ticket</button>
+        </div>
+
+        <div class="card section" style="flex:1;display:flex;flex-direction:column;min-height:0;">
+          <div class="toolbar" style="justify-content:space-between;margin-bottom:10px;">
+            <div class="section-title" style="margin:0;">My Tickets</div>
+            <select class="select" id="ticket-filter" style="width:140px" onchange="loadTickets()">
+              <option value="all">All</option>
+              <option value="pending">Pending</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          </div>
+          <div class="ticket-list" id="ticket-list"></div>
+          <div class="empty" id="ticket-empty" style="display:none">No support tickets yet</div>
+        </div>
+      </div>
+
+      <div class="card chat-col">
+        <div class="chat-head">
+          <div>
+            <div class="chat-title" id="chat-title">Select a ticket</div>
+            <div class="chat-sub" id="chat-sub">Open any ticket from the left panel</div>
+          </div>
+          <div class="chat-status" id="chat-status"></div>
+        </div>
+        <div class="msg-wrap" id="msg-wrap">
+          <div class="empty">No ticket selected</div>
+        </div>
+        <div class="composer">
+          <div class="composer-main">
+            <div class="quick-replies">
+              <button class="quick-chip" type="button" onclick="applyQuickReply(this)" data-msg="Hi admin, I need help with route planning.">Route Help</button>
+              <button class="quick-chip" type="button" onclick="applyQuickReply(this)" data-msg="Map is not loading on my page. Please check.">Map Issue</button>
+              <button class="quick-chip" type="button" onclick="applyQuickReply(this)" data-msg="I found a bug. Please help me resolve it.">Report Bug</button>
+              <button class="quick-chip" type="button" onclick="applyQuickReply(this)" data-msg="Thank you, issue solved from my side.">Issue Resolved</button>
+            </div>
+            <textarea class="textarea" id="reply-message" maxlength="2000" placeholder="Type your reply..."></textarea>
+            <div class="composer-meta">
+              <span class="muted" id="reply-count">0 / 2000</span>
+              <span class="muted">Enter = send, Shift+Enter = new line</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-send" onclick="sendReply()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+const token = String(localStorage.getItem('explore_token') || '').trim();
+function parseTokenUserId(t){
+  try{
+    const parts = String(t||'').split('.');
+    if(parts.length < 2) return null;
+    const raw = parts[1].replace(/-/g,'+').replace(/_/g,'/');
+    const padded = raw + '='.repeat((4 - (raw.length % 4)) % 4);
+    const payload = JSON.parse(atob(padded));
+    const id = Number(payload && payload.userId);
+    return Number.isFinite(id) && id > 0 ? id : null;
+  }catch(e){
+    return null;
+  }
+}
+const currentUserId = parseTokenUserId(token);
+const API_BASE = (() => {
+  const explicit = String(
+    window.EXPLOREX_API_BASE ||
+    localStorage.getItem('explore_api_base') ||
+    localStorage.getItem('explorex_api_base') ||
+    ''
+  ).trim().replace(/\/+$/, '');
+  if (explicit) return explicit;
+  const host = window.location.hostname || 'localhost';
+  const port = String(localStorage.getItem('explore_api_port') || '').trim() || '5000';
+  return `http://${host}:${port}`;
+})();
+
+let tickets = [];
+let selectedTicketId = null;
+let loadingMessages = false;
+
+function goSupportBack(){
+  const fallback = 'profile_2.html';
+  const safePages = new Set([
+    'index.html',
+    'profile_2.html',
+    'route-planner.html',
+    'city-services.html',
+    'kumbh-guide.html',
+    'about_1.html',
+    'privacy-policy.html',
+    'terms.html'
+  ]);
+  const params = new URLSearchParams(window.location.search || '');
+  const rawSource = String(params.get('source') || '').trim();
+  const cleanSource = rawSource.split('#')[0].split('?')[0].replace(/\\/g, '/').split('/').pop();
+  if (safePages.has(cleanSource) && cleanSource !== 'support-chat.html') {
+    window.location.href = cleanSource;
+    return;
+  }
+  window.location.href = fallback;
+}
+
+function readSupportPrefill(){
+  const params = new URLSearchParams(window.location.search || '');
+  const rawSubject = String(params.get('subject') || '').trim();
+  const rawMessage = String(params.get('message') || '').trim();
+  const source = String(params.get('source') || document.referrer || '').trim();
+  const subject = rawSubject.slice(0, 160);
+  const message = rawMessage || (
+    subject.toLowerCase().includes('bug')
+      ? `I found an issue on ExploreX.\nPage: ${source || window.location.pathname}\n\nIssue details: `
+      : ''
+  );
+  return { subject, message: message.slice(0, 2000) };
+}
+
+function applySupportPrefill(){
+  const { subject, message } = readSupportPrefill();
+  const subjectInput = document.getElementById('new-subject');
+  const messageInput = document.getElementById('new-message');
+  if (subjectInput && subject && !subjectInput.value.trim()) {
+    subjectInput.value = subject;
+  }
+  if (messageInput && message && !messageInput.value.trim()) {
+    messageInput.value = message;
+  }
+  if (subject || message) {
+    updateNewMessageCounter();
+    showToast('Support form ready. Add details and create ticket.', 2400);
+    subjectInput?.focus();
+  }
+}
+
+function showToast(message, duration=2600){
+  const t=document.getElementById('toast');
+  t.textContent=message;
+  t.classList.add('show');
+  clearTimeout(window.__supportToastTimer);
+  window.__supportToastTimer=setTimeout(()=>t.classList.remove('show'),duration);
+}
+
+function headers(json=true){
+  const h={ Accept:'application/json', Authorization:`Bearer ${token}` };
+  if(json) h['Content-Type']='application/json';
+  return h;
+}
+
+async function api(path, method='GET', body=null){
+  const res = await fetch(`${API_BASE}${path}`, {
+    method,
+    cache:'no-store',
+    headers: headers(body!=null),
+    ...(body!=null ? { body: JSON.stringify(body) } : {})
+  });
+  let payload = null;
+  try { payload = await res.json(); } catch(e){ payload = null; }
+  if(res.status===401 || res.status===403){
+    [
+      'explore_logged_in',
+      'explore_token',
+      'explore_role',
+      'explore_session',
+      'explore_uid',
+      'explore_user_id',
+      'explore_profile_owner_uid',
+      'explore_profile_owner_signature',
+      'explore_activity_owner_uid',
+      'explorex_profile_route_handoff'
+    ].forEach((key)=>localStorage.removeItem(key));
+    window.location.href='login_1.html?reason=' + encodeURIComponent('Session expired. Please login again.');
+    throw new Error('Session expired');
+  }
+  if(!res.ok || !payload || payload.success===false){
+    throw new Error(payload?.message || `Request failed (${res.status})`);
+  }
+  return payload;
+}
+
+function fmtTime(iso){
+  const d = new Date(iso || Date.now());
+  if(Number.isNaN(d.getTime())) return '';
+  return d.toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function statusBadge(status){
+  const key = String(status || 'pending').toLowerCase();
+  const cls = key === 'resolved' ? 'badge-resolved' : 'badge-pending';
+  return `<span class="badge ${cls}">${key}</span>`;
+}
+
+function supportChatSkeleton(type='ticket',count=3){
+  const card = type === 'message'
+    ? '<div class="ex-skeleton-card"><div class="ex-skeleton-row"><div class="ex-skeleton-avatar"></div><div style="flex:1;display:grid;gap:8px;"><div class="ex-skeleton-line title"></div><div class="ex-skeleton-line"></div><div class="ex-skeleton-line short"></div></div></div></div>'
+    : '<div class="ex-skeleton-card"><div class="ex-skeleton-line title"></div><div class="ex-skeleton-row" style="margin-top:12px;"><div class="ex-skeleton-pill"></div><div class="ex-skeleton-pill"></div></div><div class="ex-skeleton-line" style="margin-top:12px;"></div></div>';
+  return '<div class="ex-inline-skeleton" aria-label="Loading support chat">' + Array.from({length:count},()=>card).join('') + '</div>';
+}
+
+function renderTickets(){
+  const list = document.getElementById('ticket-list');
+  const empty = document.getElementById('ticket-empty');
+  list.innerHTML='';
+
+  if(!tickets.length){
+    empty.style.display='block';
+    return;
+  }
+  empty.style.display='none';
+
+  tickets.forEach((ticket)=>{
+    const active = Number(ticket.id) === Number(selectedTicketId);
+    const unread = Number(ticket.unreadCount || 0);
+    const node = document.createElement('button');
+    node.type='button';
+    node.className = `ticket-item${active ? ' active' : ''}`;
+    node.onclick = ()=>openTicket(ticket.id);
+    node.innerHTML = `
+      <div class="ticket-subject">${escapeHtml(ticket.subject || 'Support Ticket')}</div>
+      <div class="ticket-meta">
+        <div>${statusBadge(ticket.status)}</div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          ${unread>0?`<span class="badge badge-unread">${unread} unread</span>`:''}
+          <span class="muted">${fmtTime(ticket.updatedAt || ticket.createdAt)}</span>
+        </div>
+      </div>
+      <div class="ticket-preview">${escapeHtml(ticket.lastMessage || 'No messages yet')}</div>
+    `;
+    list.appendChild(node);
+  });
+}
+
+function escapeHtml(value){
+  return String(value || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+async function loadTickets(){
+  const filter = document.getElementById('ticket-filter').value || 'all';
+  const ticketList = document.getElementById('ticket-list');
+  const ticketEmpty = document.getElementById('ticket-empty');
+  if(ticketList) ticketList.innerHTML = supportChatSkeleton('ticket', 4);
+  if(ticketEmpty) ticketEmpty.style.display = 'none';
+  const payload = await api(`/api/support/my-tickets?status=${encodeURIComponent(filter)}&limit=80`,'GET');
+  tickets = Array.isArray(payload.data) ? payload.data : [];
+  if(selectedTicketId && !tickets.find(t=>Number(t.id)===Number(selectedTicketId))){
+    selectedTicketId = null;
+  }
+  renderTickets();
+  if(selectedTicketId){
+    await loadMessages(selectedTicketId, {silent:true});
+  } else if (tickets.length){
+    await openTicket(tickets[0].id);
+  } else {
+    renderEmptyChat();
+  }
+}
+
+function renderEmptyChat(text='No ticket selected'){
+  document.getElementById('chat-title').textContent='Select a ticket';
+  document.getElementById('chat-sub').textContent='Open any ticket from the left panel';
+  document.getElementById('chat-status').innerHTML='';
+  document.getElementById('msg-wrap').innerHTML=`<div class="empty">${escapeHtml(text)}</div>`;
+}
+
+async function openTicket(ticketId){
+  selectedTicketId = Number(ticketId);
+  renderTickets();
+  await loadMessages(ticketId);
+}
+
+async function loadMessages(ticketId, options={}){
+  if(loadingMessages) return;
+  loadingMessages = true;
+  try{
+    const wrap = document.getElementById('msg-wrap');
+    if(!options.silent){
+      wrap.innerHTML = supportChatSkeleton('message', 3);
+    }
+
+    const payload = await api(`/api/support/ticket/${encodeURIComponent(ticketId)}/messages`,'GET');
+    const ticket = payload.ticket || {};
+    const messages = Array.isArray(payload.messages) ? payload.messages : [];
+
+    document.getElementById('chat-title').textContent = ticket.subject || `Ticket #${ticketId}`;
+    document.getElementById('chat-sub').textContent = `Created: ${fmtTime(ticket.createdAt)} | Updated: ${fmtTime(ticket.updatedAt)}`;
+    document.getElementById('chat-status').innerHTML = `
+      ${statusBadge(ticket.status)}
+      ${Number(ticket.unreadCount||0)>0?`<span class="badge badge-unread">${Number(ticket.unreadCount)} unread</span>`:''}
+      <button class="btn btn-danger-soft" type="button" onclick="deleteSelectedChat()">Delete Chat</button>
+    `;
+
+    if(!messages.length){
+      wrap.innerHTML = '<div class="empty">No messages yet</div>';
+      return;
+    }
+
+    const visibleMessages = messages.filter((m)=>{
+      const kind = String(m.senderType || '').toLowerCase();
+      if(kind === 'admin') return true;
+      if(kind !== 'user') return false;
+      if(!currentUserId) return true;
+      return Number(m.senderId || 0) === Number(currentUserId);
+    });
+
+    if(!visibleMessages.length){
+      wrap.innerHTML = '<div class="empty">No visible messages for this ticket</div>';
+      return;
+    }
+
+    wrap.innerHTML = visibleMessages.map((m)=>{
+      const kind = String(m.senderType||'').toLowerCase();
+      const mine = kind==='user' && (!currentUserId || Number(m.senderId || 0)===Number(currentUserId));
+      const status = mine ? (m.isRead ? 'Read' : 'Sent') : 'Admin';
+      return `
+        <div class="msg-row ${mine?'mine':''}">
+          <div class="msg">
+            <div class="msg-text">${escapeHtml(m.message || '')}</div>
+            <div class="msg-meta">
+              <span>${fmtTime(m.createdAt)}</span>
+              <span>${status}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    wrap.scrollTop = wrap.scrollHeight;
+  }catch(err){
+    if(!options.silent){
+      renderEmptyChat(err.message || 'Unable to load messages');
+    }
+    showToast(err.message || 'Unable to load messages');
+  }finally{
+    loadingMessages = false;
+  }
+}
+
+async function createTicket(){
+  const subject = document.getElementById('new-subject').value.trim();
+  const message = document.getElementById('new-message').value.trim();
+  const btn = document.getElementById('btn-create');
+
+  if(subject.length < 3){ showToast('Enter subject (min 3 chars)'); return; }
+  if(!message){ showToast('Please write your message'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Creating...';
+  try{
+    const payload = await api('/api/support/ticket','POST',{ subject, message });
+    showToast(payload.message || 'Ticket created');
+    document.getElementById('new-subject').value='';
+    document.getElementById('new-message').value='';
+    updateNewMessageCounter();
+    await loadTickets();
+    if(payload.data && payload.data.id){
+      await openTicket(payload.data.id);
+    }
+  }catch(err){
+    showToast(err.message || 'Could not create ticket');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'Create Ticket';
+  }
+}
+
+async function sendReply(){
+  if(!selectedTicketId){ showToast('Select a ticket first'); return; }
+  const ta = document.getElementById('reply-message');
+  const msg = ta.value.trim();
+  const btn = document.getElementById('btn-send');
+  if(!msg){ showToast('Please type your reply'); return; }
+
+  btn.disabled=true;
+  btn.textContent='Sending...';
+  try{
+    await api(`/api/support/ticket/${encodeURIComponent(selectedTicketId)}/message`,'POST',{ message: msg });
+    ta.value='';
+    updateReplyCounter();
+    await loadMessages(selectedTicketId, {silent:true});
+    await loadTickets();
+  }catch(err){
+    showToast(err.message || 'Could not send message');
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Send';
+  }
+}
+
+async function deleteSelectedChat(){
+  if(!selectedTicketId){
+    showToast('Select a ticket first');
+    return;
+  }
+  const yes = window.confirm('Delete this chat ticket and all messages? This cannot be undone.');
+  if(!yes) return;
+  try{
+    await api(`/api/support/ticket/${encodeURIComponent(selectedTicketId)}`,'DELETE');
+    showToast('Chat deleted');
+    selectedTicketId = null;
+    await loadTickets();
+  }catch(err){
+    showToast(err.message || 'Could not delete chat');
+  }
+}
+
+function updateReplyCounter(){
+  const ta = document.getElementById('reply-message');
+  const counter = document.getElementById('reply-count');
+  if(!ta || !counter) return;
+  counter.textContent = `${ta.value.length} / 2000`;
+}
+
+function updateNewMessageCounter(){
+  const ta = document.getElementById('new-message');
+  const counter = document.getElementById('new-message-count');
+  if(!ta || !counter) return;
+  counter.textContent = `${ta.value.length} / 2000`;
+}
+
+function applyQuickReply(button){
+  const ta = document.getElementById('reply-message');
+  if(!ta || !button) return;
+  ta.value = String(button.dataset.msg || '').trim();
+  ta.focus();
+  updateReplyCounter();
+}
+
+function initComposerEvents(){
+  const reply = document.getElementById('reply-message');
+  const newMsg = document.getElementById('new-message');
+
+  if(reply){
+    reply.addEventListener('input', updateReplyCounter);
+    reply.addEventListener('keydown', (event)=>{
+      if(event.key === 'Enter' && !event.shiftKey){
+        event.preventDefault();
+        sendReply();
+      }
+    });
+    updateReplyCounter();
+  }
+
+  if(newMsg){
+    newMsg.addEventListener('input', updateNewMessageCounter);
+    updateNewMessageCounter();
+  }
+}
+
+async function refreshAll(){
+  const btn = document.getElementById('btn-refresh');
+  btn.disabled=true;
+  btn.textContent='Refreshing...';
+  try{
+    await loadTickets();
+    showToast('Support chat refreshed', 1500);
+  }catch(err){
+    showToast(err.message || 'Refresh failed');
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Refresh';
+  }
+}
+
+function applyTheme(mode){
+  const dark = mode === 'dark';
+  document.body.classList.toggle('dark-mode', dark);
+  const btn = document.getElementById('btn-theme');
+  if(btn) btn.textContent = dark ? 'Light Mode' : 'Dark Mode';
+}
+
+function toggleTheme(){
+  const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+  localStorage.setItem('explore_dark_mode', next === 'dark' ? '1' : '0');
+  localStorage.removeItem('explore_support_theme');
+  applyTheme(next);
+}
+
+setInterval(()=>{
+  if(document.hidden) return;
+  if(!selectedTicketId) return;
+  loadTickets().catch(()=>{});
+}, 20000);
+
+window.onload = async () => {
+  try{
+    const sharedTheme = localStorage.getItem('explore_dark_mode');
+    const legacyTheme = localStorage.getItem('explore_support_theme');
+    const dark = sharedTheme !== null ? sharedTheme === '1' : legacyTheme === 'dark';
+    localStorage.setItem('explore_dark_mode', dark ? '1' : '0');
+    localStorage.removeItem('explore_support_theme');
+    applyTheme(dark ? 'dark' : 'light');
+    initComposerEvents();
+    applySupportPrefill();
+    await loadTickets();
+  }catch(err){
+    showToast(err.message || 'Unable to load support chat');
+    renderEmptyChat('Unable to connect to support API');
+  }
+};
+</script>
+
+<footer class="explorex-compact-footer">
+  <div class="explorex-compact-footer-inner">
+    <a class="explorex-compact-brand" href="index.html?view=home">Explore<span>X</span></a>
+    <span>&copy; 2026 ExploreX. Simple travel help, routes, and local discovery.</span>
+    <div class="explorex-compact-footer-links">
+      <a href="index.html?view=home">Home</a>
+      <a href="index.html#plan-my-trip">Plan My Trip</a>
+      <a href="route-planner.html">Route Planner</a>
+      <a href="privacy-policy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ExploreX page buffer controller */
+(function(){
+  function hideExploreXBuffer(){
+    var buffer=document.getElementById('ex-page-buffer');
+    if(!buffer) return;
+    buffer.classList.add('is-hidden');
+    window.setTimeout(function(){
+      if(buffer && buffer.parentNode) buffer.parentNode.removeChild(buffer);
+    },480);
+  }
+  if(document.readyState==='complete'){
+    window.setTimeout(hideExploreXBuffer,220);
+  }else{
+    window.addEventListener('load',function(){window.setTimeout(hideExploreXBuffer,220);},{once:true});
+  }
+  window.setTimeout(hideExploreXBuffer,2200);
+})();
+</script>
+
+
+<script>
+/* ExploreX shared theme synchronization */
+(function(){
+  function syncExploreXTheme(){
+    var dark=localStorage.getItem('explore_dark_mode')==='1';
+    if(typeof window.applyDarkMode==='function'){
+      window.applyDarkMode(dark);
+    }else if(typeof window.applyTheme==='function'){
+      window.applyTheme(dark?'dark':'light');
+    }else{
+      document.body.classList.toggle('dark-mode',dark);
+    }
+  }
+  window.addEventListener('pageshow',syncExploreXTheme);
+  window.addEventListener('storage',function(event){
+    if(event.key==='explore_dark_mode') syncExploreXTheme();
+  });
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) syncExploreXTheme();
+  });
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
