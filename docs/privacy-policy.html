@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ExploreX Privacy Policy explains how ExploreX by Swapnil Rathod collects, uses, protects, and manages user data.">
+<title>Privacy Policy - ExploreX</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#5B9BFF;--pd:#3B7BFF;--acc:#FF1493;--g:#059669;
+  --bg:#F5F7FF;--card:#FFFFFF;--t:#0F172A;--tm:#475569;--ts:#94A3B8;--bd:#E2E8F0;
+  --soft:#EEF1FD;--warm:#FFF7ED;--green:#ECFDF5;--shadow:0 18px 50px rgba(15,23,42,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);line-height:1.65;min-height:100vh}
+body.dark-mode{
+  --bg:#07111F;--card:#111827;--t:#F8FAFC;--tm:#CBD5E1;--ts:#94A3B8;--bd:#24324A;
+  --soft:#172554;--warm:#2D1B0E;--green:#052E25;--shadow:0 18px 50px rgba(0,0,0,.32);
+}
+a{color:inherit}
+.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:14px 24px;background:rgba(255,255,255,.86);border-bottom:1px solid var(--bd);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.brand{font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--p);text-decoration:none}.brand span{color:var(--acc)}
+.nav-spacer{flex:1}.nav-link{border:1px solid var(--bd);background:#fff;color:var(--tm);border-radius:999px;padding:9px 14px;text-decoration:none;font-size:13px;font-weight:800;transition:.2s}
+.nav-link:hover{transform:translateY(-2px);border-color:var(--p);color:var(--p);box-shadow:0 10px 22px rgba(26,60,216,.12)}
+.hero{position:relative;overflow:hidden;padding:76px 24px 46px;background:linear-gradient(135deg,#5B9BFF 0%,#3B7BFF 48%,#EC4899 100%);color:#fff}
+.hero::before{content:'';position:absolute;inset:auto -80px -160px auto;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.12);filter:blur(2px)}
+.hero-inner{position:relative;max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr);gap:28px;align-items:end}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px}
+h1{font-family:'Outfit',sans-serif;font-size:clamp(34px,5vw,58px);line-height:1.03;letter-spacing:-.04em;margin-bottom:14px}
+.hero p{color:rgba(255,255,255,.84);max-width:680px;font-size:16px}
+.hero-card{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20);border-radius:24px;padding:20px;-webkit-backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 24px 60px rgba(0,0,0,.18)}
+.hero-card b{display:block;font-family:'Outfit',sans-serif;font-size:18px;margin-bottom:8px}.hero-card span{display:block;color:rgba(255,255,255,.8);font-size:13px}
+.wrap{max-width:1120px;margin:0 auto;padding:34px 24px 70px;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px}
+.toc{position:sticky;top:86px;align-self:start;background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+.toc-title{font-family:'Outfit',sans-serif;font-size:14px;font-weight:900;margin-bottom:10px;color:var(--t)}
+.toc a{display:block;text-decoration:none;color:var(--tm);font-size:13px;font-weight:700;padding:9px 10px;border-radius:12px;transition:.18s}
+.toc a:hover{background:var(--soft);color:var(--p);transform:translateX(3px)}
+.content{display:flex;flex-direction:column;gap:18px}.policy-card{background:var(--card);border:1px solid var(--bd);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
+.policy-card.highlight{background:linear-gradient(135deg,#FFFFFF,#F8FAFF 56%,#FFF7ED);border-color:rgba(26,60,216,.16)}
+.section-kicker{font-size:12px;font-weight:900;color:var(--p);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+h2{font-family:'Outfit',sans-serif;font-size:24px;line-height:1.2;margin-bottom:10px;color:var(--t)}
+p{color:var(--tm);font-size:15px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.mini{border:1px solid var(--bd);background:#FBFCFF;border-radius:18px;padding:15px}.mini b{display:block;color:var(--t);margin-bottom:4px}.mini span{font-size:13px;color:var(--tm)}
+ul{padding-left:20px;color:var(--tm);margin-top:10px}li{margin:7px 0}.note{margin-top:14px;border-radius:18px;padding:15px;background:var(--green);border:1px solid rgba(5,150,105,.16);color:#065F46}
+.warning{background:var(--warm);border-color:rgba(255,107,53,.22);color:#9A3412}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,var(--p),#3157F0);color:#fff;border-radius:24px;padding:24px;box-shadow:0 22px 50px rgba(26,60,216,.22)}
+.cta h2{color:#fff;margin:0}.cta p{color:rgba(255,255,255,.84);margin-top:4px}.cta-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border-radius:999px;padding:11px 16px;font-size:13px;font-weight:900;transition:.2s}
+.btn.light{background:#fff;color:var(--p)}.btn.ghost{border:1px solid rgba(255,255,255,.34);color:#fff}.btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.16)}
+.footer{padding:24px;text-align:center;color:var(--ts);font-size:13px;border-top:1px solid var(--bd);background:#fff}
+body.dark-mode .nav{background:rgba(15,23,42,.84)}
+body.dark-mode .nav-link,
+body.dark-mode .mini,
+body.dark-mode .footer{background:#0F172A}
+body.dark-mode .policy-card.highlight{background:linear-gradient(135deg,#111827,#101B33 58%,#2D1B0E)}
+body.dark-mode .note{color:#6EE7B7}
+body.dark-mode .warning{color:#FDBA74}
+@media(max-width:860px){.hero-inner,.wrap{grid-template-columns:1fr}.toc{position:static;display:grid;grid-template-columns:repeat(2,1fr);gap:4px}.toc-title{grid-column:1/-1}.grid{grid-template-columns:1fr}}
+@media(max-width:560px){.nav{padding:12px;flex-wrap:wrap}.nav-link{padding:8px 11px}.hero{padding:56px 16px 34px}.wrap{padding:24px 16px 52px}.toc{grid-template-columns:1fr}.policy-card,.cta{padding:19px;border-radius:20px}}
+
+/* ExploreX page buffering and skeleton layer */
+.ex-page-buffer{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(4,82,68,.18), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(245,158,11,.16), transparent 26%),
+    linear-gradient(135deg,#f8fbf8 0%,#eef8f2 52%,#fff7ed 100%);
+  transition:opacity .38s ease, visibility .38s ease;
+}
+.ex-page-buffer.is-hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.ex-buffer-card{
+  width:min(360px,92vw);
+  border:1px solid rgba(4,82,68,.16);
+  border-radius:26px;
+  padding:22px;
+  background:rgba(255,255,255,.82);
+  box-shadow:0 24px 70px rgba(15,23,42,.18);
+  backdrop-filter:blur(18px);
+}
+.ex-buffer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#045244;
+  font-weight:900;
+  letter-spacing:.02em;
+  font-size:22px;
+}
+.ex-buffer-brand span{
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border-radius:14px;
+  color:#fff;
+  background:linear-gradient(135deg,#045244,#0f9f7a);
+  box-shadow:0 12px 26px rgba(4,82,68,.28);
+}
+.ex-buffer-text{margin:12px 0 16px;color:#475569;font-weight:700;font-size:14px;}
+.ex-buffer-bars{display:grid;gap:10px;}
+.ex-buffer-bar{
+  height:12px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e2e8f0;
+  position:relative;
+}
+.ex-buffer-bar:nth-child(2){width:82%;}
+.ex-buffer-bar:nth-child(3){width:58%;}
+.ex-buffer-bar::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);
+  animation:exBufferSweep 1.1s ease-in-out infinite;
+}
+.ex-buffer-pulse{
+  width:46px;
+  height:46px;
+  margin-left:auto;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,#045244,#f59e0b,#10b981,#045244);
+  -webkit-mask:radial-gradient(circle,transparent 54%,#000 56%);
+  mask:radial-gradient(circle,transparent 54%,#000 56%);
+  animation:exBufferSpin .85s linear infinite;
+}
+@keyframes exBufferSweep{to{transform:translateX(100%);}}
+@keyframes exBufferSpin{to{transform:rotate(360deg);}}
+body.dark-mode .ex-page-buffer,
+body.dark .ex-page-buffer,
+.dark-mode .ex-page-buffer{
+  background:
+    radial-gradient(circle at 18% 14%, rgba(16,185,129,.2), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(245,158,11,.14), transparent 26%),
+    linear-gradient(135deg,#071512 0%,#0f172a 58%,#1f2937 100%);
+}
+body.dark-mode .ex-buffer-card,
+body.dark .ex-buffer-card,
+.dark-mode .ex-buffer-card{
+  background:rgba(15,23,42,.82);
+  border-color:rgba(148,163,184,.22);
+  box-shadow:0 24px 70px rgba(0,0,0,.34);
+}
+body.dark-mode .ex-buffer-brand,
+body.dark .ex-buffer-brand,
+.dark-mode .ex-buffer-brand{color:#d1fae5;}
+body.dark-mode .ex-buffer-text,
+body.dark .ex-buffer-text,
+.dark-mode .ex-buffer-text{color:#cbd5e1;}
+body.dark-mode .ex-buffer-bar,
+body.dark .ex-buffer-bar,
+.dark-mode .ex-buffer-bar{background:#243244;}
+@media (prefers-reduced-motion:reduce){
+  .ex-buffer-bar::after,.ex-buffer-pulse{animation:none;}
+  .ex-page-buffer{transition:none;}
+}
+
+
+/* LEGAL PAGE SOFT COLOR POLISH */
+body{
+  background:
+    radial-gradient(circle at 12% 8%,rgba(91,155,255,.14),transparent 28%),
+    radial-gradient(circle at 88% 12%,rgba(255,20,147,.10),transparent 24%),
+    radial-gradient(circle at 74% 88%,rgba(16,185,129,.10),transparent 30%),
+    var(--bg);
+}
+.nav{box-shadow:0 10px 30px rgba(15,23,42,.07);}
+.brand{background:linear-gradient(135deg,var(--p),#8B5CF6 55%,var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.brand span{color:inherit;}
+.toc,.policy-card,.hero-card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+@media (hover:hover){
+  ,.toc:hover{transform:translateY(-2px);box-shadow:0 22px 56px rgba(15,23,42,.11);}
+}
+body.dark-mode{
+  background:
+    radial-gradient(circle at 12% 8%,rgba(59,130,246,.16),transparent 28%),
+    radial-gradient(circle at 88% 12%,rgba(236,72,153,.10),transparent 24%),
+    radial-gradient(circle at 74% 88%,rgba(16,185,129,.09),transparent 30%),
+    var(--bg);
+}
+body.dark-mode .toc,
+body.dark-mode .policy-card{background:rgba(17,24,39,.92);}
+body.dark-mode .nav{box-shadow:0 12px 34px rgba(0,0,0,.28);}
+@media (prefers-reduced-motion:reduce){.toc,.policy-card,.hero-card{transition:none!important;}}</style>
+<script src="config.js"></script>
+<link rel="stylesheet" href="explorex-shared-ui.css?v=20260623-2">
+</head>
+<body>
+
+<div class="ex-page-buffer" id="ex-page-buffer" role="status" aria-live="polite" aria-label="Loading ExploreX page">
+  <div class="ex-buffer-card">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="ex-buffer-brand"><span>EX</span> ExploreX</div>
+      <div class="ex-buffer-pulse" aria-hidden="true"></div>
+    </div>
+    <div class="ex-buffer-text">Preparing a smoother travel experience...</div>
+    <div class="ex-buffer-bars" aria-hidden="true">
+      <div class="ex-buffer-bar"></div>
+      <div class="ex-buffer-bar"></div>
+      <div class="ex-buffer-bar"></div>
+    </div>
+  </div>
+</div>
+
+<script>try{if(localStorage.getItem('explore_dark_mode')==='1')document.body.classList.add('dark-mode');}catch(e){}</script>
+<nav class="nav">
+  <a class="brand" href="index.html?view=home">Explore<span>X</span></a>
+  <div class="nav-spacer"></div>
+  <a class="nav-link" href="index.html?view=home">Home</a>
+  <a class="nav-link" href="support-chat.html?subject=Privacy%20Question&amp;source=privacy-policy.html">Support</a>
+  <a class="nav-link" href="terms.html">Terms</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Privacy first travel planning</div>
+      <h1>Privacy Policy</h1>
+      <p>ExploreX by Swapnil Rathod explains what data we collect, why we use it, and how users can control their information while exploring places, routes, city services, memories, and local guides.</p>
+    </div>
+    <div class="hero-card">
+      <b>Last updated: May 18, 2026</b>
+      <span>Written in plain language so travellers can understand what happens with their data.</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <aside class="toc" aria-label="Privacy sections">
+    <div class="toc-title">On this page</div>
+    <a href="#overview">Overview</a>
+    <a href="#data">Data We Collect</a>
+    <a href="#location">Location Data</a>
+    <a href="#use">How We Use Data</a>
+    <a href="#sharing">Sharing &amp; Security</a>
+    <a href="#choices">Your Choices</a>
+    <a href="#support">Contact</a>
+  </aside>
+
+  <section class="content">
+    <article class="policy-card highlight" id="overview">
+      <div class="section-kicker">Overview</div>
+      <h2>ExploreX helps you discover and plan travel experiences.</h2>
+      <p>ExploreX is a travel discovery and route planning website for exploring places, city services, travel memories, and local guides. We collect only the information needed to run these features, improve the experience, and keep user accounts safe.</p>
+      <div class="note">We do not collect your browser location unless you allow location permission.</div>
+    </article>
+
+    <article class="policy-card" id="data">
+      <div class="section-kicker">Information</div>
+      <h2>Data We May Collect</h2>
+      <p>Depending on how you use ExploreX, we may collect or store:</p>
+      <div class="grid">
+        <div class="mini"><b>Account Details</b><span>Name, email, mobile number, login/session data, and account role.</span></div>
+        <div class="mini"><b>Profile Content</b><span>Profile photo, cover photo, username, bio, interests, and travel preferences.</span></div>
+        <div class="mini"><b>Travel Activity</b><span>Saved places, saved routes, recent routes, viewed places, and travel memories.</span></div>
+        <div class="mini"><b>Support Messages</b><span>Support tickets, chat messages, ticket status, and admin replies.</span></div>
+      </div>
+    </article>
+
+    <article class="policy-card" id="location">
+      <div class="section-kicker">Permission based</div>
+      <h2>Location Data</h2>
+      <p>We use your location only when you allow browser location permission. Location is used to show nearby places, route planning, and city-based services. We do not collect location without your permission.</p>
+      <div class="note warning">You can block or reset location permission anytime from your browser site settings.</div>
+    </article>
+
+    <article class="policy-card" id="use">
+      <div class="section-kicker">Purpose</div>
+      <h2>How We Use Your Data</h2>
+      <ul>
+        <li>To create and secure your ExploreX account.</li>
+        <li>To show personalized places, saved routes, saved places, and recent activity.</li>
+        <li>To show route planning, nearby places, and city service recommendations.</li>
+        <li>To manage public memories through admin review and approval.</li>
+        <li>To respond to support questions, bug reports, and help requests.</li>
+        <li>To improve reliability, safety, and user experience.</li>
+      </ul>
+    </article>
+
+    <article class="policy-card" id="sharing">
+      <div class="section-kicker">Safety</div>
+      <h2>Sharing, Admin Review, and Security</h2>
+      <p>Private account data is intended to stay user-scoped. Public travel memories may be visible to other users only after approval. ExploreX admin may review public content, support tickets, places, services, and website sections to keep the platform safe and updated.</p>
+      <p>We use reasonable security practices, but no website can guarantee complete security. Please keep your login details private.</p>
+    </article>
+
+    <article class="policy-card" id="choices">
+      <div class="section-kicker">Control</div>
+      <h2>Your Choices and Data Requests</h2>
+      <ul>
+        <li>You can update profile information from your profile page.</li>
+        <li>You can choose public or private privacy settings for travel memories.</li>
+        <li>You can request account or data deletion by contacting <strong>support@explorex.com</strong>, using support chat, or contacting the ExploreX admin.</li>
+      </ul>
+    </article>
+
+    <section class="cta" id="support">
+      <div>
+        <h2>Need privacy help?</h2>
+        <p>Ask a question, request data deletion, or contact the ExploreX admin.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn light" href="support-chat.html?subject=Privacy%20Question&amp;source=privacy-policy.html">Open Support Chat</a>
+        <a class="btn ghost" href="mailto:support@explorex.com">Email Support</a>
+      </div>
+    </section>
+  </section>
+</main>
+
+<footer class="footer explorex-compact-footer">
+  <div class="explorex-compact-footer-inner">
+    <a class="explorex-compact-brand" href="index.html?view=home">Explore<span>X</span></a>
+    <span>&copy; 2026 ExploreX by Swapnil Rathod.</span>
+    <div class="explorex-compact-footer-links">
+      <a href="index.html?view=home">Home</a>
+      <a href="index.html#plan-my-trip">Plan My Trip</a>
+      <a href="support-chat.html?subject=Privacy%20Question&amp;source=privacy-policy.html">Support</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ExploreX page buffer controller */
+(function(){
+  function hideExploreXBuffer(){
+    var buffer=document.getElementById('ex-page-buffer');
+    if(!buffer) return;
+    buffer.classList.add('is-hidden');
+    window.setTimeout(function(){
+      if(buffer && buffer.parentNode) buffer.parentNode.removeChild(buffer);
+    },480);
+  }
+  if(document.readyState==='complete'){
+    window.setTimeout(hideExploreXBuffer,220);
+  }else{
+    window.addEventListener('load',function(){window.setTimeout(hideExploreXBuffer,220);},{once:true});
+  }
+  window.setTimeout(hideExploreXBuffer,2200);
+})();
+</script>
+
+
+<script>
+/* ExploreX shared theme synchronization */
+(function(){
+  function syncExploreXTheme(){
+    var dark=localStorage.getItem('explore_dark_mode')==='1';
+    if(typeof window.applyDarkMode==='function'){
+      window.applyDarkMode(dark);
+    }else if(typeof window.applyTheme==='function'){
+      window.applyTheme(dark?'dark':'light');
+    }else{
+      document.body.classList.toggle('dark-mode',dark);
+    }
+  }
+  window.addEventListener('pageshow',syncExploreXTheme);
+  window.addEventListener('storage',function(event){
+    if(event.key==='explore_dark_mode') syncExploreXTheme();
+  });
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) syncExploreXTheme();
+  });
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+

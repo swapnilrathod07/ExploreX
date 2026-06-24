@@ -1,0 +1,2505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kumbh Guide - ExploreX</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&amp;family=DM+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+/* -----------------------------------
+   ROOT & DARK MODE
+----------------------------------- */
+:root{
+  --saffron:#FF6B00;--saffron-d:#D45A00;--saffron-l:#FFF0E5;
+  --p:#1A3CD8;--pd:#122BA8;--pl:#EEF1FD;
+  --g:#059669;--gl:#ECFDF5;
+  --y:#F59E0B;--yl:#FEF3C7;
+  --r:#EF4444;--rl:#FEF2F2;
+  --pur:#7C3AED;--purl:#F5F3FF;
+  --bg:#FFFDF9;--card:#fff;
+  --t:#1A0A00;--tm:#5A3A1A;--ts:#9A7A5A;
+  --bd:#EDE5D8;
+  --nav:66px;--ra:16px;--rs:10px;
+  --sh:0 4px 24px rgba(0,0,0,.08);
+  --shl:0 12px 40px rgba(0,0,0,.13);
+}
+body.dark-mode{
+  --bg:#0F0A02;--card:#1A1206;
+  --t:#FFF8EE;--tm:#D4B896;--ts:#7A6040;
+  --bd:#3A2A1A;--saffron-l:#2A1200;--pl:#1E3A5F;
+  --gl:#064E3B;--yl:#422006;--rl:#450A0A;--purl:#2E1065;
+  --sh:0 4px 24px rgba(0,0,0,.5);--shl:0 12px 40px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;transition:background .3s,color .3s;}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;}
+.hidden{display:none!important;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px;}
+
+/* -----------------------------------
+   NAV
+----------------------------------- */
+.nav{
+  position:sticky;top:0;z-index:300;min-height:var(--nav);height:auto;
+  background:var(--card);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;padding:0 24px;gap:10px;
+  transition:background .3s,border-color .3s;
+}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:#5B9BFF;cursor:pointer;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;letter-spacing:-.02em;}
+.nav-logo span{color:#FF1493;}
+.nav-links{display:flex;gap:4px;margin-left:16px;min-width:0;}
+.nav-links a{text-decoration:none;}
+.nav-link{display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:50px;font-size:13px;font-weight:500;color:var(--tm);cursor:pointer;border:none;background:transparent;transition:all .18s;white-space:nowrap;}
+.nav-link .nl-icon{font-size:16px;line-height:1;flex-shrink:0;}
+.nav-link:hover{background:var(--bg);color:var(--t);}
+.nav-link.active{background:var(--saffron-l);color:var(--saffron);font-weight:700;}
+.nav-spacer{flex:1;}
+.dm-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.dm-btn:hover{border-color:var(--saffron);}
+.nav-profile{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--pur));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;cursor:pointer;border:2px solid #fff;box-shadow:0 2px 8px rgba(255,107,0,.3);flex-shrink:0;}
+.profile-menu-wrap{position:relative;}
+#nav-login-btn{
+  margin-left:6px;padding:9px 18px;border:0;border-radius:999px;
+  background:linear-gradient(135deg,#045244,#0F766E);color:#fff;
+  font:700 13px 'DM Sans',sans-serif;line-height:1;white-space:nowrap;cursor:pointer;
+  box-shadow:0 10px 22px rgba(4,82,68,.18);
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+#nav-login-btn:hover{transform:translateY(-1px);background:linear-gradient(135deg,#0F766E,#14B8A6);box-shadow:0 14px 26px rgba(4,82,68,.24);}
+.profile-dropdown{
+  position:absolute;top:calc(100% + 10px);right:0;
+  background:var(--card);border:1px solid var(--bd);border-radius:14px;
+  box-shadow:0 12px 32px rgba(0,0,0,.18);min-width:240px;z-index:450;overflow:hidden;
+}
+.profile-dropdown::before{
+  content:'';position:absolute;top:-6px;right:12px;width:12px;height:12px;
+  background:var(--card);border-left:1px solid var(--bd);border-top:1px solid var(--bd);
+  transform:rotate(45deg);
+}
+.nav{
+  background:
+    radial-gradient(180px 90px at 16% 0,rgba(255,107,0,.14),transparent 70%),
+    linear-gradient(135deg,rgba(255,255,255,.94),rgba(255,240,229,.72));
+  -webkit-backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  box-shadow:0 12px 32px rgba(255,107,0,.10);
+  animation:kumbhNavGlow .48s ease both;
+}
+.nav-logo{animation:kumbhLogoPulse 3.8s ease-in-out infinite;}
+.nav-link{position:relative;overflow:hidden;}
+.nav-link::after{
+  content:'';position:absolute;left:12px;right:12px;bottom:5px;height:2px;border-radius:999px;
+  background:linear-gradient(90deg,var(--saffron),#F59E0B,var(--g));
+  transform:scaleX(0);transition:transform .24s ease;
+}
+.nav-link:hover{transform:translateY(-2px);}
+.nav-link:hover::after,.nav-link.active::after{transform:scaleX(1);}
+body.dark-mode .nav{
+  background:
+    radial-gradient(180px 90px at 16% 0,rgba(255,107,0,.16),transparent 70%),
+    linear-gradient(135deg,rgba(26,18,6,.95),rgba(42,18,0,.72));
+  box-shadow:0 14px 34px rgba(0,0,0,.34);
+}
+body.dark-mode .nav-link:hover{background:rgba(58,42,26,.72);}
+@keyframes kumbhNavGlow{from{opacity:0;filter:saturate(.7);transform:translateY(-12px);}to{opacity:1;filter:saturate(1);transform:translateY(0);}}
+@keyframes kumbhLogoPulse{0%,100%{filter:saturate(1);}50%{filter:saturate(1.25);}}
+.pd-header{padding:14px 16px;border-bottom:1px solid var(--bd);background:var(--bg);}
+.pd-name{font-size:14px;font-weight:700;color:var(--t);}
+.pd-email{font-size:12px;color:var(--ts);margin-top:2px;}
+.pd-item{width:100%;border:none;background:transparent;text-align:left;padding:10px 16px;font-size:14px;color:var(--tm);cursor:pointer;}
+.pd-item:hover{background:var(--bg);color:var(--t);}
+.pd-divider{height:1px;background:var(--bd);}
+.pd-item.danger{color:#EF4444;}
+
+/* -----------------------------------
+   HERO
+----------------------------------- */
+.kumbh-hero{
+  background:linear-gradient(135deg,#FF6B00 0%,#C2410C 40%,#7C3AED 80%,#1A3CD8 100%);
+  padding:52px 24px 96px;text-align:center;position:relative;overflow:hidden;
+}
+.kumbh-hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1400&q=60&fit=crop') center/cover;opacity:.15;}
+.kumbh-hero::after{content:'\1F6D5';position:absolute;right:5%;bottom:-20px;font-size:200px;color:rgba(255,255,255,.05);line-height:1;}
+.hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:50px;margin-bottom:16px;border:1px solid rgba(255,255,255,.3);}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(26px,5vw,52px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:10px;}
+.hero h1 span{color:#FCD34D;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.82);margin-bottom:28px;font-weight:300;line-height:1.6;}
+.hero-pills{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.hero-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);color:#fff;font-size:13px;font-weight:600;padding:8px 16px;border-radius:50px;border:1px solid rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.hero-pill:hover{background:rgba(255,255,255,.28);}
+
+/* -----------------------------------
+   MAIN LAYOUT
+----------------------------------- */
+.main{max-width:1160px;margin:0 auto;padding:0 24px 80px;}
+.kumbh-offline-card{
+  max-width:760px;
+  margin:-34px auto 60px;
+  padding:34px;
+  border-radius:28px;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(255,255,255,.68);
+  box-shadow:0 28px 80px rgba(17,24,39,.18);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.kumbh-offline-card::before{
+  content:'';
+  position:absolute;
+  width:220px;
+  height:220px;
+  left:-90px;
+  top:-90px;
+  border-radius:999px;
+  background:rgba(245,158,11,.18);
+}
+.kumbh-offline-icon{font-size:54px;margin-bottom:10px;position:relative;}
+.kumbh-offline-title{font-size:30px;font-weight:900;color:var(--tm);position:relative;}
+.kumbh-offline-text{margin:12px auto 0;max-width:560px;color:var(--ts);line-height:1.7;position:relative;}
+.kumbh-offline-actions{margin-top:20px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;position:relative;}
+.kumbh-offline-actions button{border:0;border-radius:999px;padding:11px 16px;font-weight:800;cursor:pointer;}
+.kumbh-offline-actions .primary{background:linear-gradient(135deg,var(--saffron),var(--orange));color:#fff;}
+.kumbh-offline-actions .ghost{background:var(--bg);border:1px solid var(--bd);color:var(--tm);}
+
+/* -----------------------------------
+   EMERGENCY BANNER (sticky)
+----------------------------------- */
+.emergency-banner{
+  background:linear-gradient(90deg,#DC2626,#B91C1C);
+  padding:12px 24px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;position:sticky;top:var(--nav);z-index:200;
+}
+.eb-left{display:flex;align-items:center;gap:10px;color:#fff;}
+.eb-ico{font-size:22px;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.eb-text{font-size:14px;font-weight:600;}
+.eb-text span{font-weight:400;font-size:12px;opacity:.85;}
+.eb-btns{display:flex;gap:8px;}
+.eb-btn{padding:7px 16px;border-radius:50px;border:1.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.15);color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;}
+.eb-btn:hover{background:rgba(255,255,255,.3);}
+.eb-btn.primary{background:#fff;color:#DC2626;}
+.eb-btn.primary:hover{background:#FEF2F2;}
+
+/* -----------------------------------
+   SECTION CARDS
+----------------------------------- */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:28px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;}
+.sec-card{background:var(--card);border:1px solid var(--bd);border-radius:var(--ra);overflow:hidden;scroll-margin-top:92px;transition:background .3s,border-color .3s;}
+.sec-head{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.sec-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--t);display:flex;align-items:center;gap:8px;}
+.sec-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:50px;}
+.badge-live{background:#FEE2E2;color:#DC2626;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.5;}}
+.sec-body{padding:16px 20px;}
+.sec-action{font-size:12px;font-weight:600;color:var(--saffron);cursor:pointer;border:none;background:transparent;}
+.sec-action:hover{text-decoration:underline;}
+.kumbh-simple-steps{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin:-50px 0 24px;
+  position:relative;
+  z-index:2;
+}
+.kumbh-simple-card{
+  border:1px solid rgba(255,255,255,.75);
+  background:rgba(255,255,255,.94);
+  border-radius:18px;
+  padding:15px;
+  box-shadow:0 14px 32px rgba(15,23,42,.10);
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:10px;
+  align-items:flex-start;
+  text-align:left;
+  cursor:pointer;
+  color:var(--t);
+}
+.kumbh-simple-card:hover{border-color:var(--saffron);box-shadow:0 18px 40px rgba(255,107,0,.16);}
+.ks-num{
+  width:34px;height:34px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--saffron-l);color:var(--saffron);font-weight:800;
+}
+.ks-title{font-size:14px;font-weight:800;color:var(--t);margin-bottom:3px;}
+.ks-text{font-size:12px;color:var(--tm);line-height:1.45;}
+body.dark-mode .kumbh-simple-card{background:#16110A;border-color:#3A2A1A;}
+.kumbh-helper-text{
+  margin-bottom:12px;
+  color:var(--tm);
+  font-size:12.5px;
+  line-height:1.55;
+}
+.kumbh-data-status{
+  margin:0 0 20px;padding:11px 14px;border:1px solid var(--bd);border-radius:12px;
+  background:var(--card);color:var(--tm);font-size:12.5px;line-height:1.5;
+  display:flex;align-items:flex-start;gap:9px;
+}
+.kumbh-data-status::before{
+  content:'';width:9px;height:9px;border-radius:50%;margin-top:5px;flex:0 0 auto;
+  background:#F59E0B;box-shadow:0 0 0 4px rgba(245,158,11,.12);
+}
+.kumbh-data-status.is-synced::before{background:#059669;box-shadow:0 0 0 4px rgba(5,150,105,.12);}
+.kumbh-data-note{margin-top:12px;font-size:12px;line-height:1.5;color:var(--ts);}
+.kumbh-action-row,.pr-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+.kumbh-soft-btn,.kumbh-primary-btn,.kumbh-mini-primary{
+  flex:1;
+  min-height:40px;
+  padding:10px 12px;
+  border-radius:var(--rs);
+  font-size:13px;
+  font-weight:700;
+  font-family:'DM Sans',sans-serif;
+  cursor:pointer;
+}
+.kumbh-soft-btn{
+  border:1.5px solid var(--bd);
+  background:var(--bg);
+  color:var(--tm);
+}
+.kumbh-primary-btn,.kumbh-mini-primary{
+  border:none;
+  background:var(--saffron);
+  color:#fff;
+}
+.kumbh-soft-btn:hover{border-color:var(--saffron);color:var(--saffron);}
+.kumbh-primary-btn:hover,.kumbh-mini-primary:hover{background:var(--saffron-d);}
+.kumbh-route-actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+.btn-route.secondary{
+  background:var(--bg);
+  color:var(--saffron);
+  border:1.5px solid var(--saffron);
+}
+.btn-route.secondary:hover{background:var(--saffron-l);}
+
+/* -----------------------------------
+   CROWD STATUS
+----------------------------------- */
+.crowd-list{display:flex;flex-direction:column;gap:10px;}
+.crowd-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--bg);transition:background .3s,border-color .3s;}
+.crowd-item:hover{background:var(--card);}
+.crowd-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.dot-low{background:#22C55E;box-shadow:0 0 8px #22C55E;}
+.dot-med{background:#F59E0B;box-shadow:0 0 8px #F59E0B;}
+.dot-high{background:#EF4444;box-shadow:0 0 8px #EF4444;}
+.crowd-name{flex:1;font-size:13px;font-weight:600;color:var(--t);}
+.crowd-label{font-size:11px;font-weight:700;padding:3px 10px;border-radius:50px;}
+.label-low{background:#DCFCE7;color:#166534;}
+.label-med{background:#FEF3C7;color:#92400E;}
+.label-high{background:#FEE2E2;color:#991B1B;}
+body.dark-mode .label-low{background:#064E3B;color:#6EE7B7;}
+body.dark-mode .label-med{background:#422006;color:#FCD34D;}
+body.dark-mode .label-high{background:#450A0A;color:#FCA5A5;}
+.crowd-bar{width:80px;height:6px;background:var(--bd);border-radius:50px;overflow:hidden;flex-shrink:0;}
+.crowd-fill{height:100%;border-radius:50px;transition:width .5s;}
+.fill-low{background:#22C55E;}
+.fill-med{background:#F59E0B;}
+.fill-high{background:#EF4444;}
+.crowd-time{font-size:11px;color:var(--ts);white-space:nowrap;}
+
+/* -----------------------------------
+   IMPORTANT DATES
+----------------------------------- */
+.dates-list{display:flex;flex-direction:column;gap:8px;}
+.date-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--bg);transition:all .2s;}
+.date-item.upcoming{border-color:var(--saffron);background:var(--saffron-l);}
+body.dark-mode .date-item.upcoming{background:#2A1200;}
+.date-item.today{border-color:var(--g);background:var(--gl);}
+body.dark-mode .date-item.today{background:#064E3B;}
+.date-box{width:44px;height:44px;border-radius:var(--rs);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;background:var(--saffron);color:#fff;}
+.date-box.past{background:var(--bd);color:var(--ts);}
+.date-box.today-box{background:var(--g);}
+.date-num{font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;line-height:1;}
+.date-mon{font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+.date-info{flex:1;}
+.date-name{font-size:13px;font-weight:700;color:var(--t);margin-bottom:2px;}
+.date-detail{font-size:11px;color:var(--ts);}
+.date-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;flex-shrink:0;}
+.tag-shahi{background:#FEF3C7;color:#92400E;}
+.tag-snan{background:var(--pl);color:var(--p);}
+.tag-mela{background:var(--purl);color:var(--pur);}
+body.dark-mode .tag-shahi{background:#422006;color:#FCD34D;}
+
+/* -----------------------------------
+   WEATHER
+----------------------------------- */
+.weather-big{text-align:center;padding:20px 0;}
+.weather-ico-big{font-size:64px;margin-bottom:8px;}
+.weather-temp{font-family:'Outfit',sans-serif;font-size:48px;font-weight:800;color:var(--saffron);line-height:1;}
+.weather-cond{font-size:16px;color:var(--tm);margin:6px 0 16px;}
+.weather-row{display:flex;gap:10px;flex-wrap:wrap;}
+.weather-stat{flex:1;min-width:80px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center;transition:background .3s;}
+.ws-ico{font-size:20px;margin-bottom:4px;}
+.ws-val{font-size:14px;font-weight:700;color:var(--t);}
+.ws-label{font-size:10px;color:var(--ts);text-transform:uppercase;letter-spacing:.04em;margin-top:2px;}
+
+/* -----------------------------------
+   SMART ROUTE SUGGESTION
+----------------------------------- */
+.route-form{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
+.rf-select{width:100%;border:1.5px solid var(--bd);border-radius:var(--rs);padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--t);background:var(--bg);outline:none;transition:border-color .2s;cursor:pointer;}
+.rf-select:focus{border-color:var(--saffron);}
+body.dark-mode .rf-select{background:#0F0A02;color:var(--t);}
+.btn-route{width:100%;padding:12px;border-radius:var(--rs);border:none;background:var(--saffron);color:#fff;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.btn-route:hover{background:var(--saffron-d);}
+.route-result{background:var(--gl);border:1px solid var(--g);border-radius:var(--rs);padding:14px;display:none;}
+body.dark-mode .route-result{background:#064E3B;border-color:#059669;}
+.route-result.show{display:block;}
+.rr-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:600;color:var(--t);}
+.rr-row:last-child{margin-bottom:0;}
+.rr-row span{font-weight:400;color:var(--tm);}
+
+/* -----------------------------------
+   FACILITIES
+----------------------------------- */
+.facility-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.facility-card{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--bg);cursor:pointer;transition:all .18s;}
+.facility-card:hover{border-color:var(--saffron);background:var(--saffron-l);}
+body.dark-mode .facility-card:hover{background:#2A1200;}
+.fc-ico{font-size:26px;flex-shrink:0;}
+.fc-name{font-size:13px;font-weight:600;color:var(--t);margin-bottom:2px;}
+.fc-dist{font-size:11px;color:var(--ts);}
+
+/* -----------------------------------
+   PLAN MY VISIT
+----------------------------------- */
+.plan-form{display:flex;flex-direction:column;gap:12px;}
+.plan-label{font-size:12px;font-weight:600;color:var(--ts);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.plan-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.plan-chip{padding:7px 14px;border-radius:50px;border:1.5px solid var(--bd);background:var(--card);font-size:12px;font-weight:600;color:var(--tm);cursor:pointer;transition:all .18s;}
+.plan-chip:hover{border-color:var(--saffron);}
+.plan-chip.active{background:var(--saffron);border-color:var(--saffron);color:#fff;}
+.btn-plan{padding:11px;border-radius:var(--rs);border:none;background:var(--saffron);color:#fff;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;width:100%;transition:background .2s;margin-top:4px;}
+.btn-plan:hover{background:var(--saffron-d);}
+.plan-result{margin-top:14px;display:none;}
+.plan-result.show{display:block;}
+.pr-card{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;}
+.pr-card:last-child{margin-bottom:0;}
+.pr-title{font-size:13px;font-weight:700;color:var(--t);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.pr-text{font-size:12px;color:var(--tm);line-height:1.5;}
+
+/* -----------------------------------
+   AI SMART SUGGESTIONS
+----------------------------------- */
+.ai-box{
+  background:linear-gradient(135deg,var(--saffron-l),var(--purl));
+  border:1.5px solid var(--saffron);border-radius:var(--ra);padding:20px;
+  margin-top:20px;
+}
+body.dark-mode .ai-box{background:linear-gradient(135deg,#2A1200,#2E1065);border-color:#C2410C;}
+.ai-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.ai-ico{font-size:28px;}
+.ai-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--t);}
+.ai-sub{font-size:12px;color:var(--ts);}
+.ai-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.ai-chip{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:50px;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;border:1px solid transparent;}
+.ai-chip-green{background:#DCFCE7;color:#166534;}
+.ai-chip-orange{background:#FEF3C7;color:#92400E;}
+.ai-chip-red{background:#FEE2E2;color:#991B1B;}
+.ai-chip-blue{background:var(--pl);color:var(--p);}
+body.dark-mode .ai-chip-green{background:#064E3B;color:#6EE7B7;}
+body.dark-mode .ai-chip-orange{background:#422006;color:#FCD34D;}
+body.dark-mode .ai-chip-red{background:#450A0A;color:#FCA5A5;}
+.ai-suggestion{background:rgba(255,255,255,.6);border-radius:var(--rs);padding:12px 14px;}
+body.dark-mode .ai-suggestion{background:rgba(0,0,0,.3);}
+.ai-suggestion p{font-size:13px;color:var(--tm);line-height:1.65;}
+.ai-suggestion strong{color:var(--t);}
+
+/* -----------------------------------
+   KUMBH MEMORIES GRID
+----------------------------------- */
+.memories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+.mem-thumb{aspect-ratio:1;border-radius:var(--rs);overflow:hidden;position:relative;cursor:pointer;background:#ddd;transition:transform .2s;}
+.mem-thumb:hover{transform:scale(.97);}
+.mem-thumb img{width:100%;height:100%;object-fit:cover;}
+.mem-thumb-overlay{position:absolute;inset:0;background:linear-gradient(0,rgba(0,0,0,.55) 0%,transparent 55%);opacity:0;transition:opacity .2s;}
+.mem-thumb:hover .mem-thumb-overlay{opacity:1;}
+.mem-thumb-label{position:absolute;bottom:6px;left:8px;right:8px;color:#fff;font-size:11px;font-weight:600;opacity:0;transition:opacity .2s;}
+.mem-thumb:hover .mem-thumb-label{opacity:1;}
+.mem-user{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.5);color:#fff;font-size:10px;font-weight:600;padding:2px 7px;border-radius:50px;}
+
+/* -----------------------------------
+   EMERGENCY MODAL
+----------------------------------- */
+.modal-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.6);-webkit-backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:20px;}
+.sos-modal{background:var(--card);border-radius:20px;max-width:420px;width:100%;overflow:hidden;animation:popIn .25s ease;}
+@keyframes popIn{from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
+.sos-head{background:linear-gradient(90deg,#DC2626,#B91C1C);padding:20px 24px;display:flex;align-items:center;gap:12px;}
+.sos-head-ico{font-size:32px;}
+.sos-head-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:#fff;}
+.sos-head-sub{font-size:13px;color:rgba(255,255,255,.8);margin-top:2px;}
+.sos-close{margin-left:auto;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);border:none;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.sos-body{padding:20px 24px;}
+.sos-contact{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--bg);margin-bottom:10px;cursor:pointer;transition:all .18s;}
+.sos-contact:last-child{margin-bottom:0;}
+.sos-contact:hover{border-color:#DC2626;background:#FEF2F2;}
+body.dark-mode .sos-contact:hover{background:#450A0A;}
+.sc-ico{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.sc-ico-police{background:#DBEAFE;}
+.sc-ico-med{background:#DCFCE7;}
+.sc-ico-help{background:#FEF3C7;}
+.sc-info{flex:1;}
+.sc-name{font-size:14px;font-weight:700;color:var(--t);margin-bottom:2px;}
+.sc-num{font-size:18px;font-weight:800;color:#DC2626;font-family:'Outfit',sans-serif;}
+.sc-detail{font-size:11px;color:var(--ts);}
+.sc-call{background:#DC2626;color:#fff;border:none;padding:8px 16px;border-radius:50px;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;}
+
+/* -----------------------------------
+   LIVE TICKER
+----------------------------------- */
+.ticker-wrap{background:var(--saffron);padding:8px 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-flex;animation:ticker 30s linear infinite;}
+.ticker-inner:hover{animation-play-state:paused;}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;padding:0 32px;font-size:13px;font-weight:600;color:#fff;}
+.ticker-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);flex-shrink:0;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* -----------------------------------
+   FOOTER
+----------------------------------- */
+body.dark-mode 
+/* -----------------------------------
+   TOAST & FAB
+----------------------------------- */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1A0A00;color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:500;z-index:900;transition:transform .3s,opacity .3s;opacity:0;box-shadow:0 8px 32px rgba(0,0,0,.3);width:max-content;max-width:min(92vw,560px);white-space:normal;text-align:center;overflow-wrap:anywhere;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.dm-fab{position:fixed;bottom:28px;right:28px;z-index:500;width:48px;height:48px;border-radius:50%;background:var(--card);border:2px solid var(--bd);box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:transform .2s;}
+.dm-fab:hover{transform:scale(1.1);}
+
+/* -----------------------------------
+   RESPONSIVE
+----------------------------------- */
+@media(max-width:860px){
+  .nav{padding:0 14px;gap:8px;}
+  .nav-links{margin-left:8px;gap:2px;}
+  .nav-link{padding:8px 10px;}
+  .grid-2{grid-template-columns:1fr;}
+  .grid-3{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .nav{
+    min-height:66px;
+    flex-wrap:wrap;
+    align-content:center;
+    padding:8px 12px 7px;
+    gap:8px;
+  }
+  .nav-logo{order:1;font-size:22px;min-width:max-content;}
+  .nav-spacer{order:2;flex:1 1 auto;min-width:8px;}
+  .dm-btn{order:3;width:36px;height:36px;}
+  .profile-menu-wrap{order:4;margin-left:0;}
+  .nav-profile{width:36px;height:36px;}
+  .nav-links{
+    order:10;width:100%;margin-left:0;display:flex;gap:7px;
+    overflow-x:auto;padding:3px 0 1px;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-link{
+    flex:0 0 auto;min-width:44px;justify-content:center;
+    padding:8px 11px;font-size:12px;background:var(--bg);
+  }
+  .kumbh-hero{padding:36px 16px 72px;}
+  .grid-3{grid-template-columns:1fr;}
+  .kumbh-simple-steps{grid-template-columns:1fr;margin:-42px 0 18px;}
+  .main{padding:0 16px 60px;}
+  .nav-links .nav-link span:not(.nl-icon){display:none;}
+  .emergency-banner{flex-direction:column;align-items:flex-start;}
+  .facility-grid{grid-template-columns:1fr;}
+  .memories-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:380px){
+  .nav{padding-left:10px;padding-right:10px;}
+  .nav-logo{font-size:18px;}
+  .dm-btn,.nav-profile{width:34px;height:34px;}
+}
+
+/* --- EXPLOREX FOOTER --- */
+.btt-btn{position:fixed;bottom:88px;right:28px;z-index:400;width:44px;height:44px;border-radius:50%;background:var(--p,var(--primary,#1A3CD8));color:#fff;border:none;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;box-shadow:0 4px 16px rgba(26,60,216,.35);opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;}
+.btt-btn.show{opacity:1;pointer-events:all;}
+.btt-btn:hover{transform:translateY(-3px);}
+footer.xfooter::before{content:'X';position:absolute;right:-40px;top:-40px;font-family:'Outfit',sans-serif;font-size:320px;font-weight:900;color:rgba(255,255,255,.025);line-height:1;pointer-events:none;user-select:none;}
+.xfooter-wave{width:100%;height:48px;background:var(--bg,#F5F7FF);clip-path:ellipse(55% 100% at 50% 0%);display:block;}
+body.dark-mode .xfooter-wave{background:var(--bg,#0F172A);}
+.xfooter-inner{max-width:1160px;margin:0 auto;padding:40px 32px 36px;}
+.xfooter-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08);}
+.xf-logo{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:12px;display:inline-flex;align-items:center;gap:2px;}
+.xf-logo .xl-x{color:#FF6B35;}.xf-logo .xl-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#1A3CD8,#FF6B35);margin-left:3px;margin-bottom:14px;flex-shrink:0;}
+.xf-desc{font-size:14px;line-height:1.75;color:rgba(255,255,255,.52);max-width:270px;margin-bottom:22px;}
+.xf-contact-row{display:flex;flex-direction:column;gap:8px;}
+.xf-contact-item{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.48);transition:color .2s;}
+.xf-contact-item:hover{color:rgba(255,255,255,.88);}
+.xf-contact-item a{color:inherit;text-decoration:none;}
+.xf-contact-item a:hover{color:#FF6B35;}
+.xf-col-title{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.xf-col-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
+.xf-links{display:flex;flex-direction:column;gap:9px;}
+.xf-link{font-size:13px;color:rgba(255,255,255,.52);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px;background:none;border:none;text-align:left;font-family:'DM Sans',sans-serif;padding:0;text-decoration:none;}
+.xf-link:hover{color:#fff;padding-left:5px;}
+.xf-link .lk-ico{font-size:13px;opacity:.55;transition:opacity .2s;}
+.xf-link:hover .lk-ico{opacity:1;}
+.xf-link-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:50px;background:rgba(26,60,216,.4);color:#93C5FD;text-transform:uppercase;letter-spacing:.06em;}
+.xf-social-section{padding:22px 0;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.xf-social-text{font-size:13px;color:rgba(255,255,255,.5);}
+.xf-social-text strong{color:rgba(255,255,255,.8);}
+.xf-socials{display:flex;gap:8px;}
+.xf-social-btn{width:40px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .22s;text-decoration:none;position:relative;overflow:hidden;}
+.xf-social-btn::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .22s;}
+.xf-social-btn:hover{border-color:transparent;transform:translateY(-2px);}
+.xf-social-btn:hover::before{opacity:1;}
+.xf-social-btn.instagram::before{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);}
+.xf-social-btn.twitter::before{background:#1a1a2e;}
+.xf-social-btn.linkedin::before{background:#0077B5;}
+.xf-social-btn svg{width:17px;height:17px;fill:#fff;position:relative;z-index:1;transition:transform .2s;}
+.xf-social-btn:hover svg{transform:scale(1.15);}
+.xf-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:20px;flex-wrap:wrap;gap:12px;}
+.xf-copy{font-size:12px;color:rgba(255,255,255,.32);}
+.xf-copy strong{color:rgba(255,255,255,.55);}
+.xf-copy a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;}
+.xf-copy a:hover{color:#FF6B35;}
+.xf-legal{display:flex;gap:16px;}
+.xf-legal-link{font-size:12px;color:rgba(255,255,255,.32);cursor:pointer;transition:color .2s;background:none;border:none;font-family:'DM Sans',sans-serif;padding:0;}
+.xf-legal-link:hover{color:rgba(255,255,255,.75);}
+.xf-status{display:flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,.35);}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0;box-shadow:0 0 5px #22C55E;animation:statusPulse 2s infinite;}
+@keyframes statusPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.xf-made{font-size:12px;color:rgba(255,255,255,.25);display:flex;align-items:center;gap:4px;}
+.heart{color:#EF4444;animation:hb 1.4s ease infinite;}
+@keyframes hb{0%,100%{transform:scale(1);}14%{transform:scale(1.2);}28%{transform:scale(1);}42%{transform:scale(1.15);}70%{transform:scale(1);}}
+@media(max-width:900px){.xfooter-grid{grid-template-columns:1fr 1fr;gap:32px;}.xf-brand{grid-column:1/-1;}}
+@media(max-width:540px){.xfooter-inner{padding:36px 20px 28px;}.xfooter-grid{grid-template-columns:1fr;gap:24px;}.xf-brand{grid-column:auto;}.xf-bottom{flex-direction:column;align-items:flex-start;}.xf-social-section{flex-direction:column;align-items:flex-start;}}
+
+
+/* FOOTER THEME OVERRIDES (LIGHT / DARK) */
+footer.xfooter{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#FFFFFF 0%,#F7FAFF 55%,#ECF3FF 100%);
+  border-top:1px solid #DCE7FF;
+}
+
+.xfooter .xfooter-grid{border-bottom:1px solid rgba(15,23,42,.10);}
+.xfooter .xf-logo{color:#0F172A;}
+.xfooter .xf-desc{color:#64748B;}
+.xfooter .xf-contact-item{color:#64748B;}
+.xfooter .xf-contact-item:hover{color:#1E293B;}
+.xfooter .xf-col-title{color:#1E293B;}
+.xfooter .xf-col-title::after{background:rgba(15,23,42,.10);}
+.xfooter .xf-link{color:#475569;}
+.xfooter .xf-link:hover{color:#0F172A;}
+.xfooter .xf-social-section{border-bottom:1px solid rgba(15,23,42,.10);}
+.xfooter .xf-social-text{color:#64748B;}
+.xfooter .xf-social-text strong{color:#1E293B;}
+.xfooter .xf-social-btn{border:1px solid transparent;background:#1E293B;box-shadow:0 10px 24px rgba(15,23,42,.12);}.xfooter .xf-social-btn.instagram{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);}.xfooter .xf-social-btn.twitter{background:linear-gradient(135deg,#111827,#0F172A);}.xfooter .xf-social-btn.linkedin{background:linear-gradient(135deg,#0284C7,#0077B5);}.xfooter .xf-social-btn svg{fill:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,.24));}
+.xfooter .xf-copy{color:#64748B;}
+.xfooter .xf-copy strong{color:#334155;}
+.xfooter .xf-copy a{color:#475569;}
+.xfooter .xf-legal-link{color:#64748B;}
+.xfooter .xf-legal-link:hover{color:#334155;}
+.xfooter .xf-status{color:#64748B;}
+.xfooter .xf-made{color:#64748B;}
+
+body.dark-mode footer.xfooter{
+  background:linear-gradient(135deg,#0B1220 0%,#12243F 55%,#1E293B 100%);
+  border-top:1px solid rgba(255,255,255,.12);
+}
+
+body.dark-mode .xfooter .xfooter-grid{border-bottom:1px solid rgba(255,255,255,.08);}
+body.dark-mode .xfooter .xf-logo{color:#FFFFFF;}
+body.dark-mode .xfooter .xf-desc{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-contact-item{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-contact-item:hover{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-col-title{color:#FFFFFF;}
+body.dark-mode .xfooter .xf-col-title::after{background:rgba(255,255,255,.08);}
+body.dark-mode .xfooter .xf-link{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-link:hover{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-social-section{border-bottom:1px solid rgba(255,255,255,.08);}
+body.dark-mode .xfooter .xf-social-text{color:rgba(255,255,255,.70);}
+body.dark-mode .xfooter .xf-social-text strong{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-social-btn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);}
+body.dark-mode .xfooter .xf-copy{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-copy strong{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-copy a{color:rgba(255,255,255,.80);}
+body.dark-mode .xfooter .xf-legal-link{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-legal-link:hover{color:rgba(255,255,255,.95);}
+body.dark-mode .xfooter .xf-status{color:rgba(255,255,255,.75);}
+body.dark-mode .xfooter .xf-made{color:rgba(255,255,255,.70);}
+
+/* ExploreX stable header override: keeps nav position consistent across pages. */
+@media (min-width:641px){
+  .nav{height:66px!important;min-height:66px!important;animation:none!important;transform:none!important;}
+}
+.nav-logo,.nav-link,.nav-profile,.dm-btn{animation:none!important;}
+.nav-link,.nav-link:hover{transform:none!important;}
+.nav-link.active{font-weight:650!important;}
+
+
+/* ExploreX unified home-style social buttons */
+.xfooter .xf-socials{
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+}
+.xfooter .xf-social-btn{
+  width:40px;height:40px;border-radius:10px;
+  border:1px solid rgba(15,23,42,.14)!important;
+  background:rgba(255,255,255,.80)!important;
+  box-shadow:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;text-decoration:none;position:relative;overflow:hidden;isolation:isolate;
+  transition:all .3s cubic-bezier(.34,.1,.68,1)!important;
+}
+.xfooter .xf-social-btn.instagram,
+.xfooter .xf-social-btn.twitter,
+.xfooter .xf-social-btn.linkedin{
+  background:rgba(255,255,255,.80)!important;
+}
+.xfooter .xf-social-btn::before{
+  content:'';position:absolute;inset:0;opacity:0;z-index:0;
+  transition:opacity .3s cubic-bezier(.34,.1,.68,1);
+}
+.xfooter .xf-social-btn.instagram::before{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);}
+.xfooter .xf-social-btn.twitter::before{background:#1a1a2e;}
+.xfooter .xf-social-btn.linkedin::before{background:#0077B5;}
+.xfooter .xf-social-btn:hover{
+  border-color:transparent!important;
+  transform:translateY(-4px) scale(1.1)!important;
+  box-shadow:0 12px 28px rgba(15,23,42,.16);
+}
+.xfooter .xf-social-btn:hover::before{opacity:1;}
+.xfooter .xf-social-btn svg{
+  width:17px;height:17px;fill:#0F172A!important;position:relative;z-index:1;
+  transition:transform .3s cubic-bezier(.34,.1,.68,1),fill .2s!important;
+  filter:none!important;
+}
+.xfooter .xf-social-btn:hover svg{
+  transform:scale(1.2) rotate(8deg)!important;
+  fill:#fff!important;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.24))!important;
+}
+body.dark-mode .xfooter .xf-social-btn,
+body.dark-mode .xfooter .xf-social-btn.instagram,
+body.dark-mode .xfooter .xf-social-btn.twitter,
+body.dark-mode .xfooter .xf-social-btn.linkedin{
+  border:1px solid rgba(255,255,255,.1)!important;
+  background:rgba(255,255,255,.06)!important;
+  box-shadow:none;
+}
+body.dark-mode .xfooter .xf-social-btn svg{
+  fill:#fff!important;
+  filter:none!important;
+}
+body.dark-mode .xfooter .xf-social-btn:hover svg{
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.28))!important;
+}
+
+
+/* ExploreX home-style header alignment */
+.nav{
+  position:sticky;top:0;z-index:300;
+  height:var(--nav-h,64px);
+  background:rgba(255,255,255,.92)!important;
+  border-bottom:1px solid rgba(4,82,68,.10)!important;
+  box-shadow:0 10px 30px rgba(15,23,42,.08)!important;
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  display:flex;align-items:center;
+  padding:0 26px!important;gap:12px!important;
+  animation:none!important;
+}
+.nav-logo{
+  font-family:'Outfit',sans-serif!important;
+  font-size:21px!important;font-weight:800!important;
+  color:#045244!important;letter-spacing:-.02em;text-decoration:none!important;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:transform .22s ease,color .22s ease!important;
+}
+.nav-logo span{color:#F97316!important;transition:color .22s ease!important;}
+.nav-logo:hover{transform:translateY(-1px);color:#0F766E!important;}
+.nav-logo:hover span{color:#EA580C!important;}
+.nav-links{display:flex;gap:4px;margin-left:18px!important;min-width:0;align-items:center;}
+.nav-link{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:6px;
+  padding:9px 12px!important;border-radius:999px!important;
+  font-size:13.5px!important;font-weight:650!important;color:#334155!important;
+  cursor:pointer;border:1px solid transparent!important;background:transparent!important;text-decoration:none!important;
+  transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease!important;
+  animation:none!important;
+}
+.nav-link::after{
+  content:'';position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:999px;
+  background:#F97316;transform:scaleX(0);transform-origin:center;transition:transform .22s ease;
+}
+.nav-link:hover{background:rgba(4,82,68,.07)!important;border-color:rgba(4,82,68,.10)!important;color:#045244!important;transform:translateY(-1px)!important;}
+.nav-link:hover::after,.nav-link.active::after{transform:scaleX(1);}
+.nav-link.active{background:#ECFDF5!important;color:#045244!important;border-color:rgba(4,82,68,.12)!important;box-shadow:none!important;font-weight:650!important;}
+.nav-link .nl-icon{display:inline-block;font-size:15px;transition:transform .22s cubic-bezier(.34,.1,.68,1)!important;}
+.nav-link:hover .nl-icon{transform:translateY(-1px) scale(1.08);}
+.nav-spacer{flex:1 1 auto;min-width:12px;}
+#lang-selector-slot{display:none!important;}
+.profile-menu-wrap{position:relative!important;margin-left:0!important;flex:0 0 auto;z-index:320;}
+.nav-profile{
+  width:38px!important;height:38px!important;border-radius:50%!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  background:linear-gradient(135deg,#045244,#0F766E)!important;color:#fff!important;
+  font-weight:800!important;border:2px solid rgba(255,255,255,.85)!important;
+  box-shadow:0 8px 22px rgba(4,82,68,.22)!important;cursor:pointer;animation:none!important;
+}
+.profile-dropdown{right:0!important;left:auto!important;}
+body.dark-mode .nav{
+  background:rgba(15,23,42,.94)!important;
+  border-bottom-color:rgba(94,234,212,.16)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.30)!important;
+}
+body.dark-mode .nav-logo{color:#CCFBF1!important;}
+body.dark-mode .nav-link{color:#CBD5E1!important;}
+body.dark-mode .nav-link:hover{background:rgba(94,234,212,.08)!important;border-color:rgba(94,234,212,.14)!important;color:#CCFBF1!important;}
+body.dark-mode .nav-link.active{background:rgba(94,234,212,.13)!important;color:#CCFBF1!important;border-color:rgba(94,234,212,.18)!important;}
+body.dark-mode .nav-profile{background:linear-gradient(135deg,#0F766E,#14B8A6)!important;border-color:rgba(255,255,255,.18)!important;box-shadow:none!important;}
+@media(max-width:900px){
+  .nav-links .nav-link span:not(.nl-icon){display:inline!important;}
+  .nav-links{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-link{white-space:nowrap;}
+}
+@media(max-width:640px){
+  :root{--nav-h:112px;}
+  .nav{
+    height:auto!important;min-height:var(--nav-h)!important;flex-wrap:wrap;align-content:center;
+    padding:9px 12px 10px!important;row-gap:7px!important;
+  }
+  .nav::after{
+    content:'';display:none!important;order:9;margin-left:auto;padding:4px 9px;border-radius:999px;
+    font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    color:#0F766E;background:rgba(4,82,68,.08);border:1px solid rgba(4,82,68,.10);
+  }
+  .nav-logo{order:1;font-size:20px!important;min-width:max-content;}
+  .nav-spacer{display:none!important;}
+  .profile-menu-wrap{order:2;margin-left:auto!important;}
+  .nav-profile{width:36px!important;height:36px!important;}
+  .nav-links{
+    order:10;width:100%;margin-left:0!important;display:flex;gap:7px;
+    padding:4px 22px 4px 1px;scroll-snap-type:x mandatory;
+    -webkit-mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 26px),transparent 100%);
+    mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 26px),transparent 100%);
+  }
+  .nav-link{
+    flex:0 0 auto;min-height:38px;min-width:auto;justify-content:center;
+    padding:8px 11px!important;gap:5px;border-radius:14px!important;font-size:11.5px!important;font-weight:800!important;
+    background:linear-gradient(135deg,rgba(236,253,245,.96),rgba(240,253,250,.86))!important;
+    border:1px solid rgba(4,82,68,.12)!important;color:#045244!important;
+    box-shadow:0 8px 18px rgba(15,23,42,.06);scroll-snap-align:start;
+  }
+  .nav-link::after{display:none;}
+  .nav-link.active{color:#fff!important;background:linear-gradient(135deg,#045244,#0F766E)!important;border-color:transparent!important;box-shadow:0 10px 22px rgba(4,82,68,.22)!important;}
+  body.dark-mode .nav::after{color:#CCFBF1;background:rgba(94,234,212,.08);border-color:rgba(94,234,212,.14);}
+  body.dark-mode .nav-link{background:linear-gradient(135deg,rgba(20,83,45,.28),rgba(15,23,42,.76))!important;border-color:rgba(94,234,212,.14)!important;color:#CCFBF1!important;box-shadow:none;}
+  body.dark-mode .nav-link.active{background:linear-gradient(135deg,#0F766E,#14B8A6)!important;color:#fff!important;}
+}
+
+
+/* ExploreX mobile profile top-right fix */
+@media(max-width:700px){
+  .nav::after{content:''!important;display:none!important;}
+  .nav{
+    justify-content:flex-start!important;
+    align-items:center!important;
+  }
+  .profile-menu-wrap{
+    order:2!important;
+    margin-left:auto!important;
+    margin-right:0!important;
+    align-self:center!important;
+  }
+  .profile-menu-wrap.hidden{display:none!important;}
+  .profile-menu-wrap:not(.hidden){display:block!important;}
+  #nav-login-btn.hidden{display:none!important;}
+  #nav-login-btn:not(.hidden){
+    order:2!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    margin-left:auto!important;
+    margin-right:0!important;
+    min-width:68px!important;
+    height:36px!important;
+    min-height:36px!important;
+    padding:0 14px!important;
+    font-size:12px!important;
+    line-height:1!important;
+    align-self:center!important;
+  }
+  .nav-profile{
+    margin-left:auto!important;
+    margin-right:0!important;
+  }
+  .profile-dropdown{
+    right:0!important;
+    left:auto!important;
+  }
+  .nav-links{
+    order:10!important;
+    flex:0 0 100%!important;
+    width:100%!important;
+    margin-left:0!important;
+  }
+  .dm-fab{right:16px!important;bottom:16px!important;width:44px!important;height:44px!important;}
+  .btt-btn{right:16px!important;bottom:72px!important;width:42px!important;height:42px!important;}
+}
+
+/* ExploreX page buffering and skeleton layer */
+.ex-page-buffer{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(4,82,68,.18), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(245,158,11,.16), transparent 26%),
+    linear-gradient(135deg,#f8fbf8 0%,#eef8f2 52%,#fff7ed 100%);
+  transition:opacity .38s ease, visibility .38s ease;
+}
+.ex-page-buffer.is-hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.ex-buffer-card{
+  width:min(360px,92vw);
+  border:1px solid rgba(4,82,68,.16);
+  border-radius:26px;
+  padding:22px;
+  background:rgba(255,255,255,.82);
+  box-shadow:0 24px 70px rgba(15,23,42,.18);
+  backdrop-filter:blur(18px);
+}
+.ex-buffer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#045244;
+  font-weight:900;
+  letter-spacing:.02em;
+  font-size:22px;
+}
+.ex-buffer-brand span{
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border-radius:14px;
+  color:#fff;
+  background:linear-gradient(135deg,#045244,#0f9f7a);
+  box-shadow:0 12px 26px rgba(4,82,68,.28);
+}
+.ex-buffer-text{margin:12px 0 16px;color:#475569;font-weight:700;font-size:14px;}
+.ex-buffer-bars{display:grid;gap:10px;}
+.ex-buffer-bar{
+  height:12px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e2e8f0;
+  position:relative;
+}
+.ex-buffer-bar:nth-child(2){width:82%;}
+.ex-buffer-bar:nth-child(3){width:58%;}
+.ex-buffer-bar::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);
+  animation:exBufferSweep 1.1s ease-in-out infinite;
+}
+.ex-buffer-pulse{
+  width:46px;
+  height:46px;
+  margin-left:auto;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,#045244,#f59e0b,#10b981,#045244);
+  -webkit-mask:radial-gradient(circle,transparent 54%,#000 56%);
+  mask:radial-gradient(circle,transparent 54%,#000 56%);
+  animation:exBufferSpin .85s linear infinite;
+}
+@keyframes exBufferSweep{to{transform:translateX(100%);}}
+@keyframes exBufferSpin{to{transform:rotate(360deg);}}
+body.dark-mode .ex-page-buffer,
+body.dark .ex-page-buffer,
+.dark-mode .ex-page-buffer{
+  background:
+    radial-gradient(circle at 18% 14%, rgba(16,185,129,.2), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(245,158,11,.14), transparent 26%),
+    linear-gradient(135deg,#071512 0%,#0f172a 58%,#1f2937 100%);
+}
+body.dark-mode .ex-buffer-card,
+body.dark .ex-buffer-card,
+.dark-mode .ex-buffer-card{
+  background:rgba(15,23,42,.82);
+  border-color:rgba(148,163,184,.22);
+  box-shadow:0 24px 70px rgba(0,0,0,.34);
+}
+body.dark-mode .ex-buffer-brand,
+body.dark .ex-buffer-brand,
+.dark-mode .ex-buffer-brand{color:#d1fae5;}
+body.dark-mode .ex-buffer-text,
+body.dark .ex-buffer-text,
+.dark-mode .ex-buffer-text{color:#cbd5e1;}
+body.dark-mode .ex-buffer-bar,
+body.dark .ex-buffer-bar,
+.dark-mode .ex-buffer-bar{background:#243244;}
+@media (prefers-reduced-motion:reduce){
+  .ex-buffer-bar::after,.ex-buffer-pulse{animation:none;}
+  .ex-page-buffer{transition:none;}
+}
+
+
+/* ExploreX inline data skeletons */
+.ex-inline-skeleton{display:grid;gap:10px;width:100%;}
+.ex-skeleton-card{
+  border:1px solid var(--bd,rgba(148,163,184,.28));
+  border-radius:18px;
+  padding:14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(240,253,250,.72));
+  box-shadow:0 10px 24px rgba(15,23,42,.08);
+}
+.ex-skeleton-row{display:flex;align-items:center;gap:10px;}
+.ex-skeleton-avatar,.ex-skeleton-line,.ex-skeleton-pill,.ex-skeleton-media{
+  position:relative;
+  overflow:hidden;
+  background:#e2e8f0;
+  border-radius:999px;
+}
+.ex-skeleton-avatar{width:42px;height:42px;flex:0 0 42px;border-radius:14px;}
+.ex-skeleton-media{height:126px;border-radius:16px;}
+.ex-skeleton-line{height:12px;width:100%;}
+.ex-skeleton-line.title{height:16px;width:72%;}
+.ex-skeleton-line.short{width:48%;}
+.ex-skeleton-pill{height:28px;width:96px;}
+.ex-skeleton-avatar::after,.ex-skeleton-line::after,.ex-skeleton-pill::after,.ex-skeleton-media::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.78),transparent);
+  animation:exInlineSkeletonSweep 1.15s ease-in-out infinite;
+}
+@keyframes exInlineSkeletonSweep{to{transform:translateX(100%);}}
+body.dark-mode .ex-skeleton-card,
+body.dark .ex-skeleton-card,
+.dark-mode .ex-skeleton-card{background:linear-gradient(135deg,rgba(15,23,42,.9),rgba(17,35,48,.82));border-color:#334155;box-shadow:0 12px 26px rgba(0,0,0,.22);}
+body.dark-mode .ex-skeleton-avatar,
+body.dark-mode .ex-skeleton-line,
+body.dark-mode .ex-skeleton-pill,
+body.dark-mode .ex-skeleton-media,
+body.dark .ex-skeleton-avatar,
+body.dark .ex-skeleton-line,
+body.dark .ex-skeleton-pill,
+body.dark .ex-skeleton-media,
+.dark-mode .ex-skeleton-avatar,
+.dark-mode .ex-skeleton-line,
+.dark-mode .ex-skeleton-pill,
+.dark-mode .ex-skeleton-media{background:#243244;}
+body.dark-mode .ex-skeleton-avatar::after,
+body.dark-mode .ex-skeleton-line::after,
+body.dark-mode .ex-skeleton-pill::after,
+body.dark-mode .ex-skeleton-media::after,
+body.dark .ex-skeleton-avatar::after,
+body.dark .ex-skeleton-line::after,
+body.dark .ex-skeleton-pill::after,
+body.dark .ex-skeleton-media::after,
+.dark-mode .ex-skeleton-avatar::after,
+.dark-mode .ex-skeleton-line::after,
+.dark-mode .ex-skeleton-pill::after,
+.dark-mode .ex-skeleton-media::after{background:linear-gradient(90deg,transparent,rgba(148,163,184,.18),transparent);}
+@media (prefers-reduced-motion:reduce){.ex-skeleton-avatar::after,.ex-skeleton-line::after,.ex-skeleton-pill::after,.ex-skeleton-media::after{animation:none;}}
+
+</style>
+<script src="lang.js"></script>
+<script src="config.js"></script>
+<link rel="stylesheet" href="explorex-shared-ui.css?v=20260623-2">
+</head>
+<body>
+
+<div class="ex-page-buffer" id="ex-page-buffer" role="status" aria-live="polite" aria-label="Loading ExploreX page">
+  <div class="ex-buffer-card">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="ex-buffer-brand"><span>EX</span> ExploreX</div>
+      <div class="ex-buffer-pulse" aria-hidden="true"></div>
+    </div>
+    <div class="ex-buffer-text">Preparing a smoother travel experience...</div>
+    <div class="ex-buffer-bars" aria-hidden="true">
+      <div class="ex-buffer-bar"></div>
+      <div class="ex-buffer-bar"></div>
+      <div class="ex-buffer-bar"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- EMERGENCY MODAL -->
+<div class="modal-overlay hidden" id="sos-modal">
+  <div class="sos-modal">
+    <div class="sos-head">
+      <div class="sos-head-ico">&#x1F6A8;</div>
+      <div>
+        <div class="sos-head-title">Emergency Help</div>
+        <div class="sos-head-sub">Nashik Kumbh Mela - 24/7 Helplines</div>
+      </div>
+      <button type="button" class="sos-close" onclick="closeSOS()">&times;</button>
+    </div>
+    <div class="sos-body" id="sos-contact-list">
+      <div class="sos-contact" onclick="callNum('100')">
+        <div class="sc-ico sc-ico-police">&#x1F46E;</div>
+        <div class="sc-info">
+          <div class="sc-name">Police Control Room</div>
+          <div class="sc-num">100</div>
+          <div class="sc-detail">Nashik City Police - 24/7 Active</div>
+        </div>
+        <button type="button" class="sc-call" onclick="event.stopPropagation();callNum('100')">&#x260E;&#xFE0F; Call</button>
+      </div>
+      <div class="sos-contact" onclick="callNum('108')">
+        <div class="sc-ico sc-ico-med">&#x1F3E5;</div>
+        <div class="sc-info">
+          <div class="sc-name">Medical Emergency</div>
+          <div class="sc-num">108</div>
+          <div class="sc-detail">Ambulance Service - Pan Maharashtra</div>
+        </div>
+        <button type="button" class="sc-call" onclick="event.stopPropagation();callNum('108')">&#x260E;&#xFE0F; Call</button>
+      </div>
+      <div class="sos-contact" onclick="callNum('112')">
+        <div class="sc-ico sc-ico-help">&#x1F6A8;</div>
+        <div class="sc-info">
+          <div class="sc-name">National Emergency</div>
+          <div class="sc-num">112</div>
+          <div class="sc-detail">Police - Fire - Medical emergency</div>
+        </div>
+        <button type="button" class="sc-call" onclick="event.stopPropagation();callNum('112')">&#x260E;&#xFE0F; Call</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo" onclick="go('index.html?view=home')" aria-label="ExploreX home">Explore<span>X</span></div>
+  <div class="nav-links">
+    <button type="button" class="nav-link" onclick="go('index.html?view=home')"><span class="nl-icon">&#x1F5FA;&#xFE0F;</span><span data-key="nav_explore">Explore</span></button>
+    <button type="button" class="nav-link" onclick="go('route-planner.html')"><span class="nl-icon">&#x1F9ED;</span><span data-key="nav_route">Route</span></button>
+    <button type="button" class="nav-link" onclick="go('city-services.html')"><span class="nl-icon">&#x1F3D9;&#xFE0F;</span><span>City Services</span></button>
+    <button type="button" class="nav-link active"><span class="nl-icon">&#x1FA94;</span><span>Kumbh Guide</span></button>
+    <button type="button" class="nav-link" onclick="goProfile()"><span class="nl-icon">&#x1F464;</span><span data-key="nav_profile">Profile</span></button>
+    <button type="button" class="nav-link" onclick="window.location.href='about_1.html'" ><span class="nl-icon">&#x2139;&#xFE0F;</span><span>About</span></button>
+  </div>
+  <div class="nav-spacer"></div>
+  <div id="lang-selector-slot"></div>
+  <div class="profile-menu-wrap hidden" id="profile-menu-wrap">
+    <div class="nav-profile" id="nav-profile" onclick="toggleProfileMenu()">U</div>
+    <div class="profile-dropdown hidden" id="profile-dropdown">
+      <div class="pd-header">
+        <div class="pd-name" id="pd-name">Traveller</div>
+        <div class="pd-email" id="pd-email">@explorer</div>
+      </div>
+      <button type="button" class="pd-item" onclick="goToProfile()">&#x1F464; My Profile</button>
+      <button type="button" class="pd-item" onclick="goToSavedPlaces()">&#x2764;&#xFE0F; Saved Places</button>
+      <div class="pd-divider"></div>
+      <button type="button" class="pd-item danger" onclick="handleLogout()">&#x1F6AA; Log Out</button>
+    </div>
+  </div>
+  <button type="button" id="nav-login-btn" onclick="go('login_1.html')">Log In</button>
+</nav>
+
+<!-- EMERGENCY BANNER -->
+<div class="emergency-banner">
+  <div class="eb-left">
+    <span class="eb-ico">&#x1F6A8;</span>
+    <div class="eb-text">
+      <span id="kumbh-emergency-text">Emergency Help Available 24/7</span>
+      <span> - National Emergency: <span id="kumbh-helpline-text">112</span></span>
+    </div>
+  </div>
+  <div class="eb-btns">
+    <button type="button" class="eb-btn" onclick="callNum('112')">&#x260E;&#xFE0F; 112</button>
+    <button type="button" class="eb-btn" onclick="callNum('100')">&#x1F46E; Police</button>
+    <button type="button" class="eb-btn primary" onclick="openSOS()" data-key="kumbh_sos">&#x1F6A8; SOS</button>
+  </div>
+</div>
+
+<!-- LIVE TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker"></div>
+</div>
+
+<!-- HERO -->
+<div class="kumbh-hero">
+  <div class="hero-inner">
+    <div class="hero-badge" id="kumbh-hero-badge">&#x1F6D5; Nashik Kumbh Mela Guide</div>
+    <h1 id="kumbh-hero-title">Nashik <span>Kumbh Mela</span><br>Smart Guide</h1>
+    <p class="hero-sub" id="kumbh-hero-subtitle" data-key="kumbh_sub">Crowd guidance - Smart routes - Important dates - Emergency help<br>Your essential companion for Nashik Kumbh Mela 2027</p>
+    <div class="hero-pills">
+      <div class="hero-pill" onclick="scrollTo('crowd-section')">&#x1F465; Crowd Guide</div>
+      <div class="hero-pill" onclick="scrollTo('kumbh-dates-card')">&#x1F697; Key Dates</div>
+      <div class="hero-pill" onclick="scrollTo('plan-section')">&#x1F9ED; Plan Visit</div>
+      <div class="hero-pill" onclick="openSOS()">&#x1F6A8; Emergency</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <div class="kumbh-simple-steps" aria-label="Kumbh smart guide shortcuts">
+    <button type="button" class="kumbh-simple-card" onclick="scrollTo('kumbh-suggestions-card')">
+      <span class="ks-num">1</span>
+      <span><span class="ks-title">Smart Suggestions</span><span class="ks-text">Get practical guidance from time patterns and admin updates.</span></span>
+    </button>
+    <button type="button" class="kumbh-simple-card" onclick="scrollTo('kumbh-route-card')">
+      <span class="ks-num">2</span>
+      <span><span class="ks-title">Smart Route to Ghat</span><span class="ks-text">Pick start and ghat, then open the route map.</span></span>
+    </button>
+    <button type="button" class="kumbh-simple-card" onclick="scrollTo('kumbh-plan-card')">
+      <span class="ks-num">3</span>
+      <span><span class="ks-title">Plan My Visit</span><span class="ks-text">Choose day, time, ghat, and group for a simple plan.</span></span>
+    </button>
+  </div>
+
+  <div class="kumbh-data-status" id="kumbh-data-status" role="status">
+    Essential guide ready. Crowd and route values are planning estimates until admin data is available.
+  </div>
+
+  <!-- ROW 1: Crowd + Dates -->
+  <div class="grid-2" id="crowd-section">
+
+    <!-- CROWD GUIDANCE -->
+    <div class="sec-card" id="kumbh-crowd-card">
+      <div class="sec-head">
+        <div class="sec-title" data-key="kumbh_crowd">&#x1F465; Crowd Guidance</div>
+        <span class="sec-badge" id="crowd-source-badge">ESTIMATE</span>
+        <button type="button" class="sec-action" onclick="refreshCrowd()">&#x21BB; Refresh</button>
+      </div>
+      <div class="sec-body">
+        <div class="crowd-list" id="crowd-list"></div>
+        <div class="kumbh-data-note" id="crowd-data-note">Time-based planning estimate. Follow police, ghat and local administration instructions on arrival.</div>
+        <div class="kumbh-data-note">Updated: <span id="crowd-time">-</span></div>
+      </div>
+    </div>
+
+    <!-- IMPORTANT DATES -->
+    <div class="sec-card" id="kumbh-dates-card">
+      <div class="sec-head">
+        <div class="sec-title" data-key="kumbh_dates">&#x1F4C5; Important Kumbh Dates</div>
+        <button type="button" class="sec-action" id="dates-toggle-btn" onclick="showAllDates()">View all</button>
+      </div>
+      <div class="sec-body">
+        <div class="dates-list" id="dates-list"></div>
+        <div class="kumbh-data-note">Planning calendar from ExploreX/admin data. Confirm final dates with official government and local administration announcements before travelling.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 2: Essential route and facilities -->
+  <div class="grid-2" style="margin-top:20px;">
+
+    <!-- WEATHER -->
+    <div class="sec-card" id="kumbh-weather-card">
+      <div class="sec-head">
+        <div class="sec-title" data-key="kumbh_weather">&#x26C5;&#xFE0F; Nashik Weather</div>
+        <button type="button" class="sec-action" onclick="refreshWeather()">&#x21BB; Refresh</button>
+      </div>
+      <div class="sec-body">
+        <div class="weather-big">
+          <div class="weather-ico-big" id="w-ico">&#x26C5;&#xFE0F;</div>
+          <div class="weather-temp" id="w-temp">28&deg;C</div>
+          <div class="weather-cond" id="w-cond">Partly Cloudy</div>
+        </div>
+        <div class="weather-row" id="w-stats"></div>
+      </div>
+    </div>
+
+    <!-- SMART ROUTE -->
+    <div class="sec-card" id="kumbh-route-card">
+      <div class="sec-head">
+        <div class="sec-title">&#x1F9ED; Smart Route to Ghat</div>
+      </div>
+      <div class="sec-body">
+        <div class="kumbh-helper-text">Choose your starting point and preferred ghat. ExploreX uses admin route data first, then safe local fallback logic.</div>
+        <div class="route-form">
+          <div>
+            <div class="plan-label">Your Location</div>
+            <select class="rf-select" id="route-from">
+              <option value="nashik_city">Nashik City Center</option>
+              <option value="cbs">CBS Bus Stand</option>
+              <option value="satpur">Satpur Colony</option>
+              <option value="college_road">College Road</option>
+              <option value="gangapur_road">Gangapur Road</option>
+              <option value="panchvati">Panchvati</option>
+            </select>
+          </div>
+          <div>
+            <div class="plan-label">Select Ghat</div>
+            <select class="rf-select" id="route-to">
+              <option value="ram_kund">Ram Kund Ghat</option>
+              <option value="panchvati_ghat">Panchvati Ghat</option>
+              <option value="sita_gufaa">Sita Gufa Ghat</option>
+              <option value="gorakhkund">Gorakhkund Ghat</option>
+              <option value="ahilyadevi">Ahilyadevi Ghat</option>
+              <option value="makhmalabad">Makhmalabad Ghat</option>
+            </select>
+          </div>
+          <button type="button" class="btn-route" onclick="suggestRoute()">&#x1F9ED; Get Best Route</button>
+        </div>
+        <div class="route-result" id="route-result">
+          <div class="rr-row">&#x1F4CF; Distance: <span id="rr-dist">--</span></div>
+          <div class="rr-row">&#x1F552; Est. Time: <span id="rr-time">--</span></div>
+          <div class="rr-row">&#x1F9ED; Crowd on Route: <span id="rr-crowd">--</span></div>
+          <div class="rr-row">&#x1F4A1; Tip: <span id="rr-tip">--</span></div>
+          <div class="kumbh-route-actions">
+            <button type="button" class="btn-route secondary" onclick="openKumbhRoutePlanner()">Open in Route Planner</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FACILITIES -->
+    <div class="sec-card" id="kumbh-facilities-card">
+      <div class="sec-head">
+        <div class="sec-title">&#x1F6B0; Nearby Facilities</div>
+        <button type="button" class="sec-action" onclick="openFacilitiesMap()">Map View</button>
+      </div>
+      <div class="sec-body">
+        <div class="facility-grid" id="facility-grid"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 3: Plan My Visit + AI Suggestions -->
+  <div class="grid-2" style="margin-top:20px;" id="plan-section">
+
+    <!-- PLAN MY VISIT -->
+    <div class="sec-card" id="kumbh-plan-card">
+      <div class="sec-head">
+        <div class="sec-title">&#x1F4C5; Plan My Visit</div>
+      </div>
+      <div class="sec-body">
+        <div class="kumbh-helper-text">Answer four simple choices. The plan will limit crowd risk and adjust comfort for your group.</div>
+        <div class="plan-form">
+          <div>
+            <div class="plan-label">Select Day Type</div>
+            <div class="plan-chips" id="day-chips">
+              <div class="plan-chip active" onclick="setPlanChip(this,'day','weekday')">Weekday</div>
+              <div class="plan-chip" onclick="setPlanChip(this,'day','weekend')">Weekend</div>
+              <div class="plan-chip" onclick="setPlanChip(this,'day','snan')">Snan Day</div>
+            </div>
+          </div>
+          <div>
+            <div class="plan-label">Select Time of Day</div>
+            <div class="plan-chips" id="time-chips">
+              <div class="plan-chip active" onclick="setPlanChip(this,'time','early')">Early Morning</div>
+              <div class="plan-chip" onclick="setPlanChip(this,'time','morning')">Morning</div>
+              <div class="plan-chip" onclick="setPlanChip(this,'time','afternoon')">Afternoon</div>
+              <div class="plan-chip" onclick="setPlanChip(this,'time','evening')">Evening</div>
+            </div>
+          </div>
+          <div>
+            <div class="plan-label">Preferred Ghat</div>
+            <select class="rf-select" id="plan-ghat">
+              <option value="">Any Ghat (Smart Pick)</option>
+              <option value="ram_kund">Ram Kund</option>
+              <option value="panchvati_ghat">Panchvati Ghat</option>
+              <option value="gorakhkund">Gorakhkund Ghat</option>
+              <option value="ahilyadevi">Ahilyadevi Ghat</option>
+            </select>
+          </div>
+          <div>
+            <div class="plan-label">Who Is Travelling?</div>
+            <select class="rf-select" id="plan-traveller">
+              <option value="family">Family</option>
+              <option value="senior">Senior Citizen</option>
+              <option value="adults">Adults / Friends</option>
+              <option value="solo">Solo Traveller</option>
+            </select>
+          </div>
+          <button type="button" class="btn-plan" onclick="generatePlan()" data-key="kumbh_gen_plan">&#x1F9ED; Generate My Plan</button>
+        </div>
+        <div class="plan-result" id="plan-result"></div>
+      </div>
+    </div>
+
+    <!-- AI SMART SUGGESTIONS -->
+    <div class="sec-card" id="kumbh-suggestions-card">
+      <div class="sec-head">
+        <div class="sec-title">&#x1F4A1; Smart Suggestions</div>
+        <span class="sec-badge" style="background:var(--pl);color:var(--p);">Free Logic</span>
+      </div>
+      <div class="sec-body">
+        <div class="kumbh-helper-text">Fast rule-based suggestions. No paid AI API is used.</div>
+        <div class="ai-box">
+          <div class="ai-header">
+            <div class="ai-ico">&#x1F4A1;</div>
+            <div>
+              <div class="ai-title" id="ai-title">Right now is a good time!</div>
+              <div class="ai-sub" id="ai-sub">Based on time patterns and available admin guidance</div>
+            </div>
+          </div>
+          <div class="ai-chips" id="ai-chips"></div>
+          <div class="ai-suggestion">
+            <p id="ai-text">Loading smart suggestions...</p>
+          </div>
+        </div>
+        <div class="kumbh-action-row">
+          <button type="button" class="kumbh-soft-btn" onclick="refreshAI()">&#x21BB; Refresh Suggestions</button>
+          <button type="button" class="kumbh-primary-btn" onclick="scrollTo('kumbh-route-card')">&#x1F9ED; Choose Route</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- KUMBH MEMORIES -->
+  <div class="sec-card" id="kumbh-memories-card" style="margin-top:20px;">
+    <div class="sec-head">
+      <div class="sec-title" data-key="kumbh_moments">&#x1F4F7; Kumbh Moments</div>
+      <button type="button" class="sec-action" onclick="goMemories()">Share yours &#x2192;</button>
+    </div>
+    <div class="sec-body">
+      <div class="memories-grid" id="memories-grid"></div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- BACK TO TOP -->
+<button type="button" class="btt-btn" id="btt-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">&#x2191;</button>
+
+<!-- EXPLOREX FOOTER -->
+<footer class="xfooter">
+  <div class="xfooter-wave"></div>
+  <div class="xfooter-inner">
+
+    <!-- MAIN GRID -->
+    <div class="xfooter-grid">
+
+      <!-- BRAND -->
+      <div class="xf-brand">
+        <div class="xf-logo">
+          Explore<span class="xl-x">X</span><span class="xl-dot"></span>
+        </div>
+        <p class="xf-desc">
+          Explore smarter, travel better. Discover places, plan routes, and enjoy every journey &#x2014; one hidden gem at a time.
+        </p>
+        <div class="xf-contact-row">
+          <div class="xf-contact-item">
+            <span class="lk-ico">&#x1F4E7;</span>
+            <a href="mailto:support@explorex.com">support@explorex.com</a>
+          </div>
+          <div class="xf-contact-item">
+            <span class="lk-ico">&#x1F1EE;&#x1F1F3;</span>
+            <span>Nashik, Maharashtra, India</span>
+          </div>
+          <div class="xf-contact-item">
+            <span class="lk-ico">&#x1F4AC;</span>
+            <a href="support-chat.html?subject=General%20Support">Live Chat Support</a>
+          </div>
+        </div>
+      </div>
+      <!-- QUICK LINKS -->
+      <div>
+        <div class="xf-col-title">Quick Links</div>
+        <div class="xf-links">
+          <a class="xf-link" href="index.html?view=home"><span class="lk-ico">&#x1F3E0;</span> Home</a>
+          <a class="xf-link" href="index.html?view=home"><span class="lk-ico">&#x1F5FA;&#xFE0F;</span> Explore</a>
+          <a class="xf-link" href="route-planner.html"><span class="lk-ico">&#x1F9ED;</span> Route Planner</a>
+          <a class="xf-link" href="index.html#book-hotel"><span class="lk-ico">&#x1F3E8;</span> Book Hotel <span class="xf-link-badge">LIVE</span></a>
+          <a class="xf-link" href="city-services.html"><span class="lk-ico">&#x1F3D9;&#xFE0F;</span> City Services</a>
+          <a class="xf-link" href="kumbh-guide.html"><span class="lk-ico">&#x1FA94;</span> Kumbh Guide</a>
+          <a class="xf-link" href="about_1.html"><span class="lk-ico">&#x2139;&#xFE0F;</span> About Us</a>
+          <a class="xf-link" href="profile_2.html"><span class="lk-ico">&#x1F464;</span> My Profile</a>
+        </div>
+      </div>
+
+      <!-- FEATURES -->
+      <div>
+        <div class="xf-col-title">Features</div>
+        <div class="xf-links">
+          <a class="xf-link" href="route-planner.html"><span class="lk-ico">&#x1F9ED;</span> Route Planner</a>
+          <a class="xf-link" href="city-services.html"><span class="lk-ico">&#x1F3D9;&#xFE0F;</span> City Services <span class="xf-link-badge">NEW</span></a>
+          <a class="xf-link" href="profile_2.html#memories"><span class="lk-ico">&#x1F4F8;</span> Travel Memories</a>
+          <a class="xf-link" href="index.html#book-hotel"><span class="lk-ico">&#x1F3E8;</span> Book Hotel <span class="xf-link-badge">LIVE</span></a>
+          <a class="xf-link" href="index.html#plan-my-trip"><span class="lk-ico">&#x1F9ED;</span> Plan My Trip <span class="xf-link-badge">LIVE</span></a>
+        </div>
+      </div>
+
+      <!-- SUPPORT -->
+      <div>
+        <div class="xf-col-title">Support</div>
+        <div class="xf-links">
+          <button type="button" class="xf-link" onclick="window.location.href='support-chat.html?subject=General%20Support&amp;source='+encodeURIComponent(location.pathname)">
+            <span class="lk-ico">&#x1F4E7;</span> Contact Us
+          </button>
+          <button type="button" class="xf-link" onclick="window.location.href='support-chat.html?subject=Bug%20Report&amp;source='+encodeURIComponent(location.pathname)">
+            <span class="lk-ico">&#x1F41B;</span> Report Issue
+          </button>
+          <button type="button" class="xf-link" onclick="showToast('&#x2764;&#xFE0F; Thank you for your support!')">
+            <span class="lk-ico">&#x2764;&#xFE0F;</span> Support Travellers
+          </button>
+          <div style="height:4px;"></div>
+          <div class="xf-col-title" style="margin-bottom:10px;">Legal</div>
+          <button type="button" class="xf-link" onclick="window.location.href='privacy-policy.html'">
+            <span class="lk-ico">&#x1F512;</span> Privacy Policy
+          </button>
+          <button type="button" class="xf-link" onclick="window.location.href='terms.html'">
+            <span class="lk-ico">&#x1F4CB;</span> Terms &amp; Conditions
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="xf-social-section">
+      <div class="xf-social-text">
+        <strong>Follow us</strong> for travel updates and inspiration &#x1F30D;
+      </div>
+      <div class="xf-socials">
+        <!-- Instagram -->
+        <a class="xf-social-btn instagram" aria-label="Instagram" href="https://instagram.com" target="_blank" rel="noopener" title="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <!-- Twitter / X -->
+        <a class="xf-social-btn twitter" aria-label="Twitter / X" href="https://twitter.com" target="_blank" rel="noopener" title="Twitter / X">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <!-- LinkedIn -->
+        <a class="xf-social-btn linkedin" aria-label="LinkedIn" href="https://linkedin.com" target="_blank" rel="noopener" title="LinkedIn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="xf-bottom">
+      <div class="xf-copy">
+        &#xA9; 2026 <strong>ExploreX</strong> | Built by <a href="https://github.com" target="_blank" rel="noopener">Swapnil Rathod</a>
+      </div>
+      <div class="xf-status">
+        <div class="status-dot"></div>
+        All systems operational
+      </div>
+      <div class="xf-legal">
+        <button type="button" class="xf-legal-link" onclick="window.location.href='privacy-policy.html'">Privacy Policy</button>
+        <button type="button" class="xf-legal-link" onclick="window.location.href='terms.html'">Terms</button>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+/* -- BACK TO TOP -- */
+window.addEventListener('scroll',()=>{
+  const btn=document.getElementById('btt-btn');
+  if(btn) btn.classList.toggle('show', window.scrollY > 400);
+},{passive:true});
+
+/* -- FOOTER PAGE NAVIGATION -- */
+function goPage(url){ window.location.href=url; }
+function goPageProfile(){
+  const loggedIn=localStorage.getItem('explore_logged_in')==='true';
+  window.location.href=loggedIn?'profile_2.html':'login_1.html';
+}
+</script>
+
+
+<button type="button" class="dm-fab" id="dm-fab" onclick="toggleDarkMode()" aria-label="Toggle dark mode" title="Toggle dark mode">&#x1F319;</button>
+
+<!-- -----------------------------------
+     JAVASCRIPT
+----------------------------------- -->
+<script>
+/* --- DARK MODE --- */
+function applyDarkMode(on){
+  document.body.classList.toggle('dark-mode',on);
+  ['dm-btn','dm-fab'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=on?'\u{2600}\u{FE0F}':'\u{1F319}';
+  });
+}
+function toggleDarkMode(){
+  const on=!document.body.classList.contains('dark-mode');
+  localStorage.setItem('explore_dark_mode',on?'1':'0');
+  applyDarkMode(on);
+}
+(function(){applyDarkMode(localStorage.getItem('explore_dark_mode')==='1');})();
+
+/* --- NAV HELPERS --- */
+function go(p){window.location.href=p;}
+function isLoggedIn(){return localStorage.getItem('explore_logged_in')==='true';}
+function getSession(){try{return JSON.parse(localStorage.getItem('explore_session')||'{}');}catch(e){return{};}}
+function getProfileLocal(){try{return JSON.parse(localStorage.getItem('profile')||'{}');}catch(e){return{};}}
+function getDisplayUser(){
+  const sess=getSession();
+  const p=getProfileLocal();
+  const name=(p.name||sess.name||'Traveller').trim();
+  return {name,email:sess.email||p.username||'',initial:(name.charAt(0)||'U').toUpperCase()};
+}
+function goProfile(){go(isLoggedIn()?'profile_2.html':'login_1.html');}
+function goToProfile(){closeDropdown();goProfile();}
+function goToSavedPlaces(){
+  closeDropdown();
+  if(!isLoggedIn()){go('login_1.html');return;}
+  go('profile_2.html#saved-places');
+}
+function toggleProfileMenu(){
+  if(!isLoggedIn()){go('login_1.html');return;}
+  document.getElementById('profile-dropdown').classList.toggle('hidden');
+}
+function closeDropdown(){
+  const dd=document.getElementById('profile-dropdown');
+  if(dd) dd.classList.add('hidden');
+}
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('profile-menu-wrap');
+  if(wrap && !wrap.contains(e.target)) closeDropdown();
+});
+function handleLogout(){
+  localStorage.removeItem('explore_logged_in');
+  localStorage.removeItem('explore_session');
+  localStorage.removeItem('explore_token');
+  localStorage.removeItem('explore_role');
+  [
+    'explore_uid','explore_user_id','profile','settings','visited_ids','visited_places',
+    'saved_ids','saved_places_map','activity','goals','interests','explore_memories',
+    'profile_seeded','explore_seeded','explore_profile_owner_uid','explore_profile_owner_signature','explore_activity_owner_uid',
+    'explorex_profile_route_handoff'
+  ].forEach((key)=>localStorage.removeItem(key));
+  closeDropdown();
+  showToast('\u{1F6AA} Logged out successfully');
+  setTimeout(()=>go('login_1.html'),900);
+}
+function initProfileMenuUser(){
+  const u=getDisplayUser();
+  const nav=document.getElementById('nav-profile');
+  const pdn=document.getElementById('pd-name');
+  const pde=document.getElementById('pd-email');
+  const profileWrap=document.getElementById('profile-menu-wrap');
+  const loginBtn=document.getElementById('nav-login-btn');
+  const loggedIn=isLoggedIn();
+  if(profileWrap) profileWrap.classList.toggle('hidden',!loggedIn);
+  if(loginBtn) loginBtn.classList.toggle('hidden',loggedIn);
+  if(nav) nav.textContent=u.initial;
+  if(pdn) pdn.textContent=u.name;
+  if(pde) pde.textContent=u.email;
+}
+function goMemories(){
+  if(!isLoggedIn()){showToast('\u{1F4F7} Please log in to share memories!');setTimeout(()=>go('login_1.html'),1200);return;}
+  go('index.html?view=home');
+}
+
+/* --- EMERGENCY --- */
+function openSOS(){document.getElementById('sos-modal').classList.remove('hidden');}
+function closeSOS(){document.getElementById('sos-modal').classList.add('hidden');}
+function callNum(num){
+  showToast(`\u{260E}\u{FE0F} Calling ${num}...`);
+  window.location.href=`tel:${num}`;
+}
+document.getElementById('sos-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('sos-modal')) closeSOS();
+});
+
+/* --- SCROLL TO --- */
+function scrollTo(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function scrollKumbhHashTarget(smooth=false){
+  const id=window.location.hash.slice(1);
+  const target=id ? document.getElementById(id) : null;
+  if(!target) return;
+  window.requestAnimationFrame(()=>target.scrollIntoView({behavior:smooth?'smooth':'auto',block:'start'}));
+}
+function scheduleKumbhHashScroll(){
+  scrollKumbhHashTarget(false);
+  [120,420,900].forEach(delay=>window.setTimeout(()=>scrollKumbhHashTarget(false),delay));
+}
+document.addEventListener('DOMContentLoaded',scheduleKumbhHashScroll,{once:true});
+window.addEventListener('load',scheduleKumbhHashScroll,{once:true});
+window.addEventListener('hashchange',()=>scrollKumbhHashTarget(true));
+
+/* --- BACKEND DATA --- */
+const KUMBH_API_BASES=(()=>{
+  const host=window.location.hostname||'localhost';
+  const manual=String(window.EXPLOREX_API_BASE||localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base')||'').trim().replace(/\/+$/,'');
+  return [...new Set([manual,`http://${host}:5000`,`http://${host}:5001`].filter(Boolean))];
+})();
+let resolvedKumbhApiBase=KUMBH_API_BASES[0]||'http://localhost:5000';
+const DEFAULT_KUMBH_SETTINGS={
+  enabled:true,
+  badge:'Nashik Kumbh Mela Guide',
+  title:'Nashik Kumbh Mela Smart Guide',
+  subtitle:'Crowd guidance, smart routes, important dates and emergency help for Nashik Kumbh Mela 2027.',
+  emergencyText:'Emergency Help Available 24/7',
+  helpline:'112',
+  disabledTitle:'Kumbh Guide is temporarily offline',
+  disabledMessage:'The admin team is updating guide information. Please check again shortly.',
+  sections:{ticker:false,crowd:true,dates:true,weather:false,route:true,facilities:true,plan:true,suggestions:true,memories:false}
+};
+let kumbhGuideSettings={...DEFAULT_KUMBH_SETTINGS,sections:{...DEFAULT_KUMBH_SETTINGS.sections}};
+let kumbhGuideData={ticker:[],crowd:[],dates:[],facilities:[],helplines:[],routes:[],tips:[],moments:[]};
+let kumbhGuideMeta={source:'local',lastUpdated:''};
+let showEveryKumbhDate=false;
+
+function escapeHtml(value){
+  return String(value||'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+async function kumbhApiGet(path){
+  const ordered=[resolvedKumbhApiBase,...KUMBH_API_BASES.filter(base=>base!==resolvedKumbhApiBase)];
+  let lastError=null;
+  for(const base of ordered){
+    const controller=new AbortController();
+    const timeout=window.setTimeout(()=>controller.abort(),2200);
+    try{
+      const response=await fetch(`${base}${path}`,{signal:controller.signal});
+      const payload=await response.json().catch(()=>null);
+      if(!response.ok||!payload||payload.success===false){
+        throw new Error(payload?.message||`Request failed (${response.status})`);
+      }
+      resolvedKumbhApiBase=base;
+      return payload;
+    }catch(error){
+      lastError=error;
+    }finally{
+      window.clearTimeout(timeout);
+    }
+  }
+  throw lastError||new Error('Backend unavailable');
+}
+
+async function loadKumbhGuideData(){
+  try{
+    const payload=await kumbhApiGet('/api/kumbh-guide');
+    const data=payload?.data&&typeof payload.data==='object'?payload.data:{};
+    kumbhGuideSettings=normalizeKumbhSettings(data.settings||DEFAULT_KUMBH_SETTINGS);
+    kumbhGuideData={
+      ticker:Array.isArray(data.ticker)?data.ticker:[],
+      crowd:Array.isArray(data.crowd)?data.crowd:[],
+      dates:Array.isArray(data.dates)?data.dates:[],
+      facilities:Array.isArray(data.facilities)?data.facilities:[],
+      helplines:Array.isArray(data.helplines)?data.helplines:[],
+      routes:Array.isArray(data.routes)?data.routes:[],
+      tips:Array.isArray(data.tips)?data.tips:[],
+      moments:Array.isArray(data.moments)?data.moments:[]
+    };
+    kumbhGuideMeta={source:'backend',lastUpdated:String(data.lastUpdated||'')};
+    return true;
+  }catch(error){
+    console.info('Kumbh guide using local fallback:',error.message);
+    kumbhGuideMeta={source:'local',lastUpdated:''};
+    return false;
+  }
+}
+
+function updateKumbhDataStatus(){
+  const status=document.getElementById('kumbh-data-status');
+  if(!status) return;
+  const synced=kumbhGuideMeta.source==='backend';
+  status.classList.toggle('is-synced',synced);
+  if(synced){
+    const updated=kumbhGuideMeta.lastUpdated?new Date(kumbhGuideMeta.lastUpdated):null;
+    const updatedText=updated&&!Number.isNaN(updated.getTime())
+      ? ` Last admin update: ${updated.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}.`
+      : '';
+    status.textContent=`Admin Kumbh data connected.${updatedText} Always follow official on-ground instructions.`;
+    return;
+  }
+  status.textContent='Offline-ready mode: essential route, date and crowd guidance is available. Values are planning estimates until admin data reconnects.';
+}
+
+function normalizeKumbhSettings(settings){
+  const raw=settings&&typeof settings==='object'&&!Array.isArray(settings)?settings:{};
+  const rawSections=raw.sections&&typeof raw.sections==='object'&&!Array.isArray(raw.sections)?raw.sections:{};
+  const sections={};
+  Object.keys(DEFAULT_KUMBH_SETTINGS.sections).forEach(key=>{
+    sections[key]=rawSections[key]===undefined?DEFAULT_KUMBH_SETTINGS.sections[key]:Boolean(rawSections[key]);
+  });
+  const rawHelpline=String(raw.helpline||DEFAULT_KUMBH_SETTINGS.helpline).trim();
+  const safeHelpline=rawHelpline.replace(/[^\d]/g,'')==='1950'?'112':rawHelpline;
+  const rawSubtitle=String(raw.subtitle||DEFAULT_KUMBH_SETTINGS.subtitle).trim();
+  const safeSubtitle=/live\s+crowd\s+status/i.test(rawSubtitle)
+    ? rawSubtitle.replace(/live\s+crowd\s+status/ig,'Crowd guidance')
+    : rawSubtitle;
+  return {
+    enabled:raw.enabled===undefined?true:Boolean(raw.enabled),
+    badge:String(raw.badge||DEFAULT_KUMBH_SETTINGS.badge),
+    title:String(raw.title||DEFAULT_KUMBH_SETTINGS.title),
+    subtitle:safeSubtitle,
+    emergencyText:String(raw.emergencyText||DEFAULT_KUMBH_SETTINGS.emergencyText),
+    helpline:safeHelpline,
+    disabledTitle:String(raw.disabledTitle||DEFAULT_KUMBH_SETTINGS.disabledTitle),
+    disabledMessage:String(raw.disabledMessage||DEFAULT_KUMBH_SETTINGS.disabledMessage),
+    sections
+  };
+}
+
+function setDisplay(selector,visible){
+  document.querySelectorAll(selector).forEach(el=>{el.style.display=visible?'':'none';});
+}
+
+function renderOfflineKumbh(){
+  const hero=document.querySelector('.kumbh-hero .hero-inner');
+  const main=document.querySelector('.main');
+  if(hero){
+    hero.innerHTML=`
+      <div class="hero-badge">\u{26A0}\u{FE0F} ExploreX Notice</div>
+      <h1>${escapeHtml(kumbhGuideSettings.disabledTitle)}</h1>
+      <p class="hero-sub">${escapeHtml(kumbhGuideSettings.disabledMessage)}</p>
+    `;
+  }
+  if(main){
+    main.innerHTML=`
+      <div class="kumbh-offline-card">
+        <div class="kumbh-offline-icon">\u{26A0}\u{FE0F}</div>
+        <div class="kumbh-offline-title">${escapeHtml(kumbhGuideSettings.disabledTitle)}</div>
+        <div class="kumbh-offline-text">${escapeHtml(kumbhGuideSettings.disabledMessage)}</div>
+        <div class="kumbh-offline-actions">
+          <button type="button" class="primary" onclick="go('index.html?view=home')">Go Home</button>
+          <button type="button" class="ghost" onclick="go('support-chat.html?subject=Kumbh%20Guide%20Help')">Contact Support</button>
+        </div>
+      </div>`;
+  }
+  setDisplay('.ticker-wrap',false);
+}
+
+function applyKumbhSettings(){
+  const settings=normalizeKumbhSettings(kumbhGuideSettings);
+  kumbhGuideSettings=settings;
+  document.getElementById('kumbh-hero-badge')&&(document.getElementById('kumbh-hero-badge').textContent=`\u{1FA94} ${settings.badge}`);
+  const titleEl=document.getElementById('kumbh-hero-title');
+  if(titleEl) titleEl.textContent=settings.title;
+  const subEl=document.getElementById('kumbh-hero-subtitle');
+  if(subEl) subEl.textContent=settings.subtitle;
+  document.getElementById('kumbh-emergency-text')&&(document.getElementById('kumbh-emergency-text').textContent=settings.emergencyText);
+  document.getElementById('kumbh-helpline-text')&&(document.getElementById('kumbh-helpline-text').textContent=settings.helpline);
+  document.querySelectorAll('.eb-btn').forEach(btn=>{
+    if(btn.textContent.includes('112')||btn.textContent.includes(settings.helpline)){
+      btn.textContent=`\u{260E}\u{FE0F} ${settings.helpline}`;
+      btn.onclick=()=>callNum(settings.helpline);
+    }
+  });
+  if(!settings.enabled){
+    renderOfflineKumbh();
+    return false;
+  }
+  setDisplay('.ticker-wrap',false);
+  setDisplay('#kumbh-crowd-card',settings.sections.crowd);
+  setDisplay('#kumbh-dates-card',settings.sections.dates);
+  setDisplay('#kumbh-weather-card',false);
+  setDisplay('#kumbh-route-card',settings.sections.route);
+  setDisplay('#kumbh-facilities-card',settings.sections.facilities);
+  setDisplay('#kumbh-plan-card',settings.sections.plan);
+  setDisplay('#kumbh-suggestions-card',settings.sections.suggestions);
+  setDisplay('#kumbh-memories-card',false);
+  return true;
+}
+
+function getKumbhItems(type){
+  return Array.isArray(kumbhGuideData[type])?kumbhGuideData[type]:[];
+}
+
+function normalizeKumbhKey(value){
+  return String(value||'')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g,'_')
+    .replace(/^_+|_+$/g,'');
+}
+
+function formatKumbhRouteLabel(value){
+  return String(value||'')
+    .replace(/[_-]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim()
+    .replace(/\b\w/g,ch=>ch.toUpperCase());
+}
+
+function addRouteOption(map,value,label){
+  const key=normalizeKumbhKey(value);
+  if(!key||map.has(key)) return;
+  map.set(key,String(label||'').trim()||formatKumbhRouteLabel(key));
+}
+
+function renderRouteOptions(){
+  const fromEl=document.getElementById('route-from');
+  const toEl=document.getElementById('route-to');
+  if(!fromEl||!toEl) return;
+  const currentFrom=fromEl.value;
+  const currentTo=toEl.value;
+  const fromOptions=new Map(Array.from(fromEl.options).map(opt=>[opt.value,opt.textContent]));
+  const toOptions=new Map(Array.from(toEl.options).map(opt=>[opt.value,opt.textContent]));
+
+  getKumbhItems('routes').forEach(item=>{
+    const meta=item.meta||{};
+    addRouteOption(fromOptions,meta.from,meta.fromLabel||meta.sourceLabel);
+    addRouteOption(toOptions,meta.to,meta.toLabel||meta.destinationLabel);
+  });
+
+  fromEl.innerHTML=Array.from(fromOptions.entries())
+    .map(([value,label])=>`<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`)
+    .join('');
+  toEl.innerHTML=Array.from(toOptions.entries())
+    .map(([value,label])=>`<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`)
+    .join('');
+  if(fromOptions.has(currentFrom)) fromEl.value=currentFrom;
+  if(toOptions.has(currentTo)) toEl.value=currentTo;
+}
+
+function getKumbhAdminTips(){
+  return getKumbhItems('tips')
+    .map(item=>{
+      const meta=item.meta||{};
+      const chips=Array.isArray(meta.chips)?meta.chips.filter(Boolean).slice(0,4):[];
+      return {
+        title:item.title||'Kumbh Guide Tip',
+        subtitle:item.subtitle||meta.subtitle||item.category||'Admin guide update',
+        text:item.desc||item.description||meta.text||'Plan your visit carefully and follow local guidance.',
+        category:String(item.category||meta.category||'Guide').trim(),
+        day:String(meta.day||meta.dayType||'').toLowerCase(),
+        time:String(meta.time||meta.timeOfDay||'').toLowerCase(),
+        ghat:normalizeKumbhKey(meta.ghat||meta.place||meta.to),
+        chips
+      };
+    })
+    .filter(tip=>tip.title||tip.text);
+}
+
+function pickKumbhAdminTip(context={}){
+  const tips=getKumbhAdminTips();
+  if(!tips.length) return null;
+  const day=String(context.day||'').toLowerCase();
+  const time=String(context.time||'').toLowerCase();
+  const ghat=normalizeKumbhKey(context.ghat);
+  return tips.find(tip=>
+    (day&&tip.day&&tip.day===day)||
+    (time&&tip.time&&tip.time===time)||
+    (ghat&&tip.ghat&&tip.ghat===ghat)
+  )||tips[new Date().getHours()%tips.length];
+}
+
+/* --- TICKER --- */
+const TICKER_MSGS=[
+  '\u{1F4C5} Kumbh planning calendar: confirm final dates from official announcements',
+  '\u{1F6D5} Follow local administration instructions on major bathing days',
+  '\u{1F465} Check on-ground crowd instructions before entering a ghat',
+  '\u{1F68C} Confirm special bus and shuttle schedules before travel',
+  '\u{1F6B0} Free drinking water at all ghats',
+  '\u{1F3E5} Medical camps at all major ghats - free treatment',
+  '\u{1F6A8} For an emergency, call 112 or use the nearest official help desk',
+  '\u{1F697} Carry ID proof and minimum luggage during major gathering days',
+  '\u{1F321} Kalaram Temple darshan: 5 AM - 9 PM',
+];
+function initTicker(){
+  const t=document.getElementById('ticker');
+  const backendMsgs=getKumbhItems('ticker')
+    .map(item=>item.title||item.description||item.desc)
+    .filter(Boolean);
+  const source=backendMsgs.length?backendMsgs:TICKER_MSGS;
+  const msgs=[...source,...source]; // duplicate for seamless loop
+  t.innerHTML=msgs.map(m=>`<div class="ticker-item"><div class="ticker-dot"></div>${escapeHtml(m)}</div>`).join('');
+}
+
+/* --- CROWD DATA --- */
+const GHATS=[
+  {name:'Ram Kund Ghat',      key:'ram_kund'},
+  {name:'Panchvati Ghat',     key:'panchvati_ghat'},
+  {name:'Sita Gufa Ghat',     key:'sita_gufaa'},
+  {name:'Gorakhkund Ghat',    key:'gorakhkund'},
+  {name:'Ahilyadevi Ghat',    key:'ahilyadevi'},
+  {name:'Makhmalabad Route',  key:'makhmalabad'},
+  {name:'Nashik Road Entry',  key:'nashik_road'},
+];
+
+function getCrowdLevel(key){
+  const h=new Date().getHours();
+  // Simulate: Ram Kund always busiest, vary by time
+  const baseMap={
+    ram_kund:      [2,1,2,2,3,3,3,3,3,3,3,3,2,2,2,3,3,3,3,3,2,2,1,1],
+    panchvati_ghat:[1,1,1,1,2,2,2,3,3,3,2,2,2,2,2,3,3,3,2,2,2,1,1,1],
+    sita_gufaa:    [1,1,1,1,1,2,2,2,3,2,2,2,2,2,2,2,2,3,2,1,1,1,1,1],
+    gorakhkund:    [1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1],
+    ahilyadevi:    [1,1,1,1,1,2,2,2,2,2,2,2,1,1,2,2,2,2,2,1,1,1,1,1],
+    makhmalabad:   [1,1,1,1,1,1,2,2,3,3,3,2,2,2,2,3,3,3,2,2,1,1,1,1],
+    nashik_road:   [1,1,1,1,2,2,3,3,3,3,3,3,2,2,2,3,3,3,3,3,2,2,1,1],
+  };
+  const base=(baseMap[key]||baseMap.ram_kund)[h]||1;
+  return Math.max(1,Math.min(3,base));
+}
+
+const CROWD_LABELS={1:{label:'Low',cls:'label-low',dot:'dot-low',fill:'fill-low',pct:25},2:{label:'Medium',cls:'label-med',dot:'dot-med',fill:'fill-med',pct:58},3:{label:'High',cls:'label-high',dot:'dot-high',fill:'fill-high',pct:90}};
+
+function renderCrowd(){
+  const list=document.getElementById('crowd-list');
+  if(!list) return;
+  const now=new Date();
+  const time=document.getElementById('crowd-time');
+  if(time) time.textContent=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  const backendCrowd=getKumbhItems('crowd');
+  const hasAdminCrowd=backendCrowd.length>0;
+  const badge=document.getElementById('crowd-source-badge');
+  const note=document.getElementById('crowd-data-note');
+  if(badge){
+    badge.textContent=hasAdminCrowd?'ADMIN':'ESTIMATE';
+    badge.style.background=hasAdminCrowd?'var(--gl)':'var(--yl)';
+    badge.style.color=hasAdminCrowd?'var(--g)':'#92400E';
+  }
+  if(note){
+    note.textContent=hasAdminCrowd
+      ? 'Published by the ExploreX admin panel. Follow official on-ground instructions if conditions change.'
+      : 'Time-based planning estimate. Follow police, ghat and local administration instructions on arrival.';
+  }
+  const source=backendCrowd.length
+    ? backendCrowd.map(item=>({
+        name:item.title||item.key,
+        key:item.key,
+        level:Number(item.meta?.level||item.meta?.crowdLevel)||0,
+        percent:Number(item.meta?.percent||item.meta?.pct)||0
+      }))
+    : GHATS;
+  list.innerHTML=source.map(g=>{
+    const lv=g.level?Math.max(1,Math.min(3,g.level)):getCrowdLevel(g.key);
+    const c=CROWD_LABELS[lv];
+    const pct=Math.max(10,Math.min(100,g.percent||c.pct));
+    return `
+    <div class="crowd-item">
+      <div class="crowd-dot ${c.dot}"></div>
+      <div class="crowd-name">${escapeHtml(g.name)}</div>
+      <div class="crowd-bar"><div class="crowd-fill ${c.fill}" style="width:${pct}%"></div></div>
+      <div class="crowd-label ${c.cls}">${c.label}</div>
+    </div>`;
+  }).join('');
+}
+
+function refreshCrowd(){
+  renderCrowd();
+  showToast(getKumbhItems('crowd').length?'\u{1F465} Admin crowd guidance refreshed':'\u{1F465} Planning estimate recalculated');
+}
+
+/* --- IMPORTANT DATES --- */
+const KUMBH_DATES=[
+  {d:11,m:'Jul',y:2027,name:'Shahi Snan - Peshwai',detail:'Grand procession & royal bath',tag:'shahi',tagLabel:'Shahi Snan'},
+  {d:27,m:'Aug',y:2027,name:'Shahi Snan - Nag Panchami',detail:'Biggest holy dip of Kumbh',tag:'shahi',tagLabel:'Shahi Snan'},
+  {d:13,m:'Sep',y:2027,name:'Shahi Snan - Ramnavami',detail:'Final main Snan day',tag:'shahi',tagLabel:'Shahi Snan'},
+  {d:15,m:'Jul',y:2027,name:'Guru Purnima Snan',detail:'Auspicious full moon holy dip',tag:'snan',tagLabel:'Snan'},
+  {d:1,m:'Aug',y:2027,name:'Shravan Snan Start',detail:'Month-long Shravan holy dips begin',tag:'snan',tagLabel:'Snan'},
+  {d:20,m:'Aug',y:2027,name:'Mahakaleshwar Puja',detail:'Special puja at Trimbakeshwar',tag:'mela',tagLabel:'Mela'},
+  {d:3,m:'Sep',y:2027,name:'Ganesh Chaturthi Snan',detail:'Festive snan during Ganesh Utsav',tag:'snan',tagLabel:'Snan'},
+  {d:16,m:'Sep',y:2027,name:'Kumbh Mela Closes',detail:'Grand closing ceremony',tag:'mela',tagLabel:'Mela'},
+];
+
+function renderDates(){
+  const now=new Date();
+  const list=document.getElementById('dates-list');
+  const backendDates=getKumbhItems('dates');
+  const normalized=backendDates.length?backendDates.map(item=>{
+    const date=new Date(item.date||item.dateValue||item.meta?.date||'');
+    const valid=!Number.isNaN(date.getTime());
+    return {
+      d:valid?date.getDate():(Number(item.meta?.day)||'--'),
+      m:valid?date.toLocaleString('en-IN',{month:'short'}):(item.meta?.month||'---'),
+      y:valid?date.getFullYear():(item.meta?.year||''),
+      name:item.title||'Kumbh Date',
+      detail:item.subtitle||item.desc||item.description||'Important Kumbh update',
+      tag:String(item.category||item.meta?.tag||'mela').toLowerCase(),
+      tagLabel:item.meta?.tagLabel||item.category||'Mela',
+      date
+    };
+  }):KUMBH_DATES.map(d=>({...d,date:new Date(`${d.m} ${d.d}, ${d.y}`)}));
+  const toggle=document.getElementById('dates-toggle-btn');
+  if(toggle){
+    toggle.style.display=normalized.length>6?'':'none';
+    toggle.textContent=showEveryKumbhDate?'Show less':'View all';
+  }
+  const visible=showEveryKumbhDate?normalized:normalized.slice(0,6);
+  list.innerHTML=visible.map(d=>{
+    const date=d.date instanceof Date?d.date:new Date(`${d.m} ${d.d}, ${d.y}`);
+    const isPast=date<now;
+    const isUpcoming=!isPast&&(date-now)<30*24*3600*1000;
+    let cls='date-item',boxCls='date-box';
+    if(isPast){cls+='';boxCls+=' past';}
+    else if(isUpcoming){cls+=' upcoming';}
+    const tagMap={shahi:'tag-shahi',snan:'tag-snan',mela:'tag-mela'};
+    return `
+    <div class="${cls}">
+      <div class="${boxCls}">
+        <div class="date-num">${escapeHtml(d.d)}</div>
+        <div class="date-mon">${escapeHtml(d.m)}</div>
+      </div>
+      <div class="date-info">
+        <div class="date-name">${escapeHtml(d.name)}</div>
+        <div class="date-detail">${escapeHtml(d.detail)} - ${escapeHtml(d.y)}</div>
+      </div>
+      <span class="date-tag ${tagMap[d.tag]||'tag-mela'}">${escapeHtml(d.tagLabel)}</span>
+    </div>`;
+  }).join('');
+}
+
+function showAllDates(){
+  showEveryKumbhDate=!showEveryKumbhDate;
+  renderDates();
+  showToast(showEveryKumbhDate?'\u{1F4C5} Showing full Kumbh calendar':'\u{1F4C5} Showing key Kumbh dates');
+}
+
+/* --- WEATHER --- */
+const WEATHER_SIM=[
+  {h:[5,8],   ico:'\u{1F4CF}',cond:'Cool & Clear',temp:22,hum:68,wind:'12 km/h',uv:'Low'},
+  {h:[9,12],  ico:'\u{1F4CF}',cond:'Sunny',       temp:30,hum:55,wind:'15 km/h',uv:'High'},
+  {h:[13,16], ico:'\u{1F4CF}',cond:'Partly Cloudy',temp:33,hum:50,wind:'18 km/h',uv:'Very High'},
+  {h:[17,19], ico:'?',cond:'Overcast',    temp:29,hum:60,wind:'14 km/h',uv:'Moderate'},
+  {h:[20,23], ico:'\u{1F4CF}',cond:'Clear Night', temp:25,hum:70,wind:'10 km/h',uv:'None'},
+  {h:[0,4],   ico:'\u{1F4CF}',cond:'Cool Night',  temp:20,hum:75,wind:'8 km/h', uv:'None'},
+];
+function getWeather(){
+  const h=new Date().getHours();
+  return WEATHER_SIM.find(w=>h>=w.h[0]&&h<=w.h[1])||WEATHER_SIM[0];
+}
+function renderWeather(){
+  const w=getWeather();
+  document.getElementById('w-ico').textContent=w.ico;
+  document.getElementById('w-temp').textContent=w.temp+'\u00B0C';
+  document.getElementById('w-cond').textContent=w.cond;
+  document.getElementById('w-stats').innerHTML=[
+    {ico:'\u{1F4A7}',label:'Humidity',val:w.hum+'%'},
+    {ico:'\u{1F32C}\u{FE0F}',label:'Wind',   val:w.wind},
+    {ico:'\u{2600}\u{FE0F}',label:'UV Index',val:w.uv},
+    {ico:'\u{1F441}\u{FE0F}',label:'Visibility',val:'Good'},
+  ].map(s=>`<div class="weather-stat"><div class="ws-ico">${s.ico}</div><div class="ws-val">${s.val}</div><div class="ws-label">${s.label}</div></div>`).join('');
+}
+function refreshWeather(){renderWeather();showToast('\u{26C5}\u{FE0F} Weather updated!');}
+
+/* --- FACILITIES --- */
+const FACILITIES=[
+  {ico:'\u{1F6BB}',name:'Public Toilets',dist:'50m - Ram Kund'},
+  {ico:'\u{1F6B0}',name:'Drinking Water',dist:'Every 100m on ghats'},
+  {ico:'\u{1F3E5}',name:'Medical Camp',  dist:'Panchvati Entry Gate'},
+  {ico:'\u{1F46E}',name:'Police Post',   dist:'Ram Kund Chowk'},
+  {ico:'\u{1F17F}\u{FE0F}',name:'Parking Zone', dist:'Sharanpur Road'},
+  {ico:'\u{1F6D5}',name:'Prasad Counter',dist:'Near Kalaram Temple'},
+  {ico:'\u{1F68C}',name:'Cloakroom',    dist:'CBS Bus Stand'},
+  {ico:'\u{267F}',name:'Accessible Path',dist:'Check availability at major ghats'},
+];
+const FACILITY_ICONS={toilets:'\u{1F6BB}',water:'\u{1F6B0}',medical_camp:'\u{1F3E5}',police_post:'\u{1F46E}',parking:'\u{1F17F}\u{FE0F}',prasad:'\u{1F6D5}',cloakroom:'\u{1F68C}',accessible:'\u{267F}'};
+function renderFacilities(){
+  const backendFacilities=getKumbhItems('facilities');
+  const source=backendFacilities.length?backendFacilities.map(item=>({
+    ico:item.icon||FACILITY_ICONS[item.key]||'\u{1F6B0}',
+    name:item.title||item.key,
+    dist:item.subtitle||item.desc||item.description||item.category||'Near major ghats'
+  })):FACILITIES;
+  document.getElementById('facility-grid').innerHTML=source.map(f=>`
+    <div class="facility-card" onclick="showToast('\u{1F697} Facility detail selected')">
+      <div class="fc-ico">${escapeHtml(f.ico)}</div>
+      <div><div class="fc-name">${escapeHtml(f.name)}</div><div class="fc-dist">${escapeHtml(f.dist)}</div></div>
+    </div>`).join('');
+}
+
+function openFacilitiesMap(){
+  const query=encodeURIComponent('Kumbh Mela facilities near Ram Kund Nashik');
+  window.open(`https://www.google.com/maps/search/${query}`,'_blank','noopener');
+}
+
+const SOS_CONTACTS=[
+  {key:'emergency',ico:'\u{1F6A8}',cls:'sc-ico-help',name:'National Emergency',num:'112',detail:'Police, fire and medical emergency'},
+  {key:'police',ico:'\u{1F3D9}',cls:'sc-ico-police',name:'Police Control Room',num:'100',detail:'Nashik City Police - 24/7 Active'},
+  {key:'ambulance',ico:'\u{1F6A8}',cls:'sc-ico-med',name:'Medical Emergency',num:'108',detail:'Ambulance Service - Pan Maharashtra'}
+];
+function renderHelplines(){
+  const wrap=document.getElementById('sos-contact-list');
+  if(!wrap) return;
+  const backendHelplines=getKumbhItems('helplines');
+  const safeBackend=backendHelplines.filter(item=>{
+    const number=String(item.subtitle||item.meta?.phone||'').replace(/[^\d]/g,'');
+    return !((item.key==='tourist'&&number==='1950')||(item.key==='medical_camp'&&number==='02532573000'));
+  });
+  const backendSource=safeBackend.map(item=>({
+    key:item.key,
+    ico:item.icon||SOS_CONTACTS.find(c=>c.key===item.key)?.ico||'\u{1F4E7}',
+    cls:item.category&&item.category.toLowerCase().includes('medical')?'sc-ico-med':(item.category&&item.category.toLowerCase().includes('police')?'sc-ico-police':'sc-ico-help'),
+    name:item.title||item.key,
+    num:item.subtitle||item.meta?.phone||'112',
+    detail:item.desc||item.description||item.category||'Kumbh support'
+  }));
+  const source=[...backendSource];
+  SOS_CONTACTS.forEach(contact=>{
+    const number=String(contact.num).replace(/[^\d]/g,'');
+    if(!source.some(item=>String(item.num).replace(/[^\d]/g,'')===number)) source.push(contact);
+  });
+  wrap.innerHTML=source.map(c=>{
+    const dial=String(c.num||'').replace(/[^\d+]/g,'');
+    return `
+      <div class="sos-contact" onclick="callNum('${escapeHtml(dial)}')">
+        <div class="sc-ico ${escapeHtml(c.cls)}">${escapeHtml(c.ico)}</div>
+        <div class="sc-info">
+          <div class="sc-name">${escapeHtml(c.name)}</div>
+          <div class="sc-num">${escapeHtml(c.num)}</div>
+          <div class="sc-detail">${escapeHtml(c.detail)}</div>
+        </div>
+        <button type="button" class="sc-call" onclick="event.stopPropagation();callNum('${escapeHtml(dial)}')">\u{260E}\u{FE0F} Call</button>
+      </div>`;
+  }).join('');
+}
+
+/* --- SMART ROUTE SUGGESTION --- */
+const ROUTE_DATA={
+  nashik_city: {ram_kund:{dist:'3.2 km',time:'12 min',via:'Sharanpur Rd'},panchvati_ghat:{dist:'3.4 km',time:'14 min',via:'Old Agra Rd'},sita_gufaa:{dist:'3.8 km',time:'16 min',via:'CBS'},gorakhkund:{dist:'4.5 km',time:'20 min',via:'Gandhi Nagar'},ahilyadevi:{dist:'5.1 km',time:'22 min',via:'Makhmalabad Rd'},makhmalabad:{dist:'7.2 km',time:'30 min',via:'Bypass Rd'}},
+  cbs:         {ram_kund:{dist:'1.8 km',time:'8 min',via:'Panchvati Rd'},panchvati_ghat:{dist:'2 km',time:'9 min',via:'Godavari Bridge'},sita_gufaa:{dist:'2.2 km',time:'10 min',via:'CBS Bridge'},gorakhkund:{dist:'3 km',time:'13 min',via:'Gandhi Nagar'},ahilyadevi:{dist:'3.8 km',time:'17 min',via:'Makhmalabad'},makhmalabad:{dist:'6 km',time:'26 min',via:'Highway'}},
+  satpur:      {ram_kund:{dist:'5.5 km',time:'22 min',via:'Nashik Rd'},panchvati_ghat:{dist:'5.8 km',time:'24 min',via:'MG Rd'},sita_gufaa:{dist:'6 km',time:'25 min',via:'CBS'},gorakhkund:{dist:'6.5 km',time:'28 min',via:'Old Nashik'},ahilyadevi:{dist:'7.2 km',time:'30 min',via:'Highway'},makhmalabad:{dist:'9 km',time:'38 min',via:'Bypass'}},
+  college_road:{ram_kund:{dist:'2.5 km',time:'11 min',via:'Panchvati Rd'},panchvati_ghat:{dist:'2.8 km',time:'12 min',via:'Jail Rd'},sita_gufaa:{dist:'3 km',time:'13 min',via:'CBS Bridge'},gorakhkund:{dist:'3.8 km',time:'16 min',via:'Gandhi Nagar'},ahilyadevi:{dist:'4.5 km',time:'19 min',via:'Makhmalabad'},makhmalabad:{dist:'6.8 km',time:'28 min',via:'Bypass'}},
+  gangapur_road:{ram_kund:{dist:'4.5 km',time:'18 min',via:'Sharanpur Rd'},panchvati_ghat:{dist:'4.8 km',time:'20 min',via:'Godavari Bridge'},sita_gufaa:{dist:'5 km',time:'22 min',via:'CBS'},gorakhkund:{dist:'5.5 km',time:'24 min',via:'Gandhi Nagar'},ahilyadevi:{dist:'6 km',time:'26 min',via:'Makhmalabad'},makhmalabad:{dist:'8 km',time:'34 min',via:'Highway'}},
+  panchvati:   {ram_kund:{dist:'0.5 km',time:'3 min',via:'Ghat Rd'},panchvati_ghat:{dist:'0.2 km',time:'2 min',via:'Walking path'},sita_gufaa:{dist:'0.4 km',time:'3 min',via:'Walking path'},gorakhkund:{dist:'1.2 km',time:'6 min',via:'Ghat path'},ahilyadevi:{dist:'2 km',time:'10 min',via:'Ghat Rd'},makhmalabad:{dist:'4.5 km',time:'20 min',via:'Makhmalabad Rd'}},
+};
+const ROUTE_TIPS={ram_kund:'Ram Kund is busiest - arrive before 7 AM for peaceful darshan.',panchvati_ghat:'Panchvati Ghat has Sita Gufa nearby - combine both visits.',sita_gufaa:'Wear footwear - rocky path. Carries moderate crowd normally.',gorakhkund:'Gorakhkund is less crowded - good for senior pilgrims.',ahilyadevi:'Ahilyadevi Ghat offers peaceful snan, less known to tourists.',makhmalabad:'Makhmalabad route has excellent Nashik valley views.'};
+
+function findBackendRoute(from,to){
+  const normalizedFrom=normalizeKumbhKey(from);
+  const normalizedTo=normalizeKumbhKey(to);
+  return getKumbhItems('routes').find(item=>{
+    const meta=item.meta||{};
+    const routeFrom=normalizeKumbhKey(meta.from);
+    const routeTo=normalizeKumbhKey(meta.to);
+    const routeKey=normalizeKumbhKey(item.key);
+    return (routeFrom===normalizedFrom&&routeTo===normalizedTo)||
+      routeKey===`${normalizedFrom}_${normalizedTo}`;
+  });
+}
+
+let lastKumbhRoute=null;
+
+function getKumbhSelectLabel(id){
+  const el=document.getElementById(id);
+  return el?.selectedOptions?.[0]?.textContent?.trim() || el?.value || '';
+}
+
+function getKumbhGhatLabel(value){
+  const normalized=normalizeKumbhKey(value);
+  const routeSelect=document.getElementById('route-to');
+  const routeOption=routeSelect ? [...routeSelect.options].find(opt=>normalizeKumbhKey(opt.value)===normalized) : null;
+  if(routeOption) return routeOption.textContent.trim();
+  const planSelect=document.getElementById('plan-ghat');
+  const planOption=planSelect ? [...planSelect.options].find(opt=>normalizeKumbhKey(opt.value)===normalized) : null;
+  return planOption?.textContent?.trim() || formatKumbhRouteLabel(value);
+}
+
+function getKumbhRouteValueFromName(name){
+  const routeTo=document.getElementById('route-to');
+  const normalized=normalizeKumbhKey(name || '').replace(/_ghat$/,'');
+  const option=routeTo ? [...routeTo.options].find(opt=>{
+    const valueKey=normalizeKumbhKey(opt.value).replace(/_ghat$/,'');
+    const labelKey=normalizeKumbhKey(opt.textContent).replace(/_ghat$/,'');
+    return valueKey===normalized || labelKey===normalized;
+  }) : null;
+  return option?.value || 'ram_kund';
+}
+
+function syncKumbhRouteTarget(toValue){
+  const routeTo=document.getElementById('route-to');
+  if(routeTo && [...routeTo.options].some(opt=>opt.value===toValue)) routeTo.value=toValue;
+}
+
+function openKumbhRoutePlanner(){
+  const fromLabel=getKumbhSelectLabel('route-from') || 'Nashik City Center';
+  const toLabel=getKumbhSelectLabel('route-to') || 'Ram Kund Ghat';
+  const handoff={
+    from:fromLabel,
+    to:toLabel,
+    mode:'car',
+    title:`Kumbh route: ${fromLabel} to ${toLabel}`,
+    source:'kumbh-guide',
+    ts:Date.now()
+  };
+  try{ localStorage.setItem('explorex_profile_route_handoff',JSON.stringify(handoff)); }catch(e){}
+  const params=new URLSearchParams({from:fromLabel,to:toLabel,mode:'car',source:'kumbh-guide'});
+  window.location.href='route-planner.html?'+params.toString();
+}
+
+function openKumbhPlanRoute(toValue=''){
+  const preferred=toValue || document.getElementById('plan-ghat')?.value || 'ram_kund';
+  syncKumbhRouteTarget(preferred);
+  openKumbhRoutePlanner();
+}
+
+function suggestRoute(){
+  const from=document.getElementById('route-from').value;
+  const to=document.getElementById('route-to').value;
+  const backendRoute=findBackendRoute(from,to);
+  const data=backendRoute?{
+    dist:backendRoute.meta?.dist||backendRoute.subtitle||'--',
+    time:backendRoute.meta?.time||'--',
+    via:backendRoute.meta?.via||backendRoute.description||backendRoute.desc||'recommended route',
+    tip:backendRoute.meta?.tip||backendRoute.description||backendRoute.desc||''
+  }:(ROUTE_DATA[from]||{})[to];
+  if(!data){showToast('\u{1F9ED} Route data not available');return;}
+  const crowd=CROWD_LABELS[getCrowdLevel(normalizeKumbhKey(to))]||CROWD_LABELS[2];
+  lastKumbhRoute={from,to,fromLabel:getKumbhSelectLabel('route-from'),toLabel:getKumbhSelectLabel('route-to'),data,crowd:crowd.label};
+  document.getElementById('rr-dist').textContent=data.dist+' (via '+data.via+')';
+  document.getElementById('rr-time').textContent=data.time+' typical local travel';
+  document.getElementById('rr-crowd').innerHTML=`<span style="color:${crowd.label==='Low'?'#059669':crowd.label==='Medium'?'#F59E0B':'#EF4444'}">${crowd.label} estimate</span>`;
+  document.getElementById('rr-tip').textContent=data.tip||ROUTE_TIPS[to]||'Plan ahead for busy days.';
+  document.getElementById('route-result').classList.add('show');
+  showToast('\u{1F9ED} Best route found!');
+}
+
+/* --- PLAN MY VISIT --- */
+let planDay='weekday', planTime='early';
+function setPlanChip(el,type,val){
+  if(type==='day') planDay=val;
+  else planTime=val;
+  const group=type==='day'?'day-chips':'time-chips';
+  document.querySelectorAll(`#${group} .plan-chip`).forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+const PLAN_DATA={
+  weekday:{
+    early:{crowd:'Low',window:'5:30 AM - 7:30 AM',ghats:['Gorakhkund Ghat','Ahilyadevi Ghat'],tip:'Best time. Arrive before sunrise for peaceful snan and darshan.',route:'Start from city center via Sharanpur Road.'},
+    morning:{crowd:'Medium',window:'7:30 AM - 10:00 AM',ghats:['Panchvati Ghat','Ram Kund'],tip:'Good time, but avoid Ram Kund between 8 AM and 10 AM if travelling with seniors.',route:'CBS auto stand to Panchvati, then short walk.'},
+    afternoon:{crowd:'Low to Medium',window:'12:30 PM - 3:30 PM',ghats:['Makhmalabad Ghat','Sita Gufa'],tip:'Carry water and cap. This is better for families who want less crowd.',route:'Use Makhmalabad Road for calmer access.'},
+    evening:{crowd:'Medium to High',window:'5:00 PM - 7:30 PM',ghats:['Ram Kund','Panchvati Ghat'],tip:'Aarti time is beautiful but busy. Reach 45 minutes early.',route:'Park at Sharanpur or CBS and walk toward the ghat.'}
+  },
+  weekend:{
+    early:{crowd:'Medium',window:'5:30 AM - 7:00 AM',ghats:['Gorakhkund Ghat','Ahilyadevi Ghat'],tip:'Weekends start early. Leave before 5:30 AM for a smoother visit.',route:'Use Sharanpur Road and avoid the main Panchvati rush.'},
+    morning:{crowd:'High',window:'7:00 AM - 10:30 AM',ghats:['Sita Gufa','Gorakhkund Ghat'],tip:'Ram Kund can be packed. Choose alternate ghats for comfort.',route:'Avoid main Panchvati Road. Use quieter back lanes where allowed.'},
+    afternoon:{crowd:'Very High',window:'12:00 PM - 3:30 PM',ghats:['Makhmalabad Ghat'],tip:'Avoid peak ghats. Add Pandavleni Caves or a food break if the crowd is heavy.',route:'Take Nashik-Agra Road toward caves, then return when crowd drops.'},
+    evening:{crowd:'High',window:'5:00 PM - 7:30 PM',ghats:['Panchvati Ghat'],tip:'Aarti is worth it. Go 1 hour early and keep the group together.',route:'Park near CBS or Sharanpur and walk the final stretch.'}
+  },
+  snan:{
+    early:{crowd:'Very High',window:'4:30 AM - 7:00 AM',ghats:['Ram Kund Ghat'],tip:'Snan day needs extra patience. Follow police corridors and keep ID/water handy.',route:'Use official shuttle or marked pilgrim routes from CBS.'},
+    morning:{crowd:'Extreme',window:'7:00 AM - 11:00 AM',ghats:['Alternate Ghats Only'],tip:'Ram Kund may be restricted during VIP or procession windows.',route:'Use Gorakhkund or Ahilyadevi if allowed by live crowd control.'},
+    afternoon:{crowd:'High',window:'12:00 PM - 3:30 PM',ghats:['Panchvati Ghat','Gorakhkund Ghat'],tip:'Crowd starts easing after noon. Good for regular pilgrims who can wait.',route:'Use MSRTC or local shuttle from Nashik Road when available.'},
+    evening:{crowd:'Medium',window:'5:30 PM - 8:00 PM',ghats:['Ahilyadevi Ghat','Makhmalabad Ghat'],tip:'Evening after Snan is calmer and better for families.',route:'Take auto from Panchvati to the selected ghat and return before late night.'}
+  }
+};
+function generatePlan(){
+  const data=((PLAN_DATA[planDay]||PLAN_DATA.weekday)[planTime]) || PLAN_DATA.weekday.early;
+  const ghat=document.getElementById('plan-ghat').value;
+  const traveller=document.getElementById('plan-traveller')?.value||'family';
+  const ghats=ghat?[getKumbhGhatLabel(ghat)]:data.ghats;
+  const routeTarget=ghat || getKumbhRouteValueFromName(data.ghats[0] || 'ram_kund');
+  const adminTip=pickKumbhAdminTip({day:planDay,time:planTime,ghat});
+  const adminTipCard=adminTip?`
+    <div class="pr-card"><div class="pr-title">\u{1F6E1} Admin Guide Tip <span style="font-size:11px;font-weight:400;color:var(--ts);margin-left:8px;">${escapeHtml(adminTip.category)}</span></div><div class="pr-text">${escapeHtml(adminTip.text)}</div></div>`:'';
+  const travellerAdvice={
+    family:'Keep one meeting point, write a guardian phone number for children, and prefer daylight travel.',
+    senior:'Prefer early morning or afternoon, use nearby drop-off points, and avoid long standing queues.',
+    adults:'Keep the group together near barricades and decide the return transport before entering the ghat area.',
+    solo:'Share your route with a trusted contact, carry light luggage, and remain in marked public zones.'
+  };
+  const comfortWarning=traveller==='senior'&&planDay==='snan'&&(planTime==='morning'||planTime==='afternoon')
+    ? 'This is a difficult window for senior citizens. Prefer early morning with assistance or choose a normal weekday.'
+    : travellerAdvice[traveller];
+  const checklist=planDay==='snan'
+    ? ['Use official barricaded routes only','Carry water, ID proof, and minimum luggage','Keep children and seniors near the group leader']
+    : ['Carry water and comfortable footwear','Avoid peak crowd windows when possible','Keep a simple return route ready'];
+  document.getElementById('plan-result').innerHTML=`
+    <div class="pr-card"><div class="pr-title">\u{1F465} Expected Crowd <span style="font-size:11px;font-weight:400;color:var(--ts);margin-left:8px;">${escapeHtml(data.crowd)}</span></div><div class="pr-text">Based on ${escapeHtml(planDay)} ${escapeHtml(planTime)}, ${escapeHtml(data.crowd)} crowd is expected near major ghats.</div></div>
+    <div class="pr-card"><div class="pr-title">\u{1F552} Best Time Window</div><div class="pr-text">${escapeHtml(data.window)}</div></div>
+    <div class="pr-card"><div class="pr-title">\u{1F4CD} Recommended Ghats</div><div class="pr-text">${ghats.map(g=>`- ${escapeHtml(g)}`).join('<br>')}</div></div>
+    <div class="pr-card"><div class="pr-title">\u{1F4A1} Smart Tip</div><div class="pr-text">${escapeHtml(data.tip)}</div></div>
+    <div class="pr-card"><div class="pr-title">\u{1F6E1} Group Comfort</div><div class="pr-text">${escapeHtml(comfortWarning)}</div></div>
+    ${adminTipCard}
+    <div class="pr-card"><div class="pr-title">\u{1F9ED} Route Suggestion</div><div class="pr-text">${escapeHtml(data.route)}</div><div class="pr-actions"><button type="button" class="kumbh-mini-primary" onclick="openKumbhPlanRoute('${escapeHtml(routeTarget)}')">Open Route to Ghat</button></div></div>
+    <div class="pr-card"><div class="pr-title">\u{2705} Simple Checklist</div><div class="pr-text">${checklist.map(item=>`- ${escapeHtml(item)}`).join('<br>')}</div></div>`;
+  document.getElementById('plan-result').classList.add('show');
+  showToast('\u{2705}\u{FE0F} Your visit plan is ready!');
+}
+function showKumbhGuideSkeletons(){
+  const chips=document.getElementById('ai-chips');
+  const text=document.getElementById('ai-text');
+  const grid=document.getElementById('memories-grid');
+  if(chips){
+    chips.innerHTML='<div class="ex-skeleton-pill"></div><div class="ex-skeleton-pill"></div><div class="ex-skeleton-pill"></div>';
+  }
+  if(text){
+    text.innerHTML='<div class="ex-inline-skeleton" aria-label="Loading smart suggestions"><div class="ex-skeleton-card"><div class="ex-skeleton-line title"></div><div class="ex-skeleton-line"></div><div class="ex-skeleton-line short"></div></div></div>';
+  }
+  if(grid){
+    grid.innerHTML=Array.from({length:6},()=>'<div class="ex-skeleton-card"><div class="ex-skeleton-media"></div><div class="ex-skeleton-line title" style="margin-top:12px;"></div><div class="ex-skeleton-line short" style="margin-top:8px;"></div></div>').join('');
+  }
+}
+
+/* --- AI SMART SUGGESTIONS --- */
+function getAISuggestion(){
+  const h=new Date().getHours();
+  const day=new Date().getDay();
+  const isWeekend=day===0||day===6;
+  if(h>=4&&h<7) return {title:'\u{1F552} Early Visit Window',sub:'Planning estimate: typically calmer before sunrise',chips:[{t:'Usually Calmer',c:'ai-chip-green'},{t:'Peaceful Window',c:'ai-chip-green'},{t:'Go Prepared',c:'ai-chip-blue'}],text:`<strong>${h}:00 - ${h+2}:00 is usually a calmer planning window.</strong> Ram Kund and Panchvati Ghat may be easier before the morning rush. Consider Ram Kund or Gorakhkund Ghat, carry light luggage, and follow local entry instructions.`};
+  if(h>=7&&h<10) return {title:'\u{1F552} Good Time - Go Early!',sub:'Crowd rising fast',chips:[{t:'Medium Crowd',c:'ai-chip-orange'},{t:'Act Fast',c:'ai-chip-orange'},{t:'Morning Rush',c:'ai-chip-red'}],text:`Morning crowd is building up. <strong>Ram Kund Ghat crowd may rise quickly</strong>, so start immediately if that is your target. <strong>Better alternative:</strong> Visit Gorakhkund or Ahilyadevi Ghat. Avoid Panchvati Road when possible and use Sharanpur Road for easier access.`};
+  if(h>=10&&h<14) return {title:'\u{1F697} Peak Hours - Plan Carefully',sub:'High crowd at main ghats',chips:[{t:'High Crowd',c:'ai-chip-red'},{t:'Avoid Ram Kund',c:'ai-chip-red'},{t:'Use Alternate Ghats',c:'ai-chip-orange'}],text:`This is usually the <strong>peak tourist period</strong>. Ram Kund and Panchvati Ghat can be very crowded. <strong>Smart move:</strong> Visit Pandavleni Caves, Kalaram Temple, or wait until 3 PM. If you must visit a ghat, choose <strong>Makhmalabad or Ahilyadevi</strong>.`};
+  if(h>=14&&h<17) return {title:'\u{1F552} Afternoon Lull - Decent Time',sub:'Crowd reducing at most ghats',chips:[{t:'Medium Crowd',c:'ai-chip-orange'},{t:'Good for Seniors',c:'ai-chip-green'},{t:'Carry Water',c:'ai-chip-blue'}],text:`Afternoon usually brings a <strong>natural crowd reduction</strong> at many ghats. Ram Kund can become manageable now. <strong>Best picks:</strong> Sita Gufa and Gorakhkund Ghat. ${isWeekend?'Being a weekend, some congestion may remain - avoid Ram Kund till 5 PM.':'Weekday afternoon is good for a peaceful visit.'} Stay hydrated because the sun can be strong.`};
+  if(h>=17&&h<20) return {title:'\u{1F552} Aarti Time - Magical But Busy',sub:'Evening rush starting',chips:[{t:'Evening Rush',c:'ai-chip-orange'},{t:'Aarti at Sunset',c:'ai-chip-green'},{t:'Go Early',c:'ai-chip-blue'}],text:`Sunset aarti at Ram Kund is a <strong>must-see experience</strong>, but crowds often peak between 6 PM and 7:30 PM. <strong>Tip:</strong> Reach the ghat by 5 PM to get a good spot. Panchvati Ghat evening aarti is also beautiful with slightly fewer crowds.`};
+  return {title:'\u{1F319} Night Visit Guidance',sub:'Use lit areas and confirm local access',chips:[{t:'Stay in Lit Areas',c:'ai-chip-green'},{t:'Keep Group Together',c:'ai-chip-orange'},{t:'Check Return Travel',c:'ai-chip-blue'}],text:`<strong>Night at the ghats can feel peaceful, but access and transport can change.</strong> Stay in well-lit areas near Ram Kund and Panchvati Ghat, keep your group together, and confirm a safe return route before visiting.`};
+}
+function renderAI(){
+  const adminTip=pickKumbhAdminTip({time:planTime,day:planDay});
+  if(adminTip){
+    const chips=adminTip.chips.length
+      ? adminTip.chips.map(t=>({t,c:'ai-chip-blue'}))
+      : [
+          {t:adminTip.category||'Admin Pick',c:'ai-chip-blue'},
+          {t:'Verified Update',c:'ai-chip-green'}
+        ];
+    document.getElementById('ai-title').textContent=`\u{1F6E1} ${adminTip.title}`;
+    document.getElementById('ai-sub').textContent=adminTip.subtitle||'Curated by ExploreX admin';
+    document.getElementById('ai-chips').innerHTML=chips.map(c=>`<div class="ai-chip ${c.c}">${escapeHtml(c.t)}</div>`).join('');
+    document.getElementById('ai-text').innerHTML=escapeHtml(adminTip.text).replace(/\n/g,'<br>');
+    return;
+  }
+  const ai=getAISuggestion();
+  document.getElementById('ai-title').textContent=ai.title;
+  document.getElementById('ai-sub').textContent=ai.sub;
+  document.getElementById('ai-chips').innerHTML=ai.chips.map(c=>`<div class="ai-chip ${c.c}">${c.t}</div>`).join('');
+  document.getElementById('ai-text').innerHTML=ai.text;
+}
+function refreshAI(){renderAI();showToast('\u{1F4C5} Suggestions updated!');}
+
+/* --- KUMBH MEMORIES --- */
+function renderMemories(){
+  const backendMoments=getKumbhItems('moments').map(item=>({
+    img:item.meta?.image||item.image||'',
+    user:item.meta?.user||item.subtitle||'ExploreX Team',
+    loc:item.meta?.location||item.subtitle||item.category||'Kumbh Mela',
+    caption:item.desc||item.description||item.title,
+    title:item.title||'Kumbh Moment'
+  })).filter(m=>m.img);
+  const allMems=backendMoments.slice(0,12);
+  const grid=document.getElementById('memories-grid');
+  if(!grid) return;
+  if(!allMems.length){
+    grid.innerHTML='<div class="empty-card" style="grid-column:1/-1;text-align:center;padding:26px;">\u{1F6E1} Kumbh moments will appear here after admin publishes them.</div>';
+    return;
+  }
+  grid.innerHTML=allMems.map((m,i)=>`
+    <div class="mem-thumb" style="animation-delay:${i*.04}s" onclick="showToast('\u{1F4CD} ${escapeHtml(m.loc)} by ${escapeHtml(m.user)}')">
+      <img src="${escapeHtml(m.img)}" alt="${escapeHtml(m.loc)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&q=60'"/>
+      <div class="mem-user">${escapeHtml(m.user)}</div>
+      <div class="mem-thumb-overlay"></div>
+      <div class="mem-thumb-label">\u{1F4CD} ${escapeHtml(m.loc)}</div>
+    </div>`).join('');
+}
+
+/* --- AUTO-REFRESH CROWD every 3 min --- */
+setInterval(()=>{
+  if(document.getElementById('crowd-list')) renderCrowd();
+},3*60*1000);
+
+/* --- TOAST --- */
+function showToast(msg,dur=2500){
+  const t=document.getElementById('toast');
+  if(!t) return;
+  const text=String(msg||'')
+    .replace(/&#x([0-9a-f]+);/gi,(_,hex)=>{try{return String.fromCodePoint(parseInt(hex,16));}catch(e){return '';}})
+    .replace(/&#(\d+);/g,(_,num)=>{try{return String.fromCodePoint(parseInt(num,10));}catch(e){return '';}})
+    .replace(/&nbsp;/g,' ')
+    .replace(/&amp;/g,'&')
+    .replace(/&lt;/g,'<')
+    .replace(/&gt;/g,'>')
+    .replace(/&quot;/g,'"')
+    .replace(/&#39;|&#x27;/g,"'");
+  t.textContent=text;
+  t.classList.add('show');
+  clearTimeout(t._hideTimer);
+  t._hideTimer=setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+/* --- INIT --- */
+function renderKumbhEssentialUI(){
+  renderHelplines();
+  if(!applyKumbhSettings()) return false;
+  renderRouteOptions();
+  renderCrowd();
+  renderDates();
+  renderFacilities();
+  renderAI();
+  updateKumbhDataStatus();
+  scheduleKumbhHashScroll();
+  return true;
+}
+
+window.onload=()=>{
+  injectLangSelector('lang-selector-slot');
+  initProfileMenuUser();
+  renderKumbhEssentialUI();
+  void loadKumbhGuideData().then(()=>renderKumbhEssentialUI());
+};
+</script>
+
+<script>
+/* ExploreX page buffer controller */
+(function(){
+  function hideExploreXBuffer(){
+    var buffer=document.getElementById('ex-page-buffer');
+    if(!buffer) return;
+    buffer.classList.add('is-hidden');
+    window.setTimeout(function(){
+      if(buffer && buffer.parentNode) buffer.parentNode.removeChild(buffer);
+    },480);
+  }
+  if(document.readyState==='complete'){
+    window.setTimeout(hideExploreXBuffer,220);
+  }else{
+    window.addEventListener('load',function(){window.setTimeout(hideExploreXBuffer,220);},{once:true});
+  }
+  window.setTimeout(hideExploreXBuffer,2200);
+})();
+</script>
+
+
+<script>
+/* ExploreX shared theme synchronization */
+(function(){
+  function syncExploreXTheme(){
+    var dark=localStorage.getItem('explore_dark_mode')==='1';
+    if(typeof window.applyDarkMode==='function'){
+      window.applyDarkMode(dark);
+    }else if(typeof window.applyTheme==='function'){
+      window.applyTheme(dark?'dark':'light');
+    }else{
+      document.body.classList.toggle('dark-mode',dark);
+    }
+  }
+  window.addEventListener('pageshow',syncExploreXTheme);
+  window.addEventListener('storage',function(event){
+    if(event.key==='explore_dark_mode') syncExploreXTheme();
+  });
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden) syncExploreXTheme();
+  });
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
