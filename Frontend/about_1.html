@@ -1092,9 +1092,48 @@ html,body{max-width:100%;overflow-x:hidden;}
   .founder-img-wrap{max-width:250px!important;}
 }
 
+
+/* Final mobile hero safety layer: prevents the About hero from feeling cropped under the tall mobile header. */
+@media(max-width:640px){
+  .hero{
+    box-sizing:border-box!important;
+    min-height:max(560px, calc(100svh - var(--nav-h, 112px)))!important;
+    height:auto!important;
+    align-items:flex-start!important;
+    justify-content:flex-start!important;
+    padding:clamp(28px, 7vw, 44px) 16px clamp(58px, 13vw, 82px)!important;
+    overflow:hidden!important;
+  }
+  .hero-content{
+    width:100%!important;
+    max-width:560px!important;
+    margin:0 auto!important;
+    padding:2px 0!important;
+  }
+  .hero-bg{min-height:100%!important;}
+  .hero-proof{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;
+    gap:9px!important;
+  }
+  .hero-proof-pill{
+    width:100%!important;
+    min-width:0!important;
+    white-space:normal!important;
+    text-align:center!important;
+  }
+}
+@media(max-width:380px){
+  .hero{
+    min-height:max(590px, calc(100svh - var(--nav-h, 112px)))!important;
+    padding:26px 14px 68px!important;
+  }
+  .hero-proof{grid-template-columns:1fr!important;}
+}
 </style>
 <script src="config.js"></script>
-<link rel="stylesheet" href="explorex-shared-ui.css?v=20260623-2">
+<link rel="stylesheet" href="explorex-shared-ui.css?v=20260626-mobile-header-1">
 </head>
 <body class="explorex-about-page">
 
