@@ -3165,6 +3165,57 @@ body.route-planner-page .xfooter .xf-legal-link:hover{color:#FFFFFF!important;}
   body.route-planner-page .dm-fab{right:16px!important;bottom:16px!important;width:44px!important;height:44px!important;}
   body.route-planner-page .xfooter-grid{grid-template-columns:1fr!important;gap:22px!important;}
 }
+
+/* Final route planner natural scroll layout */
+@media (min-width:901px){
+  body.route-planner-page .route-hero{
+    position:relative!important;
+  }
+  body.route-planner-page > .split-container{
+    display:grid!important;
+    grid-template-columns:minmax(360px,40%) minmax(0,60%)!important;
+    align-items:start!important;
+    min-height:auto!important;
+    height:auto!important;
+    overflow:visible!important;
+  }
+  body.route-planner-page .left-panel{
+    position:relative!important;
+    top:auto!important;
+    align-self:start!important;
+    height:auto!important;
+    min-height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  body.route-planner-page .left-panel-content{
+    min-height:auto!important;
+    height:auto!important;
+  }
+  body.route-planner-page .right-panel{
+    position:sticky!important;
+    top:var(--nav)!important;
+    align-self:start!important;
+    height:calc(100vh - var(--nav))!important;
+    max-height:calc(100vh - var(--nav))!important;
+    overflow:hidden!important;
+  }
+  body.route-planner-page .routeMapContainer{
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    margin:0!important;
+  }
+  body.route-planner-page #routeMap{
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+  }
+  body.route-planner-page footer.xfooter{
+    position:relative!important;
+    z-index:2!important;
+  }
+}
 </style>
 <script src="lang.js"></script>
 <script src="config.js"></script>
@@ -12334,6 +12385,7 @@ updateLocationButtonState();
 
 </body>
 </html>
+
 
 
 

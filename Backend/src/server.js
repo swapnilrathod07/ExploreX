@@ -16,15 +16,13 @@ const { ensureDatabase, testConnection, initSchema, describeDatabaseError } = re
 const { startPublishDueJob } = require("./jobs/publishDue.job");
 
 const app = express();
-const port = Number(process.env.PORT || 5000);
+const PORT = process.env.PORT || 5000;
 const isProduction = String(process.env.NODE_ENV || "").trim().toLowerCase() === "production";
 
-const devFallbackOrigins = [
-  "http://127.0.0.1:5500",
-  "http://localhost:5500",
-  "http://127.0.0.1:3000",
-  "http://localhost:3000"
-];
+if (isProduction) {
+  app.set("trust proxy", 1);
+}
+
 const originEnv = String(process.env.FRONTEND_ORIGIN || "").trim();
 const parsedOriginValues = originEnv
   .split(",")
@@ -33,9 +31,7 @@ const parsedOriginValues = originEnv
 const hasWildcardOrigin = parsedOriginValues.includes("*");
 const explicitAllowedOrigins = parsedOriginValues.filter((value) => value !== "*");
 const allowAllOrigins = !isProduction && hasWildcardOrigin;
-const allowedOrigins = explicitAllowedOrigins.length > 0
-  ? explicitAllowedOrigins
-  : (isProduction ? [] : devFallbackOrigins);
+const allowedOrigins = explicitAllowedOrigins;
 const allowedOriginSet = new Set(
   allowedOrigins
     .map((origin) => String(origin || "").trim().replace(/\/+$/, "").toLowerCase())
@@ -187,13 +183,16 @@ app.use(
     maxAge: isProduction ? "7d" : 0,
     immutable: isProduction,
     setHeaders(res) {
-      // Frontend is often served from 127.0.0.1:5500 while backend is localhost:5000.
-      // Uploaded images must be embeddable across those local origins.
+      // Uploaded images may be served from a different frontend origin.
       res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
       res.setHeader("Access-Control-Allow-Origin", "*");
     }
   })
 );
+
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "ExploreX Backend Running" });
+});
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
@@ -260,12 +259,12 @@ app.use((req, res) => {
     await initSchema();
     startPublishDueJob();
 
-    const server = app.listen(port, () => {
-      console.log(`ExploreX backend running on http://localhost:${port}`);
+    const server = app.listen(PORT, () => {
+      console.log(`ExploreX backend running on port ${PORT}`);
     });
     server.on("error", (error) => {
       if (error?.code === "EADDRINUSE") {
-        console.error(`Port ${port} is already in use. Stop the old backend terminal or set PORT to another value.`);
+        console.error(`Port ${PORT} is already in use. Stop the old backend terminal or set PORT to another value.`);
       } else {
         console.error("Server listen error:", error?.message || error);
       }

@@ -28,6 +28,143 @@ const KUMBH_ITEM_STATUSES = new Set(["active", "draft", "archived"]);
 const MEMORY_STATUSES = new Set(["pending", "approved", "rejected"]);
 const USER_ROLES = new Set(["Traveller", "Guide", "Admin"]);
 const USER_ACCOUNT_STATUSES = new Set(["active", "inactive", "blocked", "deleted"]);
+const BACKUP_EXTRA_TABLES = [
+  {
+    key: "searchAnalytics",
+    aliases: ["searchAnalytics", "search_analytics"],
+    table: "search_analytics",
+    orderBy: "id ASC",
+    columns: ["id", "query", "normalized_query", "city", "category", "user_uid", "result_count", "source", "created_at"],
+    dateTimeColumns: ["created_at"]
+  },
+  {
+    key: "cityServiceEvents",
+    aliases: ["cityServiceEvents", "city_service_events"],
+    table: "city_service_events",
+    orderBy: "id ASC",
+    columns: ["id", "service_id", "event_type", "user_uid", "meta_json", "created_at"],
+    jsonColumns: ["meta_json"],
+    dateTimeColumns: ["created_at"]
+  },
+  {
+    key: "cityServiceReports",
+    aliases: ["cityServiceReports", "city_service_reports"],
+    table: "city_service_reports",
+    orderBy: "id ASC",
+    columns: ["id", "service_id", "reporter_uid", "reason", "details", "status", "created_at", "updated_at"],
+    dateTimeColumns: ["created_at", "updated_at"]
+  },
+  {
+    key: "cityServiceRatings",
+    aliases: ["cityServiceRatings", "city_service_ratings"],
+    table: "city_service_ratings",
+    orderBy: "id ASC",
+    columns: ["id", "service_id", "user_uid", "rating", "review", "created_at", "updated_at"],
+    dateTimeColumns: ["created_at", "updated_at"]
+  },
+  {
+    key: "hotelBookings",
+    aliases: ["hotelBookings", "hotel_bookings"],
+    table: "hotel_bookings",
+    orderBy: "created_at ASC",
+    columns: ["id", "user_uid", "user_name", "hotel_id", "owner_hotel_id", "hotel_place_id", "hotel_name", "place_name", "city", "room_key", "room_name", "checkin", "checkout", "guests", "rooms", "nights", "subtotal", "taxes", "total", "commission_rate", "platform_fee", "commission_amount", "hotel_payout", "payout_status", "status", "assigned_room_numbers_json", "meta_json", "created_at", "updated_at"],
+    jsonColumns: ["assigned_room_numbers_json", "meta_json"],
+    dateTimeColumns: ["created_at", "updated_at"]
+  },
+  {
+    key: "hotelOwnerStates",
+    aliases: ["hotelOwnerStates", "hotel_owner_states"],
+    table: "hotel_owner_states",
+    orderBy: "hotel_id ASC",
+    columns: ["hotel_id", "hotel_name", "profile_json", "rooms_json", "settings_json", "created_at", "updated_at"],
+    jsonColumns: ["profile_json", "rooms_json", "settings_json"],
+    dateTimeColumns: ["created_at", "updated_at"]
+  },
+  {
+    key: "hotelOwnerLogins",
+    aliases: ["hotelOwnerLogins", "hotel_owner_logins"],
+    table: "hotel_owner_logins",
+    orderBy: "hotel_id ASC",
+    columns: ["hotel_id", "hotel_name", "password_hash", "place_id", "hotel_place_id", "city", "area", "status", "last_login_at", "created_at", "updated_at"],
+    dateTimeColumns: ["last_login_at", "created_at", "updated_at"]
+  },
+  {
+    key: "hotelEnquiries",
+    aliases: ["hotelEnquiries", "hotel_enquiries"],
+    table: "hotel_enquiries",
+    orderBy: "created_at ASC",
+    columns: ["id", "user_uid", "user_name", "phone", "email", "topic", "message", "reply_note", "hotel_id", "owner_hotel_id", "hotel_place_id", "hotel_name", "place_name", "city", "room_key", "room_name", "checkin", "checkout", "guests", "rooms", "status", "meta_json", "created_at", "updated_at"],
+    jsonColumns: ["meta_json"],
+    dateTimeColumns: ["created_at", "updated_at"]
+  },
+  {
+    key: "itineraries",
+    aliases: ["itineraries"],
+    table: "itineraries",
+    orderBy: "id ASC",
+    columns: ["id", "user_id", "title", "from_city", "to_city", "travel_mode", "distance_km", "duration_minutes", "travel_date", "notes", "meta_json", "deleted_at", "created_at", "updated_at"],
+    jsonColumns: ["meta_json"],
+    dateOnlyColumns: ["travel_date"],
+    dateTimeColumns: ["deleted_at", "created_at", "updated_at"]
+  },
+  {
+    key: "itineraryItems",
+    aliases: ["itineraryItems", "itinerary_items"],
+    table: "itinerary_items",
+    orderBy: "id ASC",
+    columns: ["id", "itinerary_id", "place_id", "stop_name", "stop_city", "stop_area", "stop_category", "sequence_no", "notes", "meta_json", "created_at", "updated_at"],
+    jsonColumns: ["meta_json"],
+    dateTimeColumns: ["created_at", "updated_at"]
+  },
+  {
+    key: "supportTickets",
+    aliases: ["supportTickets", "support_tickets"],
+    table: "support_tickets",
+    orderBy: "id ASC",
+    columns: ["id", "user_id", "subject", "status", "resolved_at", "created_at", "updated_at"],
+    dateTimeColumns: ["resolved_at", "created_at", "updated_at"]
+  },
+  {
+    key: "supportMessages",
+    aliases: ["supportMessages", "support_messages"],
+    table: "support_messages",
+    orderBy: "id ASC",
+    columns: ["id", "ticket_id", "sender_type", "sender_id", "message", "is_read", "created_at"],
+    dateTimeColumns: ["created_at"]
+  }
+];
+
+const BACKUP_EXTRA_DELETE_ORDER = [
+  "supportMessages",
+  "supportTickets",
+  "itineraryItems",
+  "itineraries",
+  "cityServiceEvents",
+  "cityServiceReports",
+  "cityServiceRatings",
+  "hotelEnquiries",
+  "hotelBookings",
+  "hotelOwnerStates",
+  "hotelOwnerLogins",
+  "searchAnalytics"
+];
+
+const BACKUP_EXTRA_INSERT_ORDER = [
+  "searchAnalytics",
+  "cityServiceEvents",
+  "cityServiceReports",
+  "cityServiceRatings",
+  "hotelOwnerLogins",
+  "hotelOwnerStates",
+  "hotelBookings",
+  "hotelEnquiries",
+  "itineraries",
+  "itineraryItems",
+  "supportTickets",
+  "supportMessages"
+];
+
+const BACKUP_EXTRA_TABLE_MAP = new Map(BACKUP_EXTRA_TABLES.map((def) => [def.key, def]));
 
 const DEFAULT_PLACE_CATEGORIES = [
   {
@@ -1817,6 +1954,76 @@ function normalizeBackupKumbhItems(rows = [], warnings = []) {
   return output;
 }
 
+function normalizeBackupRawValue(value, column, def) {
+  if (value === undefined || value === null) return null;
+  if (def.jsonColumns?.includes(column)) return normalizeOptionalJsonForDb(value);
+  if (def.dateOnlyColumns?.includes(column)) return toSqlDateOnly(value);
+  if (def.dateTimeColumns?.includes(column)) return toSqlDateTime(value);
+  if (value instanceof Date) return toSqlDateTime(value);
+  if (typeof value === "boolean") return value ? 1 : 0;
+  if (typeof value === "object") return safeJsonStringify(value, "{}");
+  return value;
+}
+
+function mapRawBackupRows(rows = []) {
+  return rows.map((row) => {
+    const mapped = {};
+    Object.entries(row || {}).forEach(([key, value]) => {
+      mapped[key] = value instanceof Date ? toIso(value) : value;
+    });
+    return mapped;
+  });
+}
+
+function normalizeBackupExtraRows(def, rows = [], warnings = []) {
+  const output = [];
+  let skipped = 0;
+  rows.forEach((row) => {
+    if (!row || typeof row !== "object" || Array.isArray(row)) {
+      skipped++;
+      return;
+    }
+    const normalized = {};
+    def.columns.forEach((column) => {
+      if (Object.prototype.hasOwnProperty.call(row, column)) {
+        normalized[column] = normalizeBackupRawValue(row[column], column, def);
+      }
+    });
+    const hasUsefulValue = Object.values(normalized).some((value) => value !== null && value !== "");
+    if (!hasUsefulValue) {
+      skipped++;
+      return;
+    }
+    output.push(normalized);
+  });
+  if (skipped > 0) warnings.push(`${skipped} ${def.key} backup row(s) were skipped due to invalid shape.`);
+  return output;
+}
+
+async function fetchBackupExtraData() {
+  const data = {};
+  for (const def of BACKUP_EXTRA_TABLES) {
+    const [rows] = await pool.query(`SELECT * FROM ${def.table} ORDER BY ${def.orderBy}`);
+    data[def.key] = mapRawBackupRows(rows);
+  }
+  return data;
+}
+
+async function importBackupExtraTable(connection, def, rows) {
+  if (!Array.isArray(rows)) return 0;
+  await connection.query(`DELETE FROM ${def.table}`);
+  for (const row of rows) {
+    const columns = def.columns.filter((column) => Object.prototype.hasOwnProperty.call(row, column));
+    if (!columns.length) continue;
+    const placeholders = columns.map(() => "?").join(", ");
+    const values = columns.map((column) => row[column]);
+    await connection.query(
+      `INSERT INTO ${def.table} (${columns.join(", ")}) VALUES (${placeholders})`,
+      values
+    );
+  }
+  return rows.length;
+}
 function normalizeBackupHomeSections(rows = []) {
   const rawByKey = new Map();
   rows.forEach((row) => {
@@ -5755,6 +5962,8 @@ router.get("/admin/backup/export", requireSuperAdmin, async (req, res) => {
       "SELECT admin_id, permission_key, can_edit, updated_by, created_at, updated_at FROM admin_permissions ORDER BY admin_id ASC, permission_key ASC"
     );
 
+    const extraBackupData = await fetchBackupExtraData();
+
     const backupPayload = {
       version: 2,
       kind: "explorex-admin-backup",
@@ -5844,7 +6053,8 @@ router.get("/admin/backup/export", requireSuperAdmin, async (req, res) => {
           moderatedAt: toIso(row.moderated_at),
           createdAt: toIso(row.created_at),
           updatedAt: toIso(row.updated_at)
-        }))
+        })),
+        ...extraBackupData
       }
     };
 
@@ -5893,6 +6103,10 @@ router.post("/admin/backup/import", requireSuperAdmin, async (req, res) => {
   const adminPermissionsInput = pickArray(source, ["adminPermissions", "admin_permissions"]);
   const memoryModerationInput = pickArray(source, ["memoryModeration", "memory_moderation"]);
   const memoriesInput = pickArray(source, ["memories"]);
+  const extraBackupInputs = {};
+  for (const def of BACKUP_EXTRA_TABLES) {
+    extraBackupInputs[def.key] = pickArray(source, def.aliases);
+  }
 
   let usersRows = usersInput ? normalizeBackupUsers(usersInput, warnings) : null;
   let userProfilesRows = userProfilesInput ? normalizeBackupUserProfiles(userProfilesInput) : null;
@@ -5925,6 +6139,12 @@ router.post("/admin/backup/import", requireSuperAdmin, async (req, res) => {
   let memoryModerationRows = memoryModerationInput
     ? normalizeBackupMemoryModeration(memoryModerationInput)
     : null;
+  const extraBackupRows = {};
+  for (const def of BACKUP_EXTRA_TABLES) {
+    extraBackupRows[def.key] = extraBackupInputs[def.key]
+      ? normalizeBackupExtraRows(def, extraBackupInputs[def.key], warnings)
+      : null;
+  }
 
   if (!memoryModerationRows && memoriesInput) {
     memoryModerationRows = normalizeBackupMemoryModerationFromMemories(memoriesInput);
@@ -5960,6 +6180,14 @@ router.post("/admin/backup/import", requireSuperAdmin, async (req, res) => {
     warnings
   );
 
+  for (const def of BACKUP_EXTRA_TABLES) {
+    extraBackupRows[def.key] = resolveSectionForImport(
+      extraBackupInputs[def.key],
+      extraBackupRows[def.key],
+      def.key,
+      warnings
+    );
+  }
   const hasAnySection = [
     usersRows,
     userProfilesRows,
@@ -5971,7 +6199,8 @@ router.post("/admin/backup/import", requireSuperAdmin, async (req, res) => {
     homeSectionsRows,
     auditLogsRows,
     adminPermissionsRows,
-    memoryModerationRows
+    memoryModerationRows,
+    ...Object.values(extraBackupRows)
   ].some((value) => value !== null);
 
   if (!hasAnySection) {
@@ -5987,6 +6216,12 @@ router.post("/admin/backup/import", requireSuperAdmin, async (req, res) => {
     if (homeSectionsRows !== null) await ensureHomeSectionsSchema();
     await connection.beginTransaction();
 
+    for (const key of BACKUP_EXTRA_DELETE_ORDER) {
+      if (extraBackupRows[key] !== null) {
+        const def = BACKUP_EXTRA_TABLE_MAP.get(key);
+        if (def) await connection.query(`DELETE FROM ${def.table}`);
+      }
+    }
     if (usersRows !== null) {
       await connection.query("DELETE FROM user_profiles");
       await connection.query("DELETE FROM users");
@@ -6316,6 +6551,13 @@ router.post("/admin/backup/import", requireSuperAdmin, async (req, res) => {
       counts.memoryModeration = memoryModerationRows.length;
     }
 
+    for (const key of BACKUP_EXTRA_INSERT_ORDER) {
+      const rows = extraBackupRows[key];
+      if (rows !== null) {
+        const def = BACKUP_EXTRA_TABLE_MAP.get(key);
+        if (def) counts[key] = await importBackupExtraTable(connection, def, rows);
+      }
+    }
     await connection.commit();
 
     await createAuditLog("backup_import", "system", "Admin backup imported", null, {

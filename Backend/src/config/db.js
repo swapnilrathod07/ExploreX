@@ -1,7 +1,8 @@
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
 const mysql = require("mysql2/promise");
 
-const dbNameRaw = process.env.DB_NAME || "explorex";
-const dbName = /^[a-zA-Z0-9_]+$/.test(dbNameRaw) ? dbNameRaw : "explorex";
+const databaseUrl = (process.env.DATABASE_URL || "").trim();
 
 function toPositiveInt(value, fallback, { min = 1, max = 100 } = {}) {
   const parsed = Number(value);
@@ -9,17 +10,47 @@ function toPositiveInt(value, fallback, { min = 1, max = 100 } = {}) {
   return Math.min(max, Math.max(min, Math.trunc(parsed)));
 }
 
-const baseConfig = {
-  host: process.env.DB_HOST || "localhost",
-  port: toPositiveInt(process.env.DB_PORT || 3306, 3306, { min: 1, max: 65535 }),
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  connectTimeout: toPositiveInt(process.env.DB_CONNECT_TIMEOUT_MS || 10000, 10000, { min: 1000, max: 60000 })
-};
+function getDatabaseNameFromUrl(connectionUrl) {
+  if (!connectionUrl) return null;
+  try {
+    const parsed = new URL(connectionUrl);
+    const dbNameFromPath = decodeURIComponent(parsed.pathname || "").replace(/^\/+/, "");
+    return dbNameFromPath || null;
+  } catch (error) {
+    throw new Error("Invalid DATABASE_URL. Use format: mysql://USER:PASSWORD@HOST:PORT/DATABASE");
+  }
+}
+
+const dbNameRaw = getDatabaseNameFromUrl(databaseUrl) || process.env.DB_NAME || "explorex";
+const dbName = (databaseUrl || /^[a-zA-Z0-9_]+$/.test(dbNameRaw)) ? dbNameRaw : "explorex";
+const connectTimeout = toPositiveInt(process.env.DB_CONNECT_TIMEOUT_MS || 10000, 10000, { min: 1000, max: 60000 });
+
+const baseConfig = databaseUrl
+  ? null
+  : {
+      host: process.env.DB_HOST || "localhost",
+      port: toPositiveInt(process.env.DB_PORT || 3306, 3306, { min: 1, max: 65535 }),
+      user: process.env.DB_USER || "root",
+      password: process.env.DB_PASSWORD || "",
+      connectTimeout
+    };
+
+function buildConnectionConfig({ withDatabase = true } = {}) {
+  if (databaseUrl) {
+    return {
+      uri: databaseUrl,
+      connectTimeout
+    };
+  }
+
+  return {
+    ...baseConfig,
+    ...(withDatabase ? { database: dbName } : {})
+  };
+}
 
 const pool = mysql.createPool({
-  ...baseConfig,
-  database: dbName,
+  ...buildConnectionConfig({ withDatabase: true }),
   waitForConnections: true,
   connectionLimit: toPositiveInt(process.env.DB_CONNECTION_LIMIT || 10, 10, { min: 1, max: 50 }),
   queueLimit: toPositiveInt(process.env.DB_QUEUE_LIMIT || 0, 0, { min: 0, max: 10000 }),
@@ -29,20 +60,19 @@ const pool = mysql.createPool({
 function describeDatabaseError(error) {
   const code = error?.code || "UNKNOWN";
   if (code === "ECONNREFUSED") {
-    return "MySQL connection refused. Please start MySQL and verify DB_HOST/DB_PORT.";
+    return "MySQL connection refused. Verify DATABASE_URL or DB_HOST/DB_PORT and confirm the database allows public connections.";
   }
   if (code === "ER_ACCESS_DENIED_ERROR") {
-    return "MySQL access denied. Please verify DB_USER and DB_PASSWORD in Backend/.env.";
+    return "MySQL access denied. Verify the username and password in DATABASE_URL or Backend/.env.";
   }
   if (code === "ENOTFOUND") {
-    return "MySQL host not found. Please verify DB_HOST in Backend/.env.";
+    return "MySQL host not reachable. Verify DATABASE_URL host/port and use Railway's public MySQL URL.";
   }
   if (code === "ETIMEDOUT" || code === "PROTOCOL_SEQUENCE_TIMEOUT") {
-    return "MySQL connection timed out. Please verify MySQL is reachable.";
+    return "MySQL connection timed out. Verify the Railway public host, port, and network access.";
   }
   return error?.message || "Database error";
 }
-
 const DEFAULT_KUMBH_ITEMS = [
   {
     type: "ticker",
@@ -317,8 +347,13 @@ function stringifyJson(value) {
 }
 
 async function ensureDatabase() {
-  const connection = await mysql.createConnection(baseConfig);
+  const connection = await mysql.createConnection(buildConnectionConfig({ withDatabase: Boolean(databaseUrl) }));
   try {
+    if (databaseUrl) {
+      await connection.query("SELECT DATABASE()");
+      return;
+    }
+
     await connection.query(
       `CREATE DATABASE IF NOT EXISTS \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
     );
@@ -1353,3 +1388,5 @@ module.exports = {
   ensureDefaultKumbhItems,
   ensureDefaultKumbhSettings
 };
+
+
