@@ -3606,9 +3606,10 @@ async function openAdminPanelFromProfile(){
 
   setAdminShortcutBusy(true);
   const host=window.location.hostname||'localhost';
-  const manual=String(localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base')||'').trim().replace(/\/+$/,'');
-  const bases=[manual,PROFILE_API_BASE,`http://${host}:5000`,`http://${host}:5001`].filter(Boolean);
-  const ordered=[...new Set(bases)];
+  const manual=String(window.EXPLOREX_API_BASE||localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base')||'').trim().replace(/\/+$/,'');
+  const fallbackBases=[manual,PROFILE_API_BASE,`http://${host}:5000`,`http://${host}:5001`].filter(Boolean);
+  const bases=window.EXPLOREX_API_BASE_CANDIDATES || fallbackBases;
+  const ordered=[...new Set(bases.map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
   let hadNetworkError=false;
 
   try{
@@ -6942,16 +6943,3 @@ function goPageProfile(){
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

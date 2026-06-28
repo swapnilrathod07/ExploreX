@@ -148,6 +148,7 @@ app.use(
     methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Admin-Pin-Token"],
     optionsSuccessStatus: 204,
+    credentials: true,
     origin(origin, callback) {
       if (!origin) {
         return callback(null, true);
@@ -253,25 +254,33 @@ app.use((req, res) => {
 });
 
 (async () => {
+  let databaseReady = false;
   try {
     await ensureDatabase();
     await testConnection();
     await initSchema();
+    databaseReady = true;
     startPublishDueJob();
-
-    const server = app.listen(PORT, () => {
-      console.log(`ExploreX backend running on port ${PORT}`);
-    });
-    server.on("error", (error) => {
-      if (error?.code === "EADDRINUSE") {
-        console.error(`Port ${PORT} is already in use. Stop the old backend terminal or set PORT to another value.`);
-      } else {
-        console.error("Server listen error:", error?.message || error);
-      }
-      process.exit(1);
-    });
   } catch (error) {
-    console.error("Failed to start server:", describeDatabaseError(error));
-    process.exit(1);
+    const message = describeDatabaseError(error);
+    if (isProduction) {
+      console.error("Failed to start server:", message);
+      process.exit(1);
+    }
+    console.warn("Database startup warning:", message);
+    console.warn("ExploreX backend will start in development mode, but database-backed APIs may fail until MySQL reconnects.");
   }
+
+  const server = app.listen(PORT, () => {
+    const suffix = databaseReady ? "" : " (database not connected)";
+    console.log(`ExploreX backend running on port ${PORT}${suffix}`);
+  });
+  server.on("error", (error) => {
+    if (error?.code === "EADDRINUSE") {
+      console.error(`Port ${PORT} is already in use. Stop the old backend terminal or set PORT to another value.`);
+    } else {
+      console.error("Server listen error:", error?.message || error);
+    }
+    process.exit(1);
+  });
 })();

@@ -1538,14 +1538,14 @@ window.onload=()=>{
 };
 
 let activeTab='login';
-const API_BASE=String(window.EXPLOREX_API_BASE||localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base')||'http://localhost:5000').replace(/\/+$/,'');
-const API_BASE_FALLBACKS=[
+const API_BASE=String(window.EXPLOREX_API_BASE||'http://localhost:5000').replace(/\/+$/,'');
+const API_BASE_FALLBACKS=(window.EXPLOREX_API_BASE_CANDIDATES || [
   API_BASE,
   'http://localhost:5000',
   'http://127.0.0.1:5000',
   'http://localhost:5101',
   'http://127.0.0.1:5101'
-].map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean);
+]).map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean);
 
 function getApiBaseCandidates(){
   return [...new Set(API_BASE_FALLBACKS)];
@@ -2425,11 +2425,3 @@ function toggleDarkMode(){
 
 </body>
 </html>
-
-
-
-
-
-
-
-

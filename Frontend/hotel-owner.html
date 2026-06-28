@@ -554,6 +554,7 @@ body.dark .ex-buffer-bar,
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
 const BOOKINGS_KEY='explorex_hotel_bookings';
 const BOOKING_BROADCAST_KEY='explorex_hotel_bookings_broadcast';
@@ -585,15 +586,15 @@ function resolveOwnerApiBase(rawBase){
   }
 }
 const OWNER_API_BASE=resolveOwnerApiBase(window.EXPLOREX_API_BASE||localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base'));
-const OWNER_API_BASE_CANDIDATES=[...new Set([
+const OWNER_API_BASE_CANDIDATES=[...new Set((window.EXPLOREX_API_BASE_CANDIDATES || [
+  OWNER_API_BASE,
   `http://${window.location.hostname || 'localhost'}:5000`,
   'http://localhost:5000',
   'http://127.0.0.1:5000',
-  OWNER_API_BASE,
   `http://${window.location.hostname || 'localhost'}:5101`,
   'http://localhost:5101',
   'http://127.0.0.1:5101'
-].map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
+]).map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
 function getOwnerAccessToken(){
   if(ownerSession?.adminAccess){
     return String(localStorage.getItem('explore_token')||'').trim();
@@ -656,7 +657,7 @@ function normalizeOwnerMediaUrl(value){
 function resolveOwnerMediaUrl(value){
   const raw=normalizeOwnerMediaUrl(value);
   if(!raw)return'';
-  const base=String(localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base')||OWNER_API_BASE||'http://localhost:5000').replace(/\/+$/,'');
+  const base=String(window.EXPLOREX_API_BASE||OWNER_API_BASE||'http://localhost:5000').replace(/\/+$/,'');
   return raw.startsWith('/uploads/')?base+raw:raw;
 }
 function ownerRoomPreviewMarkup(value,name='Room'){
@@ -1344,13 +1345,13 @@ function getScopedEnquiries(){
 }
 function bookingStatus(b){return String(b.status||'requested').toLowerCase().replace(/-/g,'_');}
 function bookingPaymentStatus(b){const raw=String(b?.meta?.paymentStatus||b?.paymentStatus||'unpaid').toLowerCase().replace(/[\s-]+/g,'_');if(raw==='paid')return'paid';if(raw==='refunded')return'refunded';if(raw==='not_applicable'||['rejected','cancelled','expired','deleted'].includes(bookingStatus(b)))return'not_applicable';return'unpaid';}
-function bookingPaymentLabel(b){const status=bookingPaymentStatus(b);return status==='paid'?'Paid / owner verified':status==='refunded'?'Refunded':status==='not_applicable'?'Not applicable':'Unpaid · pay at hotel';}
+function bookingPaymentLabel(b){const status=bookingPaymentStatus(b);return status==='paid'?'Paid / owner verified':status==='refunded'?'Refunded':status==='not_applicable'?'Not applicable':'Unpaid Ã‚Â· pay at hotel';}
 function bookingPaidAmount(b){return bookingPaymentStatus(b)==='paid'?(Number(b?.meta?.paidAmount||0)||Number(b?.total||0)||0):0;}
 function paymentTimeLabel(value){const time=Number(value||0)||Date.parse(String(value||''));if(!time)return'';return new Date(time).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}
 function bookingPaymentProof(b){const proof=b?.meta?.paymentProof;return proof&&typeof proof==='object'&&String(proof.status||'').toLowerCase()==='submitted'?proof:null;}
 function ownerPaymentMethodLabel(method=''){const key=String(method||'').toLowerCase().replace(/[\s-]+/g,'_');const labels={upi:'UPI',card:'Card',cash:'Cash',bank_transfer:'Bank transfer',net_banking:'Net banking',wallet:'Wallet',other:'Other',pay_at_hotel:'Pay at hotel'};return labels[key]||String(method||'Other').replace(/_/g,' ');}
-function bookingPaymentProofHTML(b){const proof=bookingPaymentProof(b);if(!proof)return'';const at=paymentTimeLabel(proof.submittedAt);const ref=String(proof.reference||'').trim();return `<div class="owner-payment-proof"><strong>Traveller proof</strong><span>${money(proof.amount||b.total||0)} · ${esc(ownerPaymentMethodLabel(proof.method))}${ref?' · Ref: '+esc(ref):''}${at?' · '+esc(at):''}</span>${proof.note?`<span>${esc(proof.note)}</span>`:''}</div>`;}
-function bookingPaymentDetailsHTML(b){const status=bookingPaymentStatus(b);const amount=bookingPaidAmount(b)||Number(b?.total||0);const proof=bookingPaymentProof(b);const method=String(b?.meta?.paymentMethod||proof?.method||'pay_at_hotel').replace(/_/g,' ');const at=paymentTimeLabel(b?.meta?.paymentConfirmedAt);if(status==='paid')return `<div class="muted">Paid amount ${money(amount)}</div><div class="muted">${esc(method)}${at?' · '+esc(at):''}</div>${bookingPaymentProofHTML(b)}`;if(status==='not_applicable')return '<div class="muted">No payment needed for this status</div>';return `<div class="muted">${proof?'Proof waiting for owner verification':'Expected at hotel'} · ${esc(method)}</div>${bookingPaymentProofHTML(b)}`;}
+function bookingPaymentProofHTML(b){const proof=bookingPaymentProof(b);if(!proof)return'';const at=paymentTimeLabel(proof.submittedAt);const ref=String(proof.reference||'').trim();return `<div class="owner-payment-proof"><strong>Traveller proof</strong><span>${money(proof.amount||b.total||0)} Ã‚Â· ${esc(ownerPaymentMethodLabel(proof.method))}${ref?' Ã‚Â· Ref: '+esc(ref):''}${at?' Ã‚Â· '+esc(at):''}</span>${proof.note?`<span>${esc(proof.note)}</span>`:''}</div>`;}
+function bookingPaymentDetailsHTML(b){const status=bookingPaymentStatus(b);const amount=bookingPaidAmount(b)||Number(b?.total||0);const proof=bookingPaymentProof(b);const method=String(b?.meta?.paymentMethod||proof?.method||'pay_at_hotel').replace(/_/g,' ');const at=paymentTimeLabel(b?.meta?.paymentConfirmedAt);if(status==='paid')return `<div class="muted">Paid amount ${money(amount)}</div><div class="muted">${esc(method)}${at?' Ã‚Â· '+esc(at):''}</div>${bookingPaymentProofHTML(b)}`;if(status==='not_applicable')return '<div class="muted">No payment needed for this status</div>';return `<div class="muted">${proof?'Proof waiting for owner verification':'Expected at hotel'} Ã‚Â· ${esc(method)}</div>${bookingPaymentProofHTML(b)}`;}
 function roomKey(b){const raw=String(b.roomKey||b.roomName||'').toLowerCase();const state=getState();const exact=getOwnerRooms(state).find(r=>String(r.key).toLowerCase()===raw||String(r.name).toLowerCase()===raw);if(exact)return exact.key;if(raw.includes('family'))return'family';if(raw.includes('deluxe'))return'deluxe';return'standard';}
 function roomConfig(b){const rooms=getOwnerRooms(getState());return rooms.find(r=>r.key===roomKey(b))||rooms[0]||DEFAULT_ROOMS[0];}
 function assignedRooms(b){return Array.isArray(b.assignedRoomNumbers)?b.assignedRoomNumbers.map(String).filter(Boolean):String(b.assignedRoomNo||'').split(',').map(v=>v.trim()).filter(Boolean);}
@@ -1752,7 +1753,7 @@ function ownerBookingTimelineHTML(b={}){
   const items=base.length?base:[{status:bookingStatus(b),note:meta.ownerStatusNote||ownerBookingNextActionText(b),actor:meta.ownerStatusUpdatedBy||ownerSession?.hotelName||'Hotel owner',at:meta.ownerStatusUpdatedAt||b.updatedAt||b.createdAt||Date.now()}];
   return `<details class="owner-booking-timeline">
     <summary class="owner-booking-timeline-title">Recent booking trail</summary>
-    <div class="owner-booking-timeline-list">${items.map(item=>`<div class="owner-booking-step ${esc(ownerTimelineTone(item.status))}"><i></i><div><strong>${esc(ownerTimelineStatusLabel(item.status))}</strong><span>${esc(item.note||'Status updated.')} · ${esc(item.actor||'System')} · ${esc(enquiryDate(item.at))}</span></div></div>`).join('')}</div>
+    <div class="owner-booking-timeline-list">${items.map(item=>`<div class="owner-booking-step ${esc(ownerTimelineTone(item.status))}"><i></i><div><strong>${esc(ownerTimelineStatusLabel(item.status))}</strong><span>${esc(item.note||'Status updated.')} Ã‚Â· ${esc(item.actor||'System')} Ã‚Â· ${esc(enquiryDate(item.at))}</span></div></div>`).join('')}</div>
   </details>`;
 }
 
@@ -1789,21 +1790,21 @@ function renderBookings(){
       <div class="owner-booking-top">
         <div>
           <div class="owner-booking-title">${esc(b.userName||'Traveller')}</div>
-          <div class="owner-booking-id">${esc(b.id||'')} · ${esc(enquiryDate(b.updatedAt||b.createdAt))}</div>
-          <div class="owner-booking-id">${esc(b.hotelName||b.placeName||ownerSession?.hotelName||'Hotel')} · ${esc(reason)}</div>
+          <div class="owner-booking-id">${esc(b.id||'')} Ã‚Â· ${esc(enquiryDate(b.updatedAt||b.createdAt))}</div>
+          <div class="owner-booking-id">${esc(b.hotelName||b.placeName||ownerSession?.hotelName||'Hotel')} Ã‚Â· ${esc(reason)}</div>
         </div>
         <span class="pill ${esc(status)}">${esc(status.replace('_',' '))}</span>
       </div>
       ${ownerBookingAlertsHTML(b)}
       <div class="owner-booking-clean-strip">
-        <span><b>Stay</b>${esc(b.checkin||'-')} to ${esc(b.checkout||'-')} · ${Number(b.nights||1)} night(s)</span>
-        <span><b>Room</b>${esc(b.roomName||'Room')} · ${Number(b.rooms||1)} room(s), ${Number(b.guests||1)} guest(s)${extraGuestTotal?` · Extra ${money(extraGuestTotal)}`:''}</span>
-        <span><b>Amount</b>${money(b.total||0)} · <i class="owner-booking-payment ${paymentChipClass}">${esc(ownerBookingPaymentChip(b))}</i></span>
+        <span><b>Stay</b>${esc(b.checkin||'-')} to ${esc(b.checkout||'-')} Ã‚Â· ${Number(b.nights||1)} night(s)</span>
+        <span><b>Room</b>${esc(b.roomName||'Room')} Ã‚Â· ${Number(b.rooms||1)} room(s), ${Number(b.guests||1)} guest(s)${extraGuestTotal?` Ã‚Â· Extra ${money(extraGuestTotal)}`:''}</span>
+        <span><b>Amount</b>${money(b.total||0)} Ã‚Â· <i class="owner-booking-payment ${paymentChipClass}">${esc(ownerBookingPaymentChip(b))}</i></span>
       </div>
       <div class="owner-booking-room-tools">
         <div class="owner-booking-room-head">
           <strong>${esc(assignmentState)}: ${assigned.length?esc(assigned.join(', ')):'Not assigned'}</strong>
-          <span>${esc(info.cfg.name||b.roomName||'Room')} · need ${info.requested}</span>
+          <span>${esc(info.cfg.name||b.roomName||'Room')} Ã‚Â· need ${info.requested}</span>
         </div>
         <div class="assign"><input type="text" class="input" id="${inputId}" value="${esc(inputValue)}" placeholder="${esc(info.available.slice(0,3).join(', ')||'No rooms')}"><button type="button" class="btn secondary small" onclick="assignRooms('${esc(b.id)}')">Assign</button></div>
         ${availabilityHTML(b)}
@@ -1840,14 +1841,14 @@ function renderQuick(){
       <div class="owner-action-top">
         <div>
           <div class="owner-action-guest">${esc(b.userName||'Traveller')}</div>
-          <div class="owner-action-id">${esc(b.id||'')} · ${esc(enquiryDate(b.updatedAt||b.createdAt))}</div>
+          <div class="owner-action-id">${esc(b.id||'')} Ã‚Â· ${esc(enquiryDate(b.updatedAt||b.createdAt))}</div>
         </div>
         <span class="pill ${esc(status)}">${esc(status.replace('_',' '))}</span>
       </div>
       <div class="owner-action-strip">
         <span><b>Stay</b>${esc(b.checkin||'-')} to ${esc(b.checkout||'-')}</span>
-        <span><b>Room</b>${esc(b.roomName||'Room')} · ${esc(roomText)}</span>
-        <span><b>Pay</b>${money(b.total||0)} · ${esc(ownerBookingPaymentChip(b))}</span>
+        <span><b>Room</b>${esc(b.roomName||'Room')} Ã‚Â· ${esc(roomText)}</span>
+        <span><b>Pay</b>${money(b.total||0)} Ã‚Â· ${esc(ownerBookingPaymentChip(b))}</span>
       </div>
       <div class="owner-action-note">${esc(ownerBookingNextActionText(b))}</div>
       <div class="owner-action-footer">
@@ -2162,7 +2163,7 @@ function renderRoomAvailabilityCalendar(){
     const roomsForDay=shownRooms.map(room=>({room,info:ownerCalendarRoomDayInfo(room,dateValue)}));
     const chips=ownerCalendarBusyRoomChips(roomsForDay);
     const chipHTML=chips.length
-      ? chips.map(chip=>`<span class="room-calendar-room-chip ${chip.type==='held'?'held':''}" title="${esc(chip.roomName)} · ${esc(chip.title)}">${esc(chip.no)}</span>`).join('')
+      ? chips.map(chip=>`<span class="room-calendar-room-chip ${chip.type==='held'?'held':''}" title="${esc(chip.roomName)} Ã‚Â· ${esc(chip.title)}">${esc(chip.no)}</span>`).join('')
       : '<span class="room-calendar-free-note">Free</span>';
     return `<div class="room-calendar-day ${chips.length?'busy-day':''} ${dateValue===today?'today':''}">
       <div class="room-calendar-day-number"><strong>${day.getDate()}</strong><span>${esc(day.toLocaleDateString('en-IN',{weekday:'short'}))}</span></div>
@@ -2518,7 +2519,7 @@ function renderOwnerSettings(){
   document.getElementById('owner-house-rules').value=s.houseRules||'Valid ID required at check-in.';
   document.getElementById('owner-payment-note').value=s.paymentNote||'Pay at hotel. UPI and cards accepted.';
   const summary=document.getElementById('owner-settings-summary');
-  if(summary)summary.innerHTML=`<strong>${tax}%</strong><span>Tax · Extra guest ${money(extra)}/night</span>`;
+  if(summary)summary.innerHTML=`<strong>${tax}%</strong><span>Tax Ã‚Â· Extra guest ${money(extra)}/night</span>`;
 }
 async function saveOwnerSettingsRequest(){
   const state=getState();
@@ -2780,6 +2781,3 @@ applyTheme();bootOwner();
 
 </body>
 </html>
-
-
-

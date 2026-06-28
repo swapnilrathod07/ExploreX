@@ -1639,9 +1639,11 @@ window.addEventListener('hashchange',()=>scrollKumbhHashTarget(true));
 const KUMBH_API_BASES=(()=>{
   const host=window.location.hostname||'localhost';
   const manual=String(window.EXPLOREX_API_BASE||localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base')||'').trim().replace(/\/+$/,'');
-  return [...new Set([manual,`http://${host}:5000`,`http://${host}:5001`].filter(Boolean))];
+  const fallback=[manual,`http://${host}:5000`,`http://${host}:5001`].filter(Boolean);
+  const candidates=window.EXPLOREX_API_BASE_CANDIDATES || fallback;
+  return [...new Set(candidates.map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
 })();
-let resolvedKumbhApiBase=KUMBH_API_BASES[0]||'http://localhost:5000';
+let resolvedKumbhApiBase=KUMBH_API_BASES[0]||window.EXPLOREX_API_BASE||'http://localhost:5000';
 const DEFAULT_KUMBH_SETTINGS={
   enabled:true,
   badge:'Nashik Kumbh Mela Guide',
@@ -2491,15 +2493,3 @@ window.onload=()=>{
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

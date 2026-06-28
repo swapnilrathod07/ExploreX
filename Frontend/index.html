@@ -6127,15 +6127,15 @@ const HOME_API_BASE = resolveExploreApiBase(
   localStorage.getItem('explore_api_base') ||
   localStorage.getItem('explorex_api_base')
 );
-const HOME_API_BASE_CANDIDATES=[...new Set([
+const HOME_API_BASE_CANDIDATES=[...new Set((window.EXPLOREX_API_BASE_CANDIDATES || [
+  HOME_API_BASE,
   `http://${window.location.hostname || 'localhost'}:5000`,
   'http://localhost:5000',
   'http://127.0.0.1:5000',
-  HOME_API_BASE,
   `http://${window.location.hostname || 'localhost'}:5101`,
   'http://localhost:5101',
   'http://127.0.0.1:5101'
-].map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
+]).map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
 try{
   localStorage.setItem('explore_api_base', HOME_API_BASE);
   localStorage.setItem('explorex_api_base', HOME_API_BASE);
@@ -13304,14 +13304,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

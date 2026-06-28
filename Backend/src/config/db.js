@@ -71,6 +71,9 @@ function describeDatabaseError(error) {
   if (code === "ETIMEDOUT" || code === "PROTOCOL_SEQUENCE_TIMEOUT") {
     return "MySQL connection timed out. Verify the Railway public host, port, and network access.";
   }
+  if (code === "ECONNRESET") {
+    return "MySQL connection was reset. Check Railway MySQL status, public host/port, and internet connection; retry after a few seconds.";
+  }
   return error?.message || "Database error";
 }
 const DEFAULT_KUMBH_ITEMS = [
@@ -1388,5 +1391,3 @@ module.exports = {
   ensureDefaultKumbhItems,
   ensureDefaultKumbhSettings
 };
-
-
