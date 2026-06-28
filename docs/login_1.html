@@ -1447,6 +1447,14 @@ body.dark-mode .form-card{box-shadow:0 24px 64px rgba(0,0,0,.42),inset 0 1px 0 r
 <!-- Dark mode FAB -->
 <div class="dm-fab" id="dm-fab" onclick="toggleDarkMode()" title="Toggle Dark Mode">&#127769;</div>
 
+<div id="auth-api-debug" style="position:fixed;left:14px;bottom:14px;z-index:99999;max-width:min(360px,calc(100vw - 28px));padding:10px 12px;border-radius:14px;background:rgba(8,16,31,.88);color:#EAF2FF;border:1px solid rgba(255,255,255,.18);box-shadow:0 14px 34px rgba(0,0,0,.24);font:12px/1.45 'DM Sans',sans-serif;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+  <div style="font-weight:800;color:#8BE4C2;margin-bottom:4px;">ExploreX API Debug</div>
+  <div>API: <span id="auth-debug-api">checking...</span></div>
+  <div>Trigger: <span id="auth-debug-trigger">page loaded</span></div>
+  <div>Endpoint: <span id="auth-debug-endpoint">waiting...</span></div>
+  <div>Status: <span id="auth-debug-status">booting...</span></div>
+</div>
+
 <!-- ---------- JAVASCRIPT - untouched logic ---------- -->
 <script>
 function clearSignedOutSessionState(){
@@ -1550,6 +1558,33 @@ const API_BASE_FALLBACKS=(window.EXPLOREX_API_BASE_CANDIDATES || (window.EXPLORE
   'http://localhost:5101',
   'http://127.0.0.1:5101'
 ] : [API_BASE_URL])).map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean);
+
+function updateAuthDebug(partial={}){
+  const fields={api:'auth-debug-api',trigger:'auth-debug-trigger',endpoint:'auth-debug-endpoint',status:'auth-debug-status'};
+  Object.entries(fields).forEach(([key,id])=>{
+    if(Object.prototype.hasOwnProperty.call(partial,key)){
+      const el=document.getElementById(id);
+      if(el) el.textContent=String(partial[key]||'');
+    }
+  });
+}
+
+updateAuthDebug({api:API_BASE_URL,status:'config ready'});
+
+async function runAuthPageLoadProbe(){
+  const endpoint=API_BASE_URL + '/?frontend_auth_probe=' + Date.now();
+  updateAuthDebug({trigger:'page-load probe',endpoint,status:'sending test request...'});
+  console.log('Frontend auth page-load probe:', endpoint);
+  try{
+    const response=await fetch(endpoint,{method:'GET',mode:'cors',cache:'no-store'});
+    updateAuthDebug({status:'probe reached backend, HTTP '+response.status});
+    console.log('Frontend auth page-load probe status:', response.status);
+  }catch(error){
+    updateAuthDebug({status:'probe failed: '+(error.message||error)});
+    console.error('Frontend auth page-load probe failed:', error);
+  }
+}
+runAuthPageLoadProbe();
 
 function getApiBaseCandidates(){
   return [...new Set(API_BASE_FALLBACKS)];
@@ -1713,7 +1748,8 @@ function getEmailSuggestion(email){
 
 async function sendSignupEmailOtp(){
   console.log('Signup OTP request triggered');
-  if(document.getElementById('send-email-otp-btn')?.disabled) return;
+  updateAuthDebug({trigger:'signup OTP clicked',endpoint:API_BASE_URL + '/api/auth/send-email-otp',status:'validating email...'});
+  if(document.getElementById('send-email-otp-btn')?.disabled){updateAuthDebug({status:'OTP button disabled, request skipped'});return;}
   const email=normalizeEmail(document.getElementById('signup-email')?.value||'');
   clearErr('signup-email-err');
   clearErr('signup-email-otp-err');
@@ -1802,8 +1838,11 @@ async function apiRequest(method,path,payload=null,timeoutMs=10000){
         signal:controller.signal
       };
       if(method!=='GET') options.body=JSON.stringify(payload||{});
-      console.log('Auth API request:', method, `${base}${path}`);
-      const res=await fetch(`${base}${path}`,options);
+      const endpoint=`${base}${path}`;
+      console.log('Auth API request:', method, endpoint);
+      updateAuthDebug({endpoint,status:`sending ${method} request...`});
+      const res=await fetch(endpoint,options);
+      updateAuthDebug({status:`backend responded HTTP ${res.status}`});
       let data={};
       try{data=await res.json();}catch(e){data={};}
       if(!res.ok){
@@ -2030,7 +2069,8 @@ function looksLikeAccessId(value){
 
 async function doLogin(){
   console.log('Login request triggered');
-  if(document.getElementById('login-btn')?.disabled) return;
+  updateAuthDebug({trigger:'login function triggered',endpoint:API_BASE_URL + '/api/auth/login',status:'validating login form...'});
+  if(document.getElementById('login-btn')?.disabled){updateAuthDebug({status:'login button disabled, request skipped'});return;}
   const identifier=document.getElementById('login-email').value.trim();
   const pw=document.getElementById('login-password').value;
   clearErr('login-email-err');
@@ -2063,6 +2103,7 @@ async function doLogin(){
       return;
     }
     const data=await apiPost('/api/auth/login',{email:identifier,password:pw});
+    updateAuthDebug({status:'login API success'});
     loginUser(data.user,data.token);
   }catch(err){
     const msg = isNetworkBackendError(err)
@@ -2133,7 +2174,8 @@ async function tryHotelOwnerLogin(hotelId,password){
 /* --- DO SIGNUP --- */
 async function doSignup(){
   console.log('Signup request triggered');
-  if(document.getElementById('signup-btn')?.disabled) return;
+  updateAuthDebug({trigger:'signup function triggered',endpoint:API_BASE_URL + '/api/auth/register',status:'validating signup form...'});
+  if(document.getElementById('signup-btn')?.disabled){updateAuthDebug({status:'signup button disabled, request skipped'});return;}
   const name=document.getElementById('signup-name').value.trim();
   const rawUsername=document.getElementById('signup-username').value.trim();
   const username=sanitizeUsername(rawUsername);
@@ -2170,6 +2212,7 @@ async function doSignup(){
     const data=await apiPost('/api/auth/register',{name,username,email,emailOtp,phone,password:pw});
     const fallbackUsername=username||('@'+name.split(' ')[0].toLowerCase());
     const user=data.user||{uid:'user_'+Date.now(),name,email,username:fallbackUsername};
+    updateAuthDebug({status:'signup API success'});
     showSuccessScreen(name,user.uid,user,data.token);
   }catch(err){
     if((err.message||'').toLowerCase().includes('username')){
