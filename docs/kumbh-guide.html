@@ -1639,9 +1639,11 @@ window.addEventListener('hashchange',()=>scrollKumbhHashTarget(true));
 const KUMBH_API_BASES=(()=>{
   const host=window.location.hostname||'localhost';
   const manual=String(window.EXPLOREX_API_BASE||localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base')||'').trim().replace(/\/+$/,'');
-  return [...new Set([manual,`http://${host}:5000`,`http://${host}:5001`].filter(Boolean))];
+  const fallback=[manual,`http://${host}:5000`,`http://${host}:5001`].filter(Boolean);
+  const candidates=window.EXPLOREX_API_BASE_CANDIDATES || fallback;
+  return [...new Set(candidates.map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
 })();
-let resolvedKumbhApiBase=KUMBH_API_BASES[0]||'http://localhost:5000';
+let resolvedKumbhApiBase=KUMBH_API_BASES[0]||window.EXPLOREX_API_BASE||'http://localhost:5000';
 const DEFAULT_KUMBH_SETTINGS={
   enabled:true,
   badge:'Nashik Kumbh Mela Guide',
@@ -1808,7 +1810,7 @@ function applyKumbhSettings(){
   setDisplay('.ticker-wrap',false);
   setDisplay('#kumbh-crowd-card',settings.sections.crowd);
   setDisplay('#kumbh-dates-card',settings.sections.dates);
-  setDisplay('#kumbh-weather-card',false);
+  setDisplay('#kumbh-weather-card',settings.sections.weather);
   setDisplay('#kumbh-route-card',settings.sections.route);
   setDisplay('#kumbh-facilities-card',settings.sections.facilities);
   setDisplay('#kumbh-plan-card',settings.sections.plan);
@@ -2065,12 +2067,12 @@ function showAllDates(){
 
 /* --- WEATHER --- */
 const WEATHER_SIM=[
-  {h:[5,8],   ico:'\u{1F4CF}',cond:'Cool & Clear',temp:22,hum:68,wind:'12 km/h',uv:'Low'},
-  {h:[9,12],  ico:'\u{1F4CF}',cond:'Sunny',       temp:30,hum:55,wind:'15 km/h',uv:'High'},
-  {h:[13,16], ico:'\u{1F4CF}',cond:'Partly Cloudy',temp:33,hum:50,wind:'18 km/h',uv:'Very High'},
-  {h:[17,19], ico:'?',cond:'Overcast',    temp:29,hum:60,wind:'14 km/h',uv:'Moderate'},
-  {h:[20,23], ico:'\u{1F4CF}',cond:'Clear Night', temp:25,hum:70,wind:'10 km/h',uv:'None'},
-  {h:[0,4],   ico:'\u{1F4CF}',cond:'Cool Night',  temp:20,hum:75,wind:'8 km/h', uv:'None'},
+  {h:[5,8],   ico:'\u{1F324}\u{FE0F}',cond:'Cool & Clear',temp:22,hum:68,wind:'12 km/h',uv:'Low'},
+  {h:[9,12],  ico:'\u{1F324}\u{FE0F}',cond:'Sunny',       temp:30,hum:55,wind:'15 km/h',uv:'High'},
+  {h:[13,16], ico:'\u{1F324}\u{FE0F}',cond:'Partly Cloudy',temp:33,hum:50,wind:'18 km/h',uv:'Very High'},
+  {h:[17,19], ico:'\u{2601}\u{FE0F}',cond:'Overcast',    temp:29,hum:60,wind:'14 km/h',uv:'Moderate'},
+  {h:[20,23], ico:'\u{1F324}\u{FE0F}',cond:'Clear Night', temp:25,hum:70,wind:'10 km/h',uv:'None'},
+  {h:[0,4],   ico:'\u{1F324}\u{FE0F}',cond:'Cool Night',  temp:20,hum:75,wind:'8 km/h', uv:'None'},
 ];
 function getWeather(){
   const h=new Date().getHours();
@@ -2491,15 +2493,3 @@ window.onload=()=>{
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

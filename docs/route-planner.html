@@ -3165,10 +3165,116 @@ body.route-planner-page .xfooter .xf-legal-link:hover{color:#FFFFFF!important;}
   body.route-planner-page .dm-fab{right:16px!important;bottom:16px!important;width:44px!important;height:44px!important;}
   body.route-planner-page .xfooter-grid{grid-template-columns:1fr!important;gap:22px!important;}
 }
+
+/* Final route planner natural scroll layout */
+@media (min-width:901px){
+  body.route-planner-page .route-hero{
+    position:relative!important;
+  }
+  body.route-planner-page > .split-container{
+    display:grid!important;
+    grid-template-columns:minmax(360px,40%) minmax(0,60%)!important;
+    align-items:start!important;
+    min-height:auto!important;
+    height:auto!important;
+    overflow:visible!important;
+  }
+  body.route-planner-page .left-panel{
+    position:relative!important;
+    top:auto!important;
+    align-self:start!important;
+    height:auto!important;
+    min-height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  body.route-planner-page .left-panel-content{
+    min-height:auto!important;
+    height:auto!important;
+  }
+  body.route-planner-page .right-panel{
+    position:sticky!important;
+    top:var(--nav)!important;
+    align-self:start!important;
+    height:calc(100vh - var(--nav))!important;
+    max-height:calc(100vh - var(--nav))!important;
+    overflow:hidden!important;
+  }
+  body.route-planner-page .routeMapContainer{
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    margin:0!important;
+  }
+  body.route-planner-page #routeMap{
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+  }
+  body.route-planner-page footer.xfooter{
+    position:relative!important;
+    z-index:2!important;
+  }
+}
 </style>
 <script src="lang.js"></script>
 <script src="config.js"></script>
 <link rel="stylesheet" href="explorex-shared-ui.css?v=20260626-mobile-header-1">
+<style id="route-scroll-map-final-fix">
+/* Keep route page simple: page scrolls naturally, map stays visible on desktop. */
+@media (min-width:901px){
+  html, body.route-planner-page{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+  }
+  body.route-planner-page .route-hero{
+    position:relative!important;
+    top:auto!important;
+    transform:none!important;
+  }
+  body.route-planner-page > .split-container{
+    display:grid!important;
+    grid-template-columns:minmax(360px,40%) minmax(0,60%)!important;
+    align-items:start!important;
+    min-height:auto!important;
+    height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+    isolation:isolate!important;
+  }
+  body.route-planner-page > .split-container > .left-panel{
+    position:relative!important;
+    top:auto!important;
+    height:auto!important;
+    min-height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+    align-self:start!important;
+  }
+  body.route-planner-page > .split-container > .left-panel .left-panel-content{
+    height:auto!important;
+    min-height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  body.route-planner-page > .split-container > .right-panel{
+    position:sticky!important;
+    top:var(--nav)!important;
+    height:calc(100vh - var(--nav))!important;
+    max-height:calc(100vh - var(--nav))!important;
+    min-height:0!important;
+    overflow:hidden!important;
+    align-self:start!important;
+  }
+  body.route-planner-page > .split-container > .right-panel .routeMapContainer,
+  body.route-planner-page > .split-container > .right-panel #routeMap{
+    height:100%!important;
+    min-height:0!important;
+    max-height:none!important;
+    width:100%!important;
+  }
+}
+</style>
 </head>
 <body class="route-planner-page">
 
@@ -9261,14 +9367,76 @@ async function findRealRoute(fromCityObj, toCityObj, requestId, options = {}){
 
   } catch(error){
     if (!isLatestRequest()) return;
+    const fallbackPoints = buildRouteRequestPoints(fromCityObj, toCityObj);
+    const viaMarkerStops = modeSupportsIntermediateStops(selectedMode) ? getAllRouteMarkersForMap() : null;
+
+    // If the backend route API is temporarily unavailable, try browser-side OSRM
+    // before drawing the last-resort straight estimate.
+    if (isRoadPlannerMode(selectedMode) && fallbackPoints.length >= 2) {
+      try {
+        const clientRoadRoute = await fetchClientOsrmRoute(fallbackPoints, selectedMode, 2);
+        if (!isLatestRequest()) return;
+        if (clientRoadRoute && hasValidRouteGeometry(clientRoadRoute)) {
+          const effectiveRoutePoints = normalizeApiRoutePoints(clientRoadRoute.points, fallbackPoints);
+          lastRoutePoints = effectiveRoutePoints.map((point) => ({ ...point }));
+          const hasIntermediateStops = effectiveRoutePoints.length > 2;
+          const baseRouteData = hasIntermediateStops
+            ? buildStraightBaselineRoute(effectiveRoutePoints[0], effectiveRoutePoints[effectiveRoutePoints.length - 1])
+            : { geometry: { coordinates: clientRoadRoute.geometry.coordinates } };
+          lastBaseRouteData = baseRouteData;
+
+          const distKm = Math.max(1, Math.round(Number(clientRoadRoute.distanceKm) || 0));
+          const durationMinutes = Math.max(1, Math.round(Number(clientRoadRoute.durationMinutes) || 0));
+          lastComputedDistanceKm = distKm;
+          lastComputedDurationMinutes = durationMinutes;
+          lastRouteAlternatives = Array.isArray(clientRoadRoute.alternatives) ? clientRoadRoute.alternatives : [];
+          selectedAlternativeId = 0;
+          cacheModeMetric(selectedMode, distKm, durationMinutes, clientRoadRoute.source || 'osrm');
+
+          const startCoords = [effectiveRoutePoints[0].lat, effectiveRoutePoints[0].lng];
+          const endCoords = [effectiveRoutePoints[effectiveRoutePoints.length - 1].lat, effectiveRoutePoints[effectiveRoutePoints.length - 1].lng];
+          displayRouteOnMap(clientRoadRoute, startCoords, endCoords, effectiveRoutePoints, baseRouteData, viaMarkerStops);
+
+          document.getElementById('rs-from').textContent = fromCityObj.name;
+          document.getElementById('rs-to').textContent = toCityObj.name;
+          updateRouteDistanceStats(distKm, hasIntermediateStops ? calculatePolylineDistanceKm(baseRouteData) : distKm);
+          document.getElementById('rs-time').textContent = formatDurationLabel(durationMinutes, selectedMode, distKm, clientRoadRoute.source);
+          document.getElementById('rs-weather').textContent = `${toCityObj.weather} ${toCityObj.temp}`;
+          document.getElementById('rs-best-time').textContent = bestTimeText(distKm);
+
+          updateModeBadge();
+          updateRouteSourceBadge(clientRoadRoute.source || 'osrm');
+          updateCostDisplay(distKm, durationMinutes);
+          renderRouteAlternatives(lastRouteAlternatives);
+          renderCompare(distKm);
+          renderTripFlow();
+          renderWeather();
+
+          const asCrowKm = haversine(fromCityObj.lat, fromCityObj.lng, toCityObj.lat, toCityObj.lng);
+          setPlacesForCurrentPlannerContext(fromCityObj, toCityObj, asCrowKm);
+          applyFilter(activeFilter);
+          renderRouteServicesPanel();
+
+          document.getElementById('route-summary').classList.add('show');
+          document.getElementById('places-section').classList.remove('hidden');
+          document.getElementById('empty-state').classList.add('hidden');
+          if (!silent && !suppressScroll) scrollAfterRouteFound();
+          saveRouteState();
+          if (!silent) showToast(`\u{1F9ED} Road route restored: ${distKm} km via ${TRANSPORT[selectedMode].label}`, 2600);
+          void prefetchRouteModeMetrics(fallbackPoints, selectedMode);
+          return;
+        }
+      } catch (clientRouteError) {
+        // Continue to the estimated fallback below.
+      }
+    }
+
     if (!silent) showToast(`\u{1F4CD} ${error.message || 'Using default route calculation'}`);
     doCalculate();
-    const fallbackPoints = buildRouteRequestPoints(fromCityObj, toCityObj);
     const fallbackBaseRoute = fallbackPoints.length > 2
       ? buildStraightBaselineRoute(fallbackPoints[0], fallbackPoints[fallbackPoints.length - 1])
       : null;
     lastBaseRouteData = fallbackBaseRoute;
-    const viaMarkerStops = modeSupportsIntermediateStops(selectedMode) ? getAllRouteMarkersForMap() : null;
     drawFallbackRouteOnMap(fallbackPoints, fallbackBaseRoute, viaMarkerStops);
   } finally{
     if (!isLatestRequest()) return;
@@ -12334,33 +12502,3 @@ updateLocationButtonState();
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

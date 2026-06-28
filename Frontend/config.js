@@ -39,9 +39,11 @@
   );
 
   const defaultBase = isLocalHost ? "http://localhost:5000" : PRODUCTION_API_BASE;
-  const apiBase = cleanBase(explicitBase || readStoredBase() || defaultBase) || defaultBase;
+  // In production, do not trust old localStorage values such as frontend-domain:5000.
+  const apiBase = cleanBase(explicitBase || (isLocalHost ? readStoredBase() : "") || defaultBase) || defaultBase;
   const localCandidates = [apiBase, "http://localhost:5000", "http://127.0.0.1:5000", "http://localhost:5101", "http://127.0.0.1:5101"];
 
+  console.log("API_URL:", apiBase);
   window.EXPLOREX_API_BASE = apiBase;
   window.EXPLOREX_API_BASE_CANDIDATES = [...new Set((isLocalHost ? localCandidates : [apiBase]).map(cleanBase).filter(Boolean))];
   window.EXPLOREX_IS_LOCAL_FRONTEND = isLocalHost;

@@ -4929,6 +4929,209 @@ body.dark-mode footer.xfooter{
   body.dark-mode .nav{background:rgba(7,17,31,.96)!important;}
   body.dark-mode #view-home .section-header{box-shadow:0 14px 34px rgba(0,0,0,.30)!important;}
 }
+
+/* Desktop detail page: full image + right overview card */
+@media (min-width: 901px){
+  #view-detail{
+    background:
+      radial-gradient(520px 260px at 8% 5%, rgba(20,184,166,.12), transparent 68%),
+      radial-gradient(560px 280px at 94% 4%, rgba(249,115,22,.13), transparent 70%),
+      var(--bg);
+  }
+  #view-detail .detail-back{
+    position:sticky;
+    top:66px;
+    z-index:120;
+    background:rgba(255,255,255,.9);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+  }
+  .detail-top-shell{
+    max-width:1180px;
+    margin:28px auto 0;
+    padding:0 24px;
+    display:grid;
+    grid-template-columns:minmax(0,1.15fr) minmax(330px,.85fr);
+    gap:24px;
+    align-items:start;
+  }
+  .detail-top-shell .detail-hero{
+    height:min(560px, calc(100vh - 178px));
+    min-height:430px;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,.45);
+    background:linear-gradient(135deg,#0f172a,#123b7a,#0f766e);
+    box-shadow:0 28px 80px rgba(15,23,42,.18);
+  }
+  .detail-top-shell .detail-hero img{
+    object-fit:contain;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(255,255,255,.14), transparent 30%),
+      linear-gradient(135deg,#0f172a,#134e4a 50%,#1e3a8a);
+  }
+  .detail-top-shell .detail-img-fallback{border-radius:30px;}
+  .detail-top-shell .detail-hero-overlay{
+    background:linear-gradient(0deg, rgba(15,23,42,.72) 0%, rgba(15,23,42,.22) 42%, transparent 68%);
+  }
+  .detail-top-shell .detail-hero-info{padding:24px 26px;}
+  .detail-overview-card{
+    position:sticky;
+    top:92px;
+    min-height:430px;
+    border-radius:30px;
+    padding:26px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    background:
+      radial-gradient(280px 150px at 12% 0, rgba(20,184,166,.18), transparent 68%),
+      radial-gradient(260px 150px at 100% 8%, rgba(249,115,22,.18), transparent 70%),
+      linear-gradient(145deg, rgba(255,255,255,.96), rgba(240,253,250,.9));
+    border:1px solid rgba(20,184,166,.18);
+    box-shadow:0 24px 60px rgba(15,23,42,.12);
+  }
+  .detail-overview-card::before{
+    content:'';
+    position:absolute;
+    inset:-1px -1px auto -1px;
+    height:6px;
+    background:linear-gradient(90deg,#045244,#14b8a6,#f97316);
+  }
+  .detail-overview-kicker{
+    width:max-content;
+    padding:7px 12px;
+    border-radius:999px;
+    background:rgba(4,82,68,.1);
+    color:#045244;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .detail-overview-title{
+    margin:0;
+    color:var(--text);
+    font-family:'Outfit',sans-serif;
+    font-size:clamp(26px,3vw,38px);
+    line-height:1.05;
+  }
+  .detail-overview-category{
+    color:var(--primary);
+    font-size:13px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .detail-overview-list{display:grid;gap:10px;}
+  .detail-overview-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    padding:12px 14px;
+    border-radius:16px;
+    background:rgba(255,255,255,.78);
+    border:1px solid rgba(15,23,42,.07);
+  }
+  .detail-overview-row span{
+    color:var(--text-soft);
+    font-size:12px;
+    font-weight:800;
+  }
+  .detail-overview-row strong{
+    color:var(--text);
+    font-size:13px;
+    text-align:right;
+    line-height:1.35;
+  }
+  .detail-overview-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:auto;
+  }
+  .detail-overview-primary,
+  .detail-overview-ghost{
+    border:none;
+    border-radius:16px;
+    padding:12px 14px;
+    font-family:'DM Sans',sans-serif;
+    font-size:13px;
+    font-weight:900;
+    cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .detail-overview-primary{
+    color:#fff;
+    background:linear-gradient(135deg,#045244,#14b8a6);
+    box-shadow:0 14px 28px rgba(4,82,68,.22);
+  }
+  .detail-overview-ghost{
+    color:#045244;
+    background:rgba(4,82,68,.1);
+    border:1px solid rgba(4,82,68,.14);
+  }
+  .detail-overview-primary:hover,
+  .detail-overview-ghost:hover{transform:translateY(-2px);}
+  .detail-overview-note{
+    color:var(--text-soft);
+    font-size:12px;
+    line-height:1.55;
+    padding:12px 14px;
+    border-radius:16px;
+    background:rgba(255,247,237,.72);
+    border:1px dashed rgba(249,115,22,.28);
+  }
+  #view-detail .detail-content{
+    max-width:1180px;
+    padding-top:30px;
+  }
+  #view-detail .detail-grid{
+    grid-template-columns:minmax(0,1fr) 340px;
+    align-items:start;
+  }
+  body.dark-mode #view-detail{
+    background:
+      radial-gradient(520px 260px at 8% 5%, rgba(20,184,166,.16), transparent 68%),
+      radial-gradient(560px 280px at 94% 4%, rgba(249,115,22,.14), transparent 70%),
+      #07111f;
+  }
+  body.dark-mode #view-detail .detail-back{
+    background:rgba(15,23,42,.9);
+    border-color:rgba(148,163,184,.22);
+  }
+  body.dark-mode .detail-overview-card{
+    background:
+      radial-gradient(280px 150px at 12% 0, rgba(20,184,166,.18), transparent 68%),
+      radial-gradient(260px 150px at 100% 8%, rgba(249,115,22,.16), transparent 70%),
+      linear-gradient(145deg, rgba(15,23,42,.98), rgba(19,36,67,.92));
+    border-color:rgba(45,212,191,.2);
+    box-shadow:0 24px 60px rgba(0,0,0,.28);
+  }
+  body.dark-mode .detail-overview-kicker{
+    color:#99f6e4;
+    background:rgba(20,184,166,.14);
+  }
+  body.dark-mode .detail-overview-row{
+    background:rgba(15,23,42,.72);
+    border-color:rgba(148,163,184,.18);
+  }
+  body.dark-mode .detail-overview-ghost{
+    color:#99f6e4;
+    background:rgba(20,184,166,.12);
+    border-color:rgba(45,212,191,.18);
+  }
+  body.dark-mode .detail-overview-note{
+    background:rgba(249,115,22,.1);
+    border-color:rgba(251,146,60,.24);
+  }
+}
+@media (max-width: 900px){
+  .detail-top-shell{display:block;}
+  .detail-overview-card{display:none;}
+  .detail-top-shell .detail-hero img{object-fit:cover;}
+}
 </style>
 <script src="lang.js"></script>
 <script src="config.js"></script>
@@ -5391,18 +5594,37 @@ body.dark-mode footer.xfooter{
 <!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; DETAIL VIEW &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
 <div id="view-detail" class="view hidden">
   <div class="detail-back" onclick="goBack()">&#x2190; Back to results</div>
-  <div class="detail-hero">
-    <img id="detail-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Selected place image"/>
-    <div class="detail-img-fallback" id="detail-img-fallback">Image unavailable for this place</div>
-    <div class="detail-hero-overlay"></div>
-    <div class="detail-hero-info">
-      <div class="detail-cat-badge" id="detail-cat"></div>
-      <div class="detail-name" id="detail-name"></div>
-      <div class="detail-meta-row">
-        <div class="detail-rating">&#x2B50; <span id="detail-rating"></span> (<span id="detail-reviews"></span> reviews)</div>
-        <div class="detail-dist">&#x1F4CD; <span id="detail-dist"></span></div>
+  <div class="detail-top-shell">
+    <div class="detail-hero">
+      <img id="detail-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Selected place image"/>
+      <div class="detail-img-fallback" id="detail-img-fallback">Image unavailable for this place</div>
+      <div class="detail-hero-overlay"></div>
+      <div class="detail-hero-info">
+        <div class="detail-cat-badge" id="detail-cat"></div>
+        <div class="detail-name" id="detail-name"></div>
+        <div class="detail-meta-row">
+          <div class="detail-rating">&#x2B50; <span id="detail-rating"></span> (<span id="detail-reviews"></span> reviews)</div>
+          <div class="detail-dist">&#x1F4CD; <span id="detail-dist"></span></div>
+        </div>
       </div>
     </div>
+    <aside class="detail-overview-card" aria-label="Place overview">
+      <div class="detail-overview-kicker">Place Overview</div>
+      <h2 class="detail-overview-title" id="detail-overview-name">Place name</h2>
+      <div class="detail-overview-category" id="detail-overview-category"></div>
+      <div class="detail-overview-list">
+        <div class="detail-overview-row"><span>Location</span><strong id="detail-overview-location"></strong></div>
+        <div class="detail-overview-row"><span>Rating</span><strong id="detail-overview-rating"></strong></div>
+        <div class="detail-overview-row"><span>Distance</span><strong id="detail-overview-distance"></strong></div>
+        <div class="detail-overview-row"><span>Entry Fee</span><strong id="detail-overview-fee"></strong></div>
+        <div class="detail-overview-row"><span>Time Required</span><strong id="detail-overview-time"></strong></div>
+      </div>
+      <div class="detail-overview-actions">
+        <button type="button" class="detail-overview-primary" onclick="openMap()">View Route</button>
+        <button type="button" class="detail-overview-ghost" onclick="document.getElementById('detail-desc')?.scrollIntoView({behavior:'smooth',block:'center'})">Read Details</button>
+      </div>
+      <div class="detail-overview-note">Full image is visible on desktop. Scroll down for memories, nearby places, and booking options.</div>
+    </aside>
   </div>
   <div class="detail-content">
     <div class="detail-grid">
@@ -5905,15 +6127,15 @@ const HOME_API_BASE = resolveExploreApiBase(
   localStorage.getItem('explore_api_base') ||
   localStorage.getItem('explorex_api_base')
 );
-const HOME_API_BASE_CANDIDATES=[...new Set([
+const HOME_API_BASE_CANDIDATES=[...new Set((window.EXPLOREX_API_BASE_CANDIDATES || [
+  HOME_API_BASE,
   `http://${window.location.hostname || 'localhost'}:5000`,
   'http://localhost:5000',
   'http://127.0.0.1:5000',
-  HOME_API_BASE,
   `http://${window.location.hostname || 'localhost'}:5101`,
   'http://localhost:5101',
   'http://127.0.0.1:5101'
-].map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
+]).map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean))];
 try{
   localStorage.setItem('explore_api_base', HOME_API_BASE);
   localStorage.setItem('explorex_api_base', HOME_API_BASE);
@@ -12064,6 +12286,11 @@ function arrangeDetailMemoriesSection(place){
   else if(section.parentElement !== main) main.appendChild(section);
 }
 
+function setDetailText(id,value){
+  const el=document.getElementById(id);
+  if(el) el.textContent=value == null ? '' : String(value);
+}
+
 function showDetail(id){
   const p=places.find(pl=>pl.id===id); if(!p) return;
   currentDetailId=id; prevView=currentView;
@@ -12090,16 +12317,28 @@ function showDetail(id){
     if(detailHero) detailHero.classList.remove('is-loading');
     handlePlaceImageError(detailImage);
   }
-  document.getElementById('detail-cat').textContent=getHomePlaceCategorySlugs(p).map(formatHomeCategoryName).join(' + ');
+  const detailCategoryText=getHomePlaceCategorySlugs(p).map(formatHomeCategoryName).join(' + ');
+  const detailDistanceText=getHomeDistanceDetailText(p);
+  const detailLocationText=`${p.area ? p.area + ', ' : ''}${p.city || 'Location not set'}`;
+  const detailReviewText=Number(p.reviews || 0).toLocaleString();
+  const detailTimeText=p.duration || 'Not specified by admin';
+  document.getElementById('detail-cat').textContent=detailCategoryText;
   document.getElementById('detail-name').textContent=p.name;
   document.getElementById('detail-rating').textContent=p.rating;
-  document.getElementById('detail-reviews').textContent=p.reviews.toLocaleString();
-  document.getElementById('detail-dist').textContent=getHomeDistanceDetailText(p);
+  document.getElementById('detail-reviews').textContent=detailReviewText;
+  document.getElementById('detail-dist').textContent=detailDistanceText;
   document.getElementById('detail-desc').textContent=p.desc;
-  document.getElementById('detail-city').textContent=p.city+', Maharashtra';
+  document.getElementById('detail-city').textContent=(p.city || 'Location not set')+', Maharashtra';
   document.getElementById('detail-besttime').textContent=p.bestTime || 'Not specified by admin';
   document.getElementById('detail-fee').textContent=p.fee;
-  document.getElementById('detail-duration').textContent=p.duration || 'Not specified by admin';
+  document.getElementById('detail-duration').textContent=detailTimeText;
+  setDetailText('detail-overview-name',p.name);
+  setDetailText('detail-overview-category',detailCategoryText);
+  setDetailText('detail-overview-location',detailLocationText);
+  setDetailText('detail-overview-rating',`${p.rating} (${detailReviewText} reviews)`);
+  setDetailText('detail-overview-distance',detailDistanceText);
+  setDetailText('detail-overview-fee',p.fee || 'Not specified');
+  setDetailText('detail-overview-time',detailTimeText);
   arrangeDetailMemoriesSection(p);
   renderHotelBooking(p);
   // nearby
@@ -13065,11 +13304,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 </body>
 </html>
-
-
-
-
-
-
-
-

@@ -1538,14 +1538,16 @@ window.onload=()=>{
 };
 
 let activeTab='login';
-const API_BASE=String(window.EXPLOREX_API_BASE||localStorage.getItem('explore_api_base')||localStorage.getItem('explorex_api_base')||'http://localhost:5000').replace(/\/+$/,'');
-const API_BASE_FALLBACKS=[
+const API_URL=String(window.EXPLOREX_API_BASE||'https://explorex-production-b8a0.up.railway.app').replace(/\/+$/,'');
+const API_BASE=API_URL;
+console.log('API_URL:', API_URL);
+const API_BASE_FALLBACKS=(window.EXPLOREX_API_BASE_CANDIDATES || [
   API_BASE,
   'http://localhost:5000',
   'http://127.0.0.1:5000',
   'http://localhost:5101',
   'http://127.0.0.1:5101'
-].map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean);
+]).map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean);
 
 function getApiBaseCandidates(){
   return [...new Set(API_BASE_FALLBACKS)];
@@ -1763,7 +1765,7 @@ async function sendSignupEmailOtp(){
     }
     setSignupOtpLoading(false);
     const msg=shouldUseLocalFallback(err)
-      ? 'Backend unavailable. Please start backend server on localhost:5000'
+      ? `Backend unavailable. Please check API: ${API_URL}`
       : (err.message||'Unable to send OTP');
     setSignupOtpStatus(msg,'error');
     if(err.status===409){
@@ -1817,6 +1819,7 @@ async function apiRequest(method,path,payload=null,timeoutMs=10000){
         signal:controller.signal
       };
       if(method!=='GET') options.body=JSON.stringify(payload||{});
+      console.log('Auth API request:', method, `${base}${path}`);
       const res=await fetch(`${base}${path}`,options);
       let data={};
       try{data=await res.json();}catch(e){data={};}
@@ -1950,7 +1953,7 @@ async function sendForgotResetCode(){
     setForgotModalMessage(data.message||'If this email exists, a reset code has been sent.', 'ok');
   }catch(err){
     const msg=shouldUseLocalFallback(err)
-      ? 'Backend unavailable. Please start backend server on localhost:5000'
+      ? `Backend unavailable. Please check API: ${API_URL}`
       : (err.message||'Unable to process password reset');
     setForgotModalMessage(msg,'error');
   }finally{
@@ -2089,7 +2092,7 @@ async function doLogin(){
       }
     }else{
       const msg = shouldUseLocalFallback(err)
-        ? 'Backend unavailable. Please start backend server on localhost:5000'
+        ? `Backend unavailable. Please check API: ${API_URL}`
         : (err.message||'Invalid credentials');
       showErr('login-pw-err',msg);
       setInputState('login-password','error');
@@ -2139,7 +2142,7 @@ async function tryHotelOwnerLogin(hotelId,password){
       return {ok:true,account};
     }
   }catch(error){
-    if(localAccount){
+    if(window.EXPLOREX_IS_LOCAL_FRONTEND && localAccount){
       setHotelOwnerSession(localAccount,'local_fallback_login',cleanPassword);
       return {ok:true,account:localAccount};
     }
@@ -2147,10 +2150,10 @@ async function tryHotelOwnerLogin(hotelId,password){
       return {ok:false,message:error.message||'Invalid hotel ID or password'};
     }
   }
-  if(localAccount){
-    setHotelOwnerSession(localAccount,'local_fallback_login',cleanPassword);
-    return {ok:true,account:localAccount};
-  }
+  if(window.EXPLOREX_IS_LOCAL_FRONTEND && localAccount){
+      setHotelOwnerSession(localAccount,'local_fallback_login',cleanPassword);
+      return {ok:true,account:localAccount};
+    }
   return {ok:false,message:'Invalid hotel ID or password'};
 }
 
@@ -2219,7 +2222,7 @@ async function doSignup(){
       setSignupOtpStatus(err.message,'error');
     }else{
       const msg = shouldUseLocalFallback(err)
-        ? 'Backend unavailable. Please start backend server on localhost:5000'
+        ? `Backend unavailable. Please check API: ${API_URL}`
         : (err.message||'Signup failed');
       if(/otp/i.test(msg)){
         showErr('signup-email-otp-err',msg);
@@ -2425,11 +2428,3 @@ function toggleDarkMode(){
 
 </body>
 </html>
-
-
-
-
-
-
-
-
