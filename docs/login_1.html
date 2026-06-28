@@ -1264,7 +1264,7 @@ body.dark-mode .form-card{box-shadow:0 24px 64px rgba(0,0,0,.42),inset 0 1px 0 r
       </div>
 
       <!-- -- LOGIN FORM -- -->
-      <form id="login-form" novalidate onsubmit="event.preventDefault(); doLogin();">
+      <form id="login-form" novalidate>
         <div class="form-title" id="login-mode-title" data-key="login_title">Welcome back &#128075;</div>
         <div class="form-sub" id="login-mode-sub" data-key="login_sub">Log in to continue your travel journey.</div>
 
@@ -1319,7 +1319,7 @@ body.dark-mode .form-card{box-shadow:0 24px 64px rgba(0,0,0,.42),inset 0 1px 0 r
       </form>
 
       <!-- -- SIGNUP FORM -- -->
-      <form id="signup-form" class="hidden" novalidate onsubmit="event.preventDefault(); doSignup();">
+      <form id="signup-form" class="hidden" novalidate>
         <div class="form-title" data-key="signup_title">Join Explore &#10024;</div>
         <div class="form-sub" data-key="signup_sub">Create your free account and start exploring.</div>
 
@@ -1538,16 +1538,18 @@ window.onload=()=>{
 };
 
 let activeTab='login';
-const API_URL=String(window.EXPLOREX_API_BASE||'https://explorex-production-b8a0.up.railway.app').replace(/\/+$/,'');
-const API_BASE=API_URL;
+const API_BASE_URL=String(window.EXPLOREX_API_BASE||window.VITE_API_URL||'https://explorex-production-b8a0.up.railway.app').replace(/\/+$/,'');
+const API_URL=API_BASE_URL;
+const API_BASE=API_BASE_URL;
+console.log('API_BASE_URL', API_BASE_URL);
 console.log('API_URL:', API_URL);
-const API_BASE_FALLBACKS=(window.EXPLOREX_API_BASE_CANDIDATES || [
-  API_BASE,
+const API_BASE_FALLBACKS=(window.EXPLOREX_API_BASE_CANDIDATES || (window.EXPLOREX_IS_LOCAL_FRONTEND ? [
+  API_BASE_URL,
   'http://localhost:5000',
   'http://127.0.0.1:5000',
   'http://localhost:5101',
   'http://127.0.0.1:5101'
-]).map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean);
+] : [API_BASE_URL])).map(base=>String(base||'').replace(/\/+$/,'')).filter(Boolean);
 
 function getApiBaseCandidates(){
   return [...new Set(API_BASE_FALLBACKS)];
@@ -1574,22 +1576,8 @@ function isRetryableApiError(error){
 function makeBackendUnavailableError(){
   return new Error('Backend server is not reachable. Please start backend: cd Backend, then npm run dev.');
 }
-// Keep auth strictly backend-driven so every created account is stored in MySQL.
-const ENABLE_LOCAL_AUTH_FALLBACK = false;
-const LOCAL_USERS_KEY='explore_users_local_db_v1';
-
+// Auth is strictly backend-driven so every created account is stored in MySQL.
 function normalizeEmail(v){return String(v||'').trim().toLowerCase();}
-function readLocalUsers(){
-  try{
-    const data=JSON.parse(localStorage.getItem(LOCAL_USERS_KEY)||'[]');
-    return Array.isArray(data)?data:[];
-  }catch(e){
-    return [];
-  }
-}
-function writeLocalUsers(users){
-  localStorage.setItem(LOCAL_USERS_KEY,JSON.stringify(users));
-}
 let signupOtpSentForEmail='';
 let signupOtpCountdownTimer=null;
 
@@ -1649,15 +1637,9 @@ function makeUsername(name,requested){
   const base=String(name||'user').trim().toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,12)||'user';
   return '@'+base;
 }
-function shouldUseLocalFallback(err){
+function isNetworkBackendError(err){
   const msg=String((err&&err.message)||'').toLowerCase();
-  return msg.includes('failed to fetch') || msg.includes('network') || msg.includes('cors') || msg.includes('server error');
-}
-function registerWithLocalDb(name,email,password,requestedUsername){
-  throw new Error('Local auth fallback is disabled. Please start the backend server.');
-}
-function loginWithLocalDb(email,password){
-  throw new Error('Local auth fallback is disabled. Please start the backend server.');
+  return msg.includes('failed to fetch') || msg.includes('network') || msg.includes('cors') || msg.includes('server error') || msg.includes('not reachable') || msg.includes('timed out');
 }
 
 function switchTab(tab){
@@ -1764,7 +1746,7 @@ async function sendSignupEmailOtp(){
       return;
     }
     setSignupOtpLoading(false);
-    const msg=shouldUseLocalFallback(err)
+    const msg=isNetworkBackendError(err)
       ? `Backend unavailable. Please check API: ${API_URL}`
       : (err.message||'Unable to send OTP');
     setSignupOtpStatus(msg,'error');
@@ -1952,7 +1934,7 @@ async function sendForgotResetCode(){
     showResetPasswordStep({email,code:codeFromServer});
     setForgotModalMessage(data.message||'If this email exists, a reset code has been sent.', 'ok');
   }catch(err){
-    const msg=shouldUseLocalFallback(err)
+    const msg=isNetworkBackendError(err)
       ? `Backend unavailable. Please check API: ${API_URL}`
       : (err.message||'Unable to process password reset');
     setForgotModalMessage(msg,'error');
@@ -2081,22 +2063,11 @@ async function doLogin(){
     const data=await apiPost('/api/auth/login',{email:identifier,password:pw});
     loginUser(data.user,data.token);
   }catch(err){
-    if(ENABLE_LOCAL_AUTH_FALLBACK && shouldUseLocalFallback(err)){
-      try{
-        const data=loginWithLocalDb(identifier,pw);
-        showToast('Backend unavailable. Logged in with local database.');
-        loginUser(data.user);
-      }catch(localErr){
-        showErr('login-pw-err',localErr.message||'Invalid credentials');
-        setInputState('login-password','error');
-      }
-    }else{
-      const msg = shouldUseLocalFallback(err)
-        ? `Backend unavailable. Please check API: ${API_URL}`
-        : (err.message||'Invalid credentials');
-      showErr('login-pw-err',msg);
-      setInputState('login-password','error');
-    }
+    const msg = isNetworkBackendError(err)
+      ? `Backend unavailable. Please check API: ${API_URL}`
+      : (err.message||'Invalid credentials');
+    showErr('login-pw-err',msg);
+    setInputState('login-password','error');
   }finally{
     setLoading('login',false);
   }
@@ -2198,21 +2169,7 @@ async function doSignup(){
     const user=data.user||{uid:'user_'+Date.now(),name,email,username:fallbackUsername};
     showSuccessScreen(name,user.uid,user,data.token);
   }catch(err){
-    if(ENABLE_LOCAL_AUTH_FALLBACK && shouldUseLocalFallback(err)){
-      try{
-        const data=registerWithLocalDb(name,email,pw,username);
-        showToast('Backend unavailable. Account saved in local database.');
-        showSuccessScreen(name,data.user.uid,data.user);
-      }catch(localErr){
-        if((localErr.message||'').toLowerCase().includes('username')){
-          showErr('signup-username-err',localErr.message);
-        }else if((localErr.message||'').toLowerCase().includes('exists')){
-          showErr('signup-email-err',localErr.message);
-        }else{
-          showToast(localErr.message||'Signup failed');
-        }
-      }
-    }else if((err.message||'').toLowerCase().includes('username')){
+    if((err.message||'').toLowerCase().includes('username')){
       showErr('signup-username-err',err.message);
     }else if((err.message||'').toLowerCase().includes('exists')){
       showErr('signup-email-err',err.message);
@@ -2221,7 +2178,7 @@ async function doSignup(){
       setInputState('signup-email-otp','error');
       setSignupOtpStatus(err.message,'error');
     }else{
-      const msg = shouldUseLocalFallback(err)
+      const msg = isNetworkBackendError(err)
         ? `Backend unavailable. Please check API: ${API_URL}`
         : (err.message||'Signup failed');
       if(/otp/i.test(msg)){
@@ -2235,6 +2192,31 @@ async function doSignup(){
   }finally{
     setLoading('signup',false);
   }
+}
+
+/* --- FORM SUBMIT BINDINGS --- */
+function bindAuthForms(){
+  const loginForm=document.getElementById('login-form');
+  const signupForm=document.getElementById('signup-form');
+  if(loginForm && !loginForm.dataset.apiBound){
+    loginForm.dataset.apiBound='1';
+    loginForm.addEventListener('submit',function(event){
+      event.preventDefault();
+      doLogin();
+    });
+  }
+  if(signupForm && !signupForm.dataset.apiBound){
+    signupForm.dataset.apiBound='1';
+    signupForm.addEventListener('submit',function(event){
+      event.preventDefault();
+      doSignup();
+    });
+  }
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',bindAuthForms);
+}else{
+  bindAuthForms();
 }
 
 /* --- LOADING STATE --- */
