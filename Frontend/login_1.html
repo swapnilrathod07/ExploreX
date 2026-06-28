@@ -1538,10 +1538,10 @@ window.onload=()=>{
 };
 
 let activeTab='login';
-const API_BASE_URL=String(window.EXPLOREX_API_BASE||window.VITE_API_URL||'https://explorex-production-b8a0.up.railway.app').replace(/\/+$/,'');
+const API_BASE_URL=String(window.API_BASE_URL||window.EXPLOREX_API_BASE||window.VITE_API_URL||'https://explorex-production-b8a0.up.railway.app').replace(/\/+$/,'');
 const API_URL=API_BASE_URL;
 const API_BASE=API_BASE_URL;
-console.log('API_BASE_URL', API_BASE_URL);
+console.log('API_BASE_URL:', API_BASE_URL);
 console.log('API_URL:', API_URL);
 const API_BASE_FALLBACKS=(window.EXPLOREX_API_BASE_CANDIDATES || (window.EXPLOREX_IS_LOCAL_FRONTEND ? [
   API_BASE_URL,
@@ -1712,6 +1712,7 @@ function getEmailSuggestion(email){
 }
 
 async function sendSignupEmailOtp(){
+  console.log('Signup OTP request triggered');
   if(document.getElementById('send-email-otp-btn')?.disabled) return;
   const email=normalizeEmail(document.getElementById('signup-email')?.value||'');
   clearErr('signup-email-err');
@@ -2028,6 +2029,7 @@ function looksLikeAccessId(value){
 }
 
 async function doLogin(){
+  console.log('Login request triggered');
   if(document.getElementById('login-btn')?.disabled) return;
   const identifier=document.getElementById('login-email').value.trim();
   const pw=document.getElementById('login-password').value;
@@ -2130,6 +2132,7 @@ async function tryHotelOwnerLogin(hotelId,password){
 
 /* --- DO SIGNUP --- */
 async function doSignup(){
+  console.log('Signup request triggered');
   if(document.getElementById('signup-btn')?.disabled) return;
   const name=document.getElementById('signup-name').value.trim();
   const rawUsername=document.getElementById('signup-username').value.trim();
@@ -2198,10 +2201,13 @@ async function doSignup(){
 function bindAuthForms(){
   const loginForm=document.getElementById('login-form');
   const signupForm=document.getElementById('signup-form');
+  const loginBtn=document.getElementById('login-btn');
+  const signupBtn=document.getElementById('signup-btn');
   if(loginForm && !loginForm.dataset.apiBound){
     loginForm.dataset.apiBound='1';
     loginForm.addEventListener('submit',function(event){
       event.preventDefault();
+      console.log('Login form submit captured');
       doLogin();
     });
   }
@@ -2209,8 +2215,17 @@ function bindAuthForms(){
     signupForm.dataset.apiBound='1';
     signupForm.addEventListener('submit',function(event){
       event.preventDefault();
+      console.log('Signup form submit captured');
       doSignup();
     });
+  }
+  if(loginBtn && !loginBtn.dataset.apiClickBound){
+    loginBtn.dataset.apiClickBound='1';
+    loginBtn.addEventListener('click',function(){ console.log('Login button clicked'); });
+  }
+  if(signupBtn && !signupBtn.dataset.apiClickBound){
+    signupBtn.dataset.apiClickBound='1';
+    signupBtn.addEventListener('click',function(){ console.log('Signup button clicked'); });
   }
 }
 if(document.readyState==='loading'){
